@@ -20,14 +20,14 @@ function ArtUploadForm({statuses}){
     }
 
     function findErrors(){
-        const { title, description, price, status_id, photo } = form
+        const { title, price, status_id, photo } = form
         const foundErrors = {}
 
         if(!title || title === '') foundErrors.title = 'Give it a title!'
 
         if(!photo ) foundErrors.photo = 'Show it to the people!'
         
-        if((!price || price <= 0) && status_id != 1) foundErrors.price = 'Set a Price!'
+        if((!price || price <= 0) && status_id !== 1) foundErrors.price = 'Set a Price!'
 
         if(!status_id || status_id === 0) foundErrors.status_id = 'Pick a status for the art'
 

@@ -1,18 +1,8 @@
-import React, {useState} from "react";
-import { Link } from "react-router-dom";
-import * as FaIcons from "react-icons/fa"
-import * as AiIcons from 'react-icons/ai'
+import React from "react";
 import { NavbarData } from "./NavbarData";
 import { Container, Nav, Navbar } from "react-bootstrap";
-// import './sidebar.css';
 
 function Navigation(){
-    const [sidebar, setSidebar] = useState(false)
-
-    function showSideBar(){
-        setSidebar(!sidebar)
-    }
-
     return (
         <>
             <Navbar bg="light" expand="lg">

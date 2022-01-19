@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import { CardGroup, Col, Row } from "react-bootstrap";
+import React from "react";
+import { Row } from "react-bootstrap";
 import GalleryCard from "../GalleryCard/GalleryCard";
 
 function Gallery({arts}){
