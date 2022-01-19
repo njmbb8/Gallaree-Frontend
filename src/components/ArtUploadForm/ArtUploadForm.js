@@ -6,6 +6,7 @@ import './ArtUploadForm.css'
 function ArtUploadForm({statuses}){
     const [form, setForm] = useState({})
     const [errors, setErrors] = useState({})
+    const { REACT_APP_BACKEND_URL } = process.env
 
     function setField(field, value){
         setForm({
@@ -53,7 +54,7 @@ function ArtUploadForm({statuses}){
             formData.append('status_id', form['status_id'])
             formData.append('photo', form['photo'])
     
-            fetch('http://localhost:4000/arts', {
+            fetch(`${REACT_APP_BACKEND_URL }arts`, {
                 method: 'POST',
                 body: formData
             })
@@ -63,7 +64,7 @@ function ArtUploadForm({statuses}){
     return (
         <>
             <h1>Upload an art!</h1>
-            <Image src={form['photo'] == null ? "http://localhost:4000/images/Placeholder.svg" : URL.createObjectURL(form['photo'])} thumbnail={true}/>
+            <Image src={form['photo'] == null ? `${REACT_APP_BACKEND_URL }images/Placeholder.svg` : URL.createObjectURL(form['photo'])} thumbnail={true}/>
             <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
                     <Form.Control 
