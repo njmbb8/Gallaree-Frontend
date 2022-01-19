@@ -15,13 +15,13 @@ function App() {
     fetch(`${REACT_APP_BACKEND_URL}statuses`)
     .then((data) => data.json())
     .then((ret)=>setStatuses(ret))
-  }, [])
+  }, [REACT_APP_BACKEND_URL])
 
   useEffect(() => {
     fetch(`${REACT_APP_BACKEND_URL}arts`)
     .then((data) => data.json())
     .then((ret) => setArts(ret))
-  }, [])
+  }, [REACT_APP_BACKEND_URL])
 
   return (
     <div>
