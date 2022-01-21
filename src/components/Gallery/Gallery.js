@@ -9,7 +9,7 @@ function Gallery({arts}){
 
     return(
         <>
-            <Row xs={1} md={2} lg={4} className="g-3">
+            <Row xs={1} md={2} lg={3} className="g-3">
                 {cards}
             </Row>
         </>

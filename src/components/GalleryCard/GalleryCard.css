@@ -1,0 +1,12 @@
+img{
+    min-height: -webkit-fill-available;
+    object-fit: cover;
+}
+
+.card{
+    border:none;
+}
+
+.card:hover{
+    cursor: pointer;
+}
