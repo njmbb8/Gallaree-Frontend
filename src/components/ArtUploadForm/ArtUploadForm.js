@@ -54,7 +54,7 @@ function ArtUploadForm({statuses}){
             formData.append('status_id', form['status_id'])
             formData.append('photo', form['photo'])
     
-            fetch(`${REACT_APP_BACKEND_URL }arts`, {
+            fetch(`${REACT_APP_BACKEND_URL }/arts`, {
                 method: 'POST',
                 body: formData
             })
