@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { Row, Card, Col, Image } from "react-bootstrap";
+import { Card} from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import './GalleryCard.css'
 
