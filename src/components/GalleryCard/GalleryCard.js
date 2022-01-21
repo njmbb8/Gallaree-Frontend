@@ -22,7 +22,7 @@ function GalleryCard({art}){
     return(
         <>
             <Card
-                className="text-white d-none d-xl-block"
+                className="text-white d-none d-xl-flex"
                 onClick={clickHandler}
                 >
                 <Card.Img 
