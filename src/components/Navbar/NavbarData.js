@@ -1,18 +1,22 @@
 export const NavbarData = [
     {
         text: 'Gallery',
-        path: '/',
+        path: '/'
     },
     {
         text: 'Bio',
-        path: '/bio',
+        path: '/bio'
     },
     {
         text: 'News',
-        path: '/news',
+        path: '/news'
     },
     {
         text: 'Contact',
-        path: '/contact',
+        path: '/contact'
     },
+    {
+        text: 'Sign Up',
+        path: '/register'
+    }
 ]
