@@ -5,11 +5,14 @@ import { Routes, Route } from 'react-router-dom';
 import Gallery from './components/Gallery/Gallery';
 import ArtUploadForm from './components/ArtUploadForm/ArtUploadForm';
 import { Container } from 'react-bootstrap';
-import RegistrationForm from './components/RegistrationForm/RegistrationForm';
+// import RegistrationForm from './components/RegistrationForm/RegistrationForm';
 
 function App() {
   const [ statuses, setStatuses ] = useState([])
   const [ arts, setArts ] = useState([])
+  const [ showRegister, setShowRegister ] = useState(false)
+  const [showSignIn, setShowSignIn] = useState(false)
+  const [ user, setUser ] = useState(null)
   const { REACT_APP_BACKEND_URL } = process.env
 
   useEffect(() => {
@@ -24,14 +27,37 @@ function App() {
     .then((ret) => setArts(ret))
   }, [REACT_APP_BACKEND_URL])
 
+  useEffect(()=>{
+    if(!!document.cookie.split('; ').find(row => row.startsWith('user_id='))){
+      fetch(`${REACT_APP_BACKEND_URL}/me`,{
+        credentials: "include"
+      })
+      .then((data) => data.json())
+      .then((ret) => setUser(ret))
+    }
+  }, [REACT_APP_BACKEND_URL])
+
   return (
     <div>
-      <Navbar />
+      <Navbar 
+        user = {user}
+        setUser = {setUser}
+        showRegister = {showRegister}
+        setShowRegister={setShowRegister}
+        showSignIn={showSignIn}
+        setShowSignIn={setShowSignIn}
+      />
       <Container className="content">
         <Routes>
-          <Route exact path={'/'} element={<Gallery arts={arts} />} />
-          <Route path={'/upload'} element={<ArtUploadForm statuses={statuses} />} />
-          <Route path={'/register'} element={<RegistrationForm />} />
+          <Route 
+            exact 
+            path={'/'} 
+            element={<Gallery arts={arts} />} 
+          />
+          <Route 
+            path={'/upload'} 
+            element={<ArtUploadForm statuses={statuses} />} 
+          />
         </Routes>
       </Container>
     </div>

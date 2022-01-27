@@ -14,9 +14,5 @@ export const NavbarData = [
     {
         text: 'Contact',
         path: '/contact'
-    },
-    {
-        text: 'Sign Up',
-        path: '/register'
     }
 ]

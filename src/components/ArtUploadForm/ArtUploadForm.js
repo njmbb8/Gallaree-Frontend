@@ -64,7 +64,7 @@ function ArtUploadForm({statuses}){
     return (
         <>
             <h1>Upload an art!</h1>
-            <Image src={form['photo'] == null ? `${REACT_APP_BACKEND_URL }images/Placeholder.svg` : URL.createObjectURL(form['photo'])} thumbnail={true}/>
+            <Image src={form['photo'] == null ? `${REACT_APP_BACKEND_URL }/images/Placeholder.svg` : URL.createObjectURL(form['photo'])} thumbnail={true}/>
             <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
                     <Form.Control 
