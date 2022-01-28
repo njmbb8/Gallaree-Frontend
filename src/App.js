@@ -3,8 +3,9 @@ import Navbar from './components/Navbar/Navbar';
 import { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Gallery from './components/Gallery/Gallery';
-import ArtUploadForm from './components/ArtUploadForm/ArtUploadForm';
+import ArtForm from './components/ArtForm/ArtForm';
 import { Container } from 'react-bootstrap';
+import ArtDisplay from './components/ArtDisplay/ArtDisplay';
 // import RegistrationForm from './components/RegistrationForm/RegistrationForm';
 
 function App() {
@@ -52,11 +53,28 @@ function App() {
           <Route 
             exact 
             path={'/'} 
-            element={<Gallery arts={arts} />} 
+            element={<Gallery 
+              arts={arts} 
+              user={user}
+              setArts={setArts}
+              />} 
+          />
+          <Route 
+            path={'/art/:id'}
+            element= {<ArtDisplay 
+              arts={arts}
+              setArts={setArts}
+              statuses={statuses}
+            />}
           />
           <Route 
             path={'/upload'} 
-            element={<ArtUploadForm statuses={statuses} />} 
+            element={<ArtForm 
+              statuses={statuses} 
+              mode={'upload'}
+              arts={arts}
+              setArts={setArts}
+            />} 
           />
         </Routes>
       </Container>

@@ -1,12 +1,18 @@
 import React from "react";
 import { useState } from "react";
 import { Form, Button, Row, Col, Image } from "react-bootstrap";
-import './ArtUploadForm.css'
+import { useParams, useNavigate } from "react-router-dom";
+import './ArtForm.css'
 
-function ArtUploadForm({statuses}){
-    const [form, setForm] = useState({})
+function ArtForm({statuses, mode, arts, setArts, setEdit}){
+    const params = useParams()
+    const art = arts.find((art) => parseInt(params.id) === art.id)
+    const [form, setForm] = useState(mode === 'edit' ? art : {})
     const [errors, setErrors] = useState({})
     const { REACT_APP_BACKEND_URL } = process.env
+    const placeHolderURL = mode !== 'edit' ? `${REACT_APP_BACKEND_URL }/images/Placeholder.svg` : `${REACT_APP_BACKEND_URL }${art.photo}`
+    const [changePhoto, setChangePhoto ] = useState(false)
+    const navigate = useNavigate()
 
     function setField(field, value){
         setForm({
@@ -39,6 +45,11 @@ function ArtUploadForm({statuses}){
         return <option key={status.id} value={status.id}>{status.name}</option>
     })
 
+    function photoChange(e){
+        setField('photo', e.target.files[0])
+        setChangePhoto(true)
+    }
+
     function handleSubmit(event){
         event.preventDefault()
         const foundErrors = findErrors()
@@ -52,25 +63,58 @@ function ArtUploadForm({statuses}){
             formData.append('description', form['description'])
             formData.append('price', form['price'])
             formData.append('status_id', form['status_id'])
-            formData.append('photo', form['photo'])
+            if(changePhoto) formData.append('photo', form['photo'])
     
-            fetch(`${REACT_APP_BACKEND_URL }/arts`, {
-                method: 'POST',
-                body: formData
-            })
+            if(mode === 'upload'){
+                fetch(`${REACT_APP_BACKEND_URL }/arts`, {
+                    method: 'POST',
+                    body: formData,
+                    credentials: "include"
+                })
+                .then((data) => data.json())
+                .then((ret)=>{
+                    setArts([
+                        ret,
+                        ...arts
+                    ])
+                    navigate('/')
+                })
+            }
+            else if(mode === 'edit'){
+                fetch(`${REACT_APP_BACKEND_URL }/arts/${art.id}`, {
+                    method: 'PUT',
+                    body: formData,
+                    credentials: "include"
+                })
+                .then((data) => data.json())
+                .then((ret)=>{
+                    console.log('ret', ret)
+                    console.log('arts', arts)
+                    setArts(
+                        arts.map((item) => item.id === ret.id ? ret : item)
+                    )
+                    console.log('arts after map', arts)
+                    navigate('/')
+                })
+            }
         }
+    }
+
+    function cancelEdit(e){
+        e.preventDefault()
+        setEdit(false)
     }
 
     return (
         <>
-            <h1>Upload an art!</h1>
-            <Image src={form['photo'] == null ? `${REACT_APP_BACKEND_URL }/images/Placeholder.svg` : URL.createObjectURL(form['photo'])} thumbnail={true}/>
+            <h1>{mode.charAt(0).toUpperCase() + mode.slice(1)} an art!</h1>
+            <Image src={!changePhoto ? placeHolderURL : URL.createObjectURL(form['photo'])} thumbnail={true}/>
             <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
                     <Form.Control 
                         accept={"image/*"} 
                         type="file" 
-                        onChange={ e => setField('photo', e.target.files[0])}
+                        onChange={ photoChange }
                         isInvalid={!!errors.photo}
                     />
                     <Form.Control.Feedback type='invalid'>
@@ -84,6 +128,7 @@ function ArtUploadForm({statuses}){
                             type="text" 
                             onChange={ e => setField('title', e.target.value)}
                             isInvalid={!!errors.title}
+                            value={form["title"]}
                         />
                         <Form.Control.Feedback type='invalid'>
                             {errors.title}
@@ -94,7 +139,8 @@ function ArtUploadForm({statuses}){
                         <Form.Control 
                             type="number" 
                             onChange={ e => setField('price', e.target.value)}
-                            isInvalid={!!errors.price}    
+                            isInvalid={!!errors.price}
+                            value={form["price"]}    
                         />
                         <Form.Control.Feedback type='invalid'>
                             {errors.price}
@@ -105,6 +151,7 @@ function ArtUploadForm({statuses}){
                         <Form.Select 
                             onChange={ e => setField('status_id', e.target.value)}
                             isInvalid={!!errors.status_id}
+                            value={art.status.id}
                         >
                             <option value={0}>Select a Status</option>
                             {statusOptions}
@@ -116,12 +163,18 @@ function ArtUploadForm({statuses}){
                 </Row>
                 <Form.Group>
                     <Form.Label>Description</Form.Label>
-                    <Form.Control as="textarea" value={form['description']} onChange={ e => setField('description', e.target.value)} rows={3} />
+                    <Form.Control 
+                        as="textarea" 
+                        value={form['description']} 
+                        onChange={ e => setField('description', e.target.value)} 
+                        rows={3} 
+                    />
                 </Form.Group>
-                <Button type="submit">Upload That Art!</Button>
+                <Button type="submit">Submit</Button>
+                {mode === 'edit' ? <Button variant="danger" onClick={cancelEdit}>Cancel</Button> : null}
             </Form>
         </>
     )
 }
 
-export default ArtUploadForm
+export default ArtForm
