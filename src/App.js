@@ -65,6 +65,7 @@ function App() {
               arts={arts}
               setArts={setArts}
               statuses={statuses}
+              user={user}
             />}
           />
           <Route 

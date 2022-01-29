@@ -45,6 +45,7 @@ function Navigation({ user, setUser, showSignIn, setShowSignIn, showRegister, se
                             {!!user ?
                                 <> 
                                     <Navbar.Text>Hello, {user.firstname}</Navbar.Text>
+                                    <Nav.Link href="/upload">Upload</Nav.Link>
                                     <Nav.Link href={'/#'} onClick={signOut} >Sign Out</Nav.Link>
                                 </>
                                 :

@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import ArtForm from "../ArtForm/ArtForm";
 import './ArtDisplay.css'
 
-function ArtDisplay({arts, setArts, statuses}){
+function ArtDisplay({user, arts, setArts, statuses}){
     const { REACT_APP_BACKEND_URL } = process.env
     const params = useParams()
     const art = arts.find((art) => parseInt(params.id) === art.id)
@@ -18,8 +18,8 @@ function ArtDisplay({arts, setArts, statuses}){
             credentials: 'include'
         })
         .then(() => {
-            setArts(arts.filter((item) => item.id !== art.id))
             navigate('/')
+            setArts(arts.filter((item) => item.id !== art.id))
         })
     }
     
@@ -47,8 +47,15 @@ function ArtDisplay({arts, setArts, statuses}){
                         <p>{art.description}</p>
                     </Row>
                     <Row>
-                        <Button variant="primary" onClick={() => setEdit(!edit)}>Edit</Button>
-                        <Button variant="danger" onClick={deleteArt}>Delete</Button>
+                        {
+                            user ? 
+                            <>
+                                <Button variant="primary" onClick={() => setEdit(!edit)}>Edit</Button>
+                                <Button variant="danger" onClick={deleteArt}>Delete</Button>
+                            </>
+                            :
+                            null
+                        }
                     </Row>
                 </Col>
                 <Col xs={9} className="art">

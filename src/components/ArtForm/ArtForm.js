@@ -151,7 +151,7 @@ function ArtForm({statuses, mode, arts, setArts, setEdit}){
                         <Form.Select 
                             onChange={ e => setField('status_id', e.target.value)}
                             isInvalid={!!errors.status_id}
-                            value={art.status.id}
+                            value={art ? art.status.id : 0}
                         >
                             <option value={0}>Select a Status</option>
                             {statusOptions}
