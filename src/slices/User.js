@@ -5,10 +5,10 @@ const slice = createSlice({
     initialState: {},
     reducers: {
         authenticate: (state, action) => {
-            state.user = action.payload
+            return action.payload
         },
         signOut: state => {
-            state.user = {}
+            return {}
         }
     }
 })
