@@ -6,15 +6,15 @@ import Gallery from './components/Gallery/Gallery';
 import ArtForm from './components/ArtForm/ArtForm';
 import { Container } from 'react-bootstrap';
 import ArtDisplay from './components/ArtDisplay/ArtDisplay';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { authenticate } from './slices/User';
-// import RegistrationForm from './components/RegistrationForm/RegistrationForm';
+import { populate } from './slices/Arts'
 
 function App() {
   const [ statuses, setStatuses ] = useState([])
-  const [ arts, setArts ] = useState([])
   const [ showRegister, setShowRegister ] = useState(false)
   const [showSignIn, setShowSignIn] = useState(false)
+  const arts = useSelector(state => state.arts)
   const dispatch = useDispatch()
   const { REACT_APP_BACKEND_URL } = process.env
 
@@ -27,7 +27,7 @@ function App() {
   useEffect(() => {
     fetch(`${REACT_APP_BACKEND_URL}/arts`)
     .then((data) => data.json())
-    .then((ret) => setArts(ret))
+    .then((ret) => dispatch(populate(ret)))
   }, [REACT_APP_BACKEND_URL])
 
   useEffect(()=>{
@@ -55,17 +55,15 @@ function App() {
             path={'/'} 
             element={<Gallery 
               arts={arts} 
-              //user={user}
-              setArts={setArts}
+              // setArts={setArts}
               />} 
           />
           <Route 
             path={'/art/:id'}
             element= {<ArtDisplay 
               arts={arts}
-              setArts={setArts}
+              // setArts={setArts}
               statuses={statuses}
-              //user={user}
             />}
           />
           <Route 
@@ -74,7 +72,7 @@ function App() {
               statuses={statuses} 
               mode={'upload'}
               arts={arts}
-              setArts={setArts}
+              // setArts={setArts}
             />} 
           />
         </Routes>
