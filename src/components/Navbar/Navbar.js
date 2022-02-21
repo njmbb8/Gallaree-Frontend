@@ -46,7 +46,7 @@ function Navigation({ user, setUser, showSignIn, setShowSignIn, showRegister, se
                                     <Nav.Link key={index} href={item.path}>{item.text}</Nav.Link>
                                 )
                             })}
-                            {!!user ?
+                            {Object.entries(user).length > 0 ?
                                 <> 
                                     <Navbar.Text>Hello, {user.firstname}</Navbar.Text>
                                     <Nav.Link href="/upload">Upload</Nav.Link>
