@@ -25,7 +25,7 @@ const slice = createSlice({
     }
 })
 
-const { populate, addNew } = slice.actions
+const { populate, addNew, remove, update } = slice.actions
 
-export { populate, addNew }
+export { populate, addNew, remove, update }
 export default slice.reducer
