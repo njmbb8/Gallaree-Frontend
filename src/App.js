@@ -66,8 +66,6 @@ function App() {
             element={<ArtForm 
               statuses={statuses} 
               mode={'upload'}
-              arts={arts}
-              // setArts={setArts}
             />} 
           />
         </Routes>
