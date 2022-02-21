@@ -5,16 +5,16 @@ const slice = createSlice({
     initialState: [],
     reducers: {
         populate: ( state, action ) => {
-            state.arts = action.payload
+            return action.payload
         },
         addNew: ( state, action ) => {
-            state.arts = [ ...state.arts, action.payload ]
+            return [ ...state.arts, action.payload ]
         },
         remove: ( state, action ) => {
-            state.arts = state.arts.filter((art) => art.id !== action.payload.id)
+            return state.arts.filter((art) => art.id !== action.payload.id)
         },
         update: ( state, action ) => {
-            state.arts = state.arts.map((art) => {
+            return state.arts.map((art) => {
                 if(art.id === action.payload.id){
                     art = action.payload
                 }
