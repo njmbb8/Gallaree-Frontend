@@ -2,10 +2,10 @@ import React from "react";
 import { Row } from "react-bootstrap";
 import GalleryCard from "../GalleryCard/GalleryCard";
 
-function Gallery({arts, setArts, user}){
+function Gallery({ arts, setArts }){
 
-    const cards = arts.map((art, index) =>{
-        return <GalleryCard art={art} setArts={setArts} user={user} key={art.id}/>
+    const cards = arts.map((art) =>{
+        return <GalleryCard art={art} setArts={setArts} key={art.id}/>
     })
 
     return(

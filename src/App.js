@@ -55,7 +55,7 @@ function App() {
             path={'/'} 
             element={<Gallery 
               arts={arts} 
-              user={user}
+              //user={user}
               setArts={setArts}
               />} 
           />
@@ -65,7 +65,7 @@ function App() {
               arts={arts}
               setArts={setArts}
               statuses={statuses}
-              user={user}
+              //user={user}
             />}
           />
           <Route 
