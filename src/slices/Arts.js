@@ -6,11 +6,14 @@ const slice = createSlice({
     reducers: {
         populate: ( state, action ) => {
             state.arts = action.payload
+        },
+        addNew: ( state, action ) => {
+            state.arts = [ ...state.arts, action.payload ]
         }
     }
 })
 
-const { populate } = slice.actions
+const { populate, addNew } = slice.actions
 
-export { populate }
+export { populate, addNew }
 export default slice.reducer
