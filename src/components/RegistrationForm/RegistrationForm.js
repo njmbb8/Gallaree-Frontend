@@ -1,11 +1,14 @@
 import React, {useState} from "react";
 import { Form, Row, Col, Button, Offcanvas } from "react-bootstrap";
 import { States } from "../../States";
+import { useDispatch } from "react-redux";
+import { authenticate } from "../../slices/User";
 
 function RegistrationForm({setUser, showRegister, setShowRegister}){
 
     const [form, setForm] = useState({})
     const [errors, setErrors] = useState({})
+    const dispatch = useDispatch()
     const { REACT_APP_BACKEND_URL } = process.env
 
     const stateOptions = States.map((state, index) => {
@@ -84,7 +87,7 @@ function RegistrationForm({setUser, showRegister, setShowRegister}){
                 body: formData
             })
             .then((data) => data.json())
-            .then((ret) => setUser(ret))
+            .then((ret) => dispatch(authenticate(ret)))
         }
     }
 
