@@ -41,8 +41,6 @@ function App() {
   return (
     <div>
       <Navbar 
-        user = {user}
-        setUser = {setUser}
         showRegister = {showRegister}
         setShowRegister={setShowRegister}
         showSignIn={showSignIn}

@@ -6,7 +6,7 @@ import RegistrationForm from "../RegistrationForm/RegistrationForm";
 import LogInForm from "../LogInForm/LogInForm";
 import { signOut } from "../../slices/User"
 
-function Navigation({ user, setUser, showSignIn, setShowSignIn, showRegister, setShowRegister }){
+function Navigation({ showSignIn, setShowSignIn, showRegister, setShowRegister }){
 
     const { REACT_APP_BACKEND_URL } = process.env
     const user = useSelector(state => state.user)
@@ -65,12 +65,10 @@ function Navigation({ user, setUser, showSignIn, setShowSignIn, showRegister, se
             <LogInForm 
                 setShowSignIn={setShowSignIn} 
                 showSignIn={showSignIn}
-                setUser={setUser}
             />
             <RegistrationForm 
                 showRegister={showRegister} 
                 setShowRegister={setShowRegister}
-                setUser={setUser}
             />
         </>
     )
