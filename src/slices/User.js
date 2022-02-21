@@ -13,5 +13,5 @@ const slice = createSlice({
     }
 })
 
-export const { authenticate } = slice.actions
+export const { authenticate, signOut } = slice.actions
 export default slice.reducer
