@@ -1,10 +1,13 @@
 import React, {useState} from "react";
 import { Form, Button, Offcanvas } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { authenticate } from "../../slices/User";
 
-function LogInForm({setUser, showSignIn, setShowSignIn}){
+function LogInForm({showSignIn, setShowSignIn}){
     const [form, setForm] = useState({})
     const [errors, setErrors] = useState({})
     const { REACT_APP_BACKEND_URL } = process.env
+    const dispatch = useDispatch()
 
     function setField(field, value){
         setForm({
@@ -47,7 +50,7 @@ function LogInForm({setUser, showSignIn, setShowSignIn}){
                 body: formData
             })
             .then((data) => data.json())
-            .then((ret) => setUser(ret))
+            .then((ret) => dispatch(authenticate(ret)))
         }
     }
 
