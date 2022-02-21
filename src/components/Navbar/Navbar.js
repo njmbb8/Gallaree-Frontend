@@ -22,7 +22,7 @@ function Navigation({ user, setUser, showSignIn, setShowSignIn, showRegister, se
         setShowSignIn(!showSignIn)
     }
 
-    function signOut(e){
+    function handleSignOut(e){
         e.preventDefault()
         fetch(`${REACT_APP_BACKEND_URL}/logout`, {
             credentials: 'include',
@@ -50,7 +50,7 @@ function Navigation({ user, setUser, showSignIn, setShowSignIn, showRegister, se
                                 <> 
                                     <Navbar.Text>Hello, {user.firstname}</Navbar.Text>
                                     <Nav.Link href="/upload">Upload</Nav.Link>
-                                    <Nav.Link href={'/#'} onClick={signOut} >Sign Out</Nav.Link>
+                                    <Nav.Link href={'/#'} onClick={handleSignOut} >Sign Out</Nav.Link>
                                 </>
                                 :
                                 <>
