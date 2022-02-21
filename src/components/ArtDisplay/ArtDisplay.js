@@ -50,7 +50,7 @@ function ArtDisplay({ arts, setArts, statuses }){
                     </Row>
                     <Row>
                         {
-                            !!user.user && Object.entries(user.user).length > 0 ? 
+                            Object.entries(user.user).length > 0 ? 
                             <>
                                 <Button variant="primary" onClick={() => setEdit(!edit)}>Edit</Button>
                                 <Button variant="danger" onClick={deleteArt}>Delete</Button>
