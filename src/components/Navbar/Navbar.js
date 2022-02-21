@@ -9,7 +9,7 @@ import { signOut } from "../../slices/User"
 function Navigation({ showSignIn, setShowSignIn, showRegister, setShowRegister }){
 
     const { REACT_APP_BACKEND_URL } = process.env
-    const user = useSelector(state => state.user.user)
+    const user = useSelector(state => state.user)
     const dispatch = useDispatch()
 
     function expandRegister(e){
@@ -46,9 +46,9 @@ function Navigation({ showSignIn, setShowSignIn, showRegister, setShowRegister }
                                     <Nav.Link key={index} href={item.path}>{item.text}</Nav.Link>
                                 )
                             })}
-                            {Object.entries(user).length > 0 ?
+                            {!!user.user && Object.entries(user.user).length > 0 ?
                                 <> 
-                                    <Navbar.Text>Hello, {user.firstname}</Navbar.Text>
+                                    <Navbar.Text>Hello, {user.user.firstname}</Navbar.Text>
                                     <Nav.Link href="/upload">Upload</Nav.Link>
                                     <Nav.Link href={'/#'} onClick={handleSignOut} >Sign Out</Nav.Link>
                                 </>
