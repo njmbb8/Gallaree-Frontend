@@ -9,6 +9,11 @@ const slice = createSlice({
         },
         addNew: ( state, action ) => {
             state.arts = [ ...state.arts, action.payload ]
+        },
+        remove: ( state, action ) => {
+            state.arts = state.arts.filter((art) => {
+                art.id !== action.payload.id
+            })
         }
     }
 })
