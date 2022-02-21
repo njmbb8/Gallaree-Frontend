@@ -53,10 +53,7 @@ function App() {
           <Route 
             exact 
             path={'/'} 
-            element={<Gallery 
-              arts={arts} 
-              // setArts={setArts}
-              />} 
+            element={<Gallery />} 
           />
           <Route 
             path={'/art/:id'}

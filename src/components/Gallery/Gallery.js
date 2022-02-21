@@ -1,11 +1,12 @@
 import React from "react";
 import { Row } from "react-bootstrap";
 import GalleryCard from "../GalleryCard/GalleryCard";
+import { useSelector } from "react-redux";
 
-function Gallery({ arts, setArts }){
-
+function Gallery(){
+    const arts = useSelector( state => state.arts ) 
     const cards = arts.map((art) =>{
-        return <GalleryCard art={art} setArts={setArts} key={art.id}/>
+        return <GalleryCard art={art} key={art.id}/>
     })
 
     return(

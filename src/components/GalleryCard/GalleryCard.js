@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import './GalleryCard.css'
 
 
-function GalleryCard({art, arts, setArts, user}){
+function GalleryCard({art}){
 
     const [overlay, setOverlay] = useState(false)
     const {REACT_APP_BACKEND_URL} = process.env
