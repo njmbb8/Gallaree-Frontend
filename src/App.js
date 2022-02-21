@@ -6,7 +6,7 @@ import Gallery from './components/Gallery/Gallery';
 import ArtForm from './components/ArtForm/ArtForm';
 import { Container } from 'react-bootstrap';
 import ArtDisplay from './components/ArtDisplay/ArtDisplay';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { authenticate } from './slices/User';
 import { populate } from './slices/Arts'
 
@@ -14,7 +14,6 @@ function App() {
   const [ statuses, setStatuses ] = useState([])
   const [ showRegister, setShowRegister ] = useState(false)
   const [showSignIn, setShowSignIn] = useState(false)
-  const arts = useSelector(state => state.arts)
   const dispatch = useDispatch()
   const { REACT_APP_BACKEND_URL } = process.env
 
