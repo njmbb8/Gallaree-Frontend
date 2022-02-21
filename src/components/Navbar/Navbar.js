@@ -1,12 +1,16 @@
 import React from "react";
 import { NavbarData } from "./NavbarData";
 import { Container, Nav, Navbar } from "react-bootstrap";
+import { useSelector, useDispatch } from "react-redux";
 import RegistrationForm from "../RegistrationForm/RegistrationForm";
 import LogInForm from "../LogInForm/LogInForm";
+import { signOut } from "../../slices/User"
 
 function Navigation({ user, setUser, showSignIn, setShowSignIn, showRegister, setShowRegister }){
 
     const { REACT_APP_BACKEND_URL } = process.env
+    const user = useSelector(state => state.user)
+    const dispatch = useDispatch()
 
     function expandRegister(e){
         e.preventDefault()
@@ -24,7 +28,7 @@ function Navigation({ user, setUser, showSignIn, setShowSignIn, showRegister, se
             credentials: 'include',
             method: "DELETE"
         })
-        .then(() => setUser(null))
+        .then(() => dispatch(signOut()))
     }
 
     return (
