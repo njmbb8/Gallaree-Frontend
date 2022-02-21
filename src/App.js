@@ -28,7 +28,7 @@ function App() {
     fetch(`${REACT_APP_BACKEND_URL}/arts`)
     .then((data) => data.json())
     .then((ret) => dispatch(populate(ret)))
-  }, [REACT_APP_BACKEND_URL])
+  }, [REACT_APP_BACKEND_URL, dispatch])
 
   useEffect(()=>{
     if(!!document.cookie.split('; ').find(row => row.startsWith('user_id='))){
@@ -38,7 +38,7 @@ function App() {
       .then((data) => data.json())
       .then((ret) => dispatch(authenticate(ret)))
     }
-  }, [REACT_APP_BACKEND_URL])
+  }, [REACT_APP_BACKEND_URL, dispatch])
 
   return (
     <div>
@@ -61,8 +61,6 @@ function App() {
           <Route 
             path={'/art/:id'}
             element= {<ArtDisplay 
-              arts={arts}
-              // setArts={setArts}
               statuses={statuses}
             />}
           />

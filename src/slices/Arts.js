@@ -8,15 +8,20 @@ const slice = createSlice({
             return action.payload
         },
         addNew: ( state, action ) => {
-            return [ ...state.arts, action.payload ]
+            return [ ...state, action.payload ]
         },
         remove: ( state, action ) => {
-            return state.arts.filter((art) => art.id !== action.payload.id)
+            return state.filter((art) => {
+                return art.id !== action.payload.id
+            })
         },
         update: ( state, action ) => {
-            return state.arts.map((art) => {
+            return state.map((art) => {
                 if(art.id === action.payload.id){
-                    art = action.payload
+                    return art = action.payload
+                }
+                else{
+                    return art
                 }
             })
         }

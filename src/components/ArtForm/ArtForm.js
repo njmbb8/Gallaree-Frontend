@@ -2,10 +2,14 @@ import React from "react";
 import { useState } from "react";
 import { Form, Button, Row, Col, Image } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { update, addNew } from "../../slices/Arts"
 import './ArtForm.css'
 
-function ArtForm({statuses, mode, arts, setArts, setEdit}){
+function ArtForm({statuses, mode, setEdit}){
     const params = useParams()
+    const arts = useSelector(state => state.arts)
+    const dispatch = useDispatch()
     const art = arts.find((art) => parseInt(params.id) === art.id)
     const [form, setForm] = useState(mode === 'edit' ? art : {})
     const [errors, setErrors] = useState({})
@@ -73,11 +77,8 @@ function ArtForm({statuses, mode, arts, setArts, setEdit}){
                 })
                 .then((data) => data.json())
                 .then((ret)=>{
-                    setArts([
-                        ret,
-                        ...arts
-                    ])
                     navigate('/')
+                    dispatch(addNew(ret))
                 })
             }
             else if(mode === 'edit'){
@@ -88,13 +89,8 @@ function ArtForm({statuses, mode, arts, setArts, setEdit}){
                 })
                 .then((data) => data.json())
                 .then((ret)=>{
-                    console.log('ret', ret)
-                    console.log('arts', arts)
-                    setArts(
-                        arts.map((item) => item.id === ret.id ? ret : item)
-                    )
-                    console.log('arts after map', arts)
                     navigate('/')
+                    dispatch(update(ret))
                 })
             }
         }

@@ -6,7 +6,7 @@ import { remove } from "../../slices/Arts"
 import ArtForm from "../ArtForm/ArtForm";
 import './ArtDisplay.css'
 
-function ArtDisplay({ setArts, statuses }){
+function ArtDisplay({ statuses }){
     const { REACT_APP_BACKEND_URL } = process.env
     const params = useParams()
     const arts = useSelector(state => state.arts)
@@ -32,8 +32,6 @@ function ArtDisplay({ setArts, statuses }){
         <>{edit ? 
             <ArtForm 
                 statuses={statuses}
-                arts={arts}
-                setArts={setArts}
                 setEdit={setEdit}
                 mode={'edit'}/>
             :
