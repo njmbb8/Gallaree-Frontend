@@ -6,6 +6,8 @@ import Gallery from './components/Gallery/Gallery';
 import ArtForm from './components/ArtForm/ArtForm';
 import { Container } from 'react-bootstrap';
 import ArtDisplay from './components/ArtDisplay/ArtDisplay';
+import { useDispatch } from 'react-redux';
+import { authenticate } from './slices/User';
 // import RegistrationForm from './components/RegistrationForm/RegistrationForm';
 
 function App() {
@@ -13,6 +15,7 @@ function App() {
   const [ arts, setArts ] = useState([])
   const [ showRegister, setShowRegister ] = useState(false)
   const [showSignIn, setShowSignIn] = useState(false)
+  const dispatch = useDispatch()
   const { REACT_APP_BACKEND_URL } = process.env
 
   useEffect(() => {
@@ -33,7 +36,7 @@ function App() {
         credentials: "include"
       })
       .then((data) => data.json())
-      .then((ret) => setUser(ret))
+      .then((ret) => dispatch(authenticate(ret)))
     }
   }, [REACT_APP_BACKEND_URL])
 
