@@ -1,17 +1,20 @@
 import React, { useState } from "react";
 import { Col, Row, Image, Button } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { remove } from "../../slices/Arts"
 import ArtForm from "../ArtForm/ArtForm";
 import './ArtDisplay.css'
 
-function ArtDisplay({ arts, setArts, statuses }){
+function ArtDisplay({ setArts, statuses }){
     const { REACT_APP_BACKEND_URL } = process.env
     const params = useParams()
+    const arts = useSelector(state => state.arts)
     const art = arts.find((art) => parseInt(params.id) === art.id)
     const navigate = useNavigate();
     const [edit, setEdit] = useState(false)
     const user = useSelector(state => state.user)
+    const dispatch = useDispatch()
 
     function deleteArt(e){
         e.preventDefault()
@@ -21,7 +24,7 @@ function ArtDisplay({ arts, setArts, statuses }){
         })
         .then(() => {
             navigate('/')
-            setArts(arts.filter((item) => item.id !== art.id))
+            dispatch(remove(art))
         })
     }
     
@@ -50,7 +53,7 @@ function ArtDisplay({ arts, setArts, statuses }){
                     </Row>
                     <Row>
                         {
-                            Object.entries(user.user).length > 0 ? 
+                            Object.entries(user).length > 0 ? 
                             <>
                                 <Button variant="primary" onClick={() => setEdit(!edit)}>Edit</Button>
                                 <Button variant="danger" onClick={deleteArt}>Delete</Button>
