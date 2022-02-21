@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import { Col, Row, Image, Button } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import ArtForm from "../ArtForm/ArtForm";
 import './ArtDisplay.css'
 
-function ArtDisplay({user, arts, setArts, statuses}){
+function ArtDisplay({ arts, setArts, statuses }){
     const { REACT_APP_BACKEND_URL } = process.env
     const params = useParams()
     const art = arts.find((art) => parseInt(params.id) === art.id)
     const navigate = useNavigate();
     const [edit, setEdit] = useState(false)
+    const user = useSelector(state => state.user)
 
     function deleteArt(e){
         e.preventDefault()
@@ -48,7 +50,7 @@ function ArtDisplay({user, arts, setArts, statuses}){
                     </Row>
                     <Row>
                         {
-                            user ? 
+                            !!user.user && Object.entries(user.user).length > 0 ? 
                             <>
                                 <Button variant="primary" onClick={() => setEdit(!edit)}>Edit</Button>
                                 <Button variant="danger" onClick={deleteArt}>Delete</Button>
