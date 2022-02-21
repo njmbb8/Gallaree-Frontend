@@ -9,7 +9,7 @@ import { signOut } from "../../slices/User"
 function Navigation({ showSignIn, setShowSignIn, showRegister, setShowRegister }){
 
     const { REACT_APP_BACKEND_URL } = process.env
-    const user = useSelector(state => state.user)
+    const user = useSelector(state => state.user.user)
     const dispatch = useDispatch()
 
     function expandRegister(e){
