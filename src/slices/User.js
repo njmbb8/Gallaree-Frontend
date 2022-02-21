@@ -6,6 +6,9 @@ const slice = createSlice({
     reducers: {
         authenticate: (state, action) => {
             state.user = action.payload
+        },
+        signOut: state => {
+            state.user = {}
         }
     }
 })
