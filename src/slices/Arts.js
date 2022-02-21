@@ -14,6 +14,13 @@ const slice = createSlice({
             state.arts = state.arts.filter((art) => {
                 art.id !== action.payload.id
             })
+        },
+        update: ( state, action ) => {
+            state.arts = state.arts.map((art) => {
+                if(art.id === action.payload.id){
+                    art = action.payload
+                }
+            })
         }
     }
 })
