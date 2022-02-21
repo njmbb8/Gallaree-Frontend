@@ -13,7 +13,6 @@ function App() {
   const [ arts, setArts ] = useState([])
   const [ showRegister, setShowRegister ] = useState(false)
   const [showSignIn, setShowSignIn] = useState(false)
-  const [ user, setUser ] = useState(null)
   const { REACT_APP_BACKEND_URL } = process.env
 
   useEffect(() => {
