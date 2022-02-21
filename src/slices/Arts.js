@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const slice = createSlice({
     name: 'arts',
-    initialState: {},
+    initialState: [],
     reducers: {
         populate: ( state, action ) => {
             state.arts = action.payload
