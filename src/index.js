@@ -6,7 +6,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from 'react-router-dom'
 import { Provider } from "react-redux"
-import persistor from "./Store"
+import { store, persistor } from "./Store"
 import { PersistGate } from 'redux-persist/integration/react'
 
 ReactDOM.render(
