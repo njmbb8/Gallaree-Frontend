@@ -29,7 +29,10 @@ function App() {
   useEffect(() => {
     fetch(`${REACT_APP_BACKEND_URL}/arts`)
     .then((data) => data.json())
-    .then((ret) => dispatch(populate(ret)))
+    .then((ret) => {
+      dispatch(populate(ret))
+      setReady(true)
+    })
   }, [REACT_APP_BACKEND_URL, dispatch])
 
   useEffect(()=>{
@@ -38,7 +41,8 @@ function App() {
         credentials: "include"
       })
       .then((data) => data.json())
-      .then((ret) => dispatch(authenticate(ret)))
+      .then((ret) => {
+        dispatch(authenticate(ret))})
     }
   }, [REACT_APP_BACKEND_URL, dispatch])
 
