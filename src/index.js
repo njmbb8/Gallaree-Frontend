@@ -8,10 +8,13 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { Provider } from "react-redux"
 import store, { persistor } from "./Store"
 import { PersistGate } from 'redux-persist/integration/react'
+import { TailSpin } from 'react-loader-spinner';
 
 ReactDOM.render(
   <Provider store={store}>
-    <PersistGate loading={null} persistor = {persistor}>
+    <PersistGate 
+      loading={<TailSpin color="#00BFFF" height={80} width={80} />} 
+      persistor = {persistor}>
       <Router>
         <App />
       </Router>
