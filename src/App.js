@@ -1,4 +1,5 @@
 import './App.css';
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Navbar from './components/Navbar/Navbar';
 import { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
