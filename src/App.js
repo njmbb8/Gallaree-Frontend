@@ -10,6 +10,7 @@ import ArtDisplay from './components/ArtDisplay/ArtDisplay';
 import { useDispatch } from 'react-redux';
 import { authenticate } from './slices/User';
 import { populate } from './slices/Arts'
+import { TailSpin } from 'react-loader-spinner';
 
 function App() {
   const [ statuses, setStatuses ] = useState([])
@@ -17,6 +18,7 @@ function App() {
   const [showSignIn, setShowSignIn] = useState(false)
   const dispatch = useDispatch()
   const { REACT_APP_BACKEND_URL } = process.env
+  const [ ready, setReady ] = useState(false)
 
   useEffect(() => {
     fetch(`${REACT_APP_BACKEND_URL}/statuses`)
@@ -48,6 +50,7 @@ function App() {
         showSignIn={showSignIn}
         setShowSignIn={setShowSignIn}
       />
+      {ready ? 
       <Container className="content">
         <Routes>
           <Route 
@@ -70,6 +73,12 @@ function App() {
           />
         </Routes>
       </Container>
+      :<TailSpin 
+        color="#00BFFF" 
+        height={80} 
+        width={80}
+        wrapperStyle = { {position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }} 
+      />}
     </div>
   );
 }
