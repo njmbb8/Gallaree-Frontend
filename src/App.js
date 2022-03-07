@@ -11,6 +11,8 @@ import { useDispatch } from 'react-redux';
 import { authenticate } from './slices/User';
 import { populate } from './slices/Arts'
 import { TailSpin } from 'react-loader-spinner';
+import PasswordReset from './components/PasswordReset/PasswordReset';
+import Confirmation from './components/Confirmation/Confirmation';
 
 function App() {
   const [ statuses, setStatuses ] = useState([])
@@ -74,6 +76,14 @@ function App() {
               statuses={statuses} 
               mode={'upload'}
             />} 
+          />
+          <Route
+            path={'/password_reset/:token'}
+            element={<PasswordReset />}
+          />
+          <Route
+            path={'/confirm/:token'}
+            element={<Confirmation />}
           />
         </Routes>
       </Container>

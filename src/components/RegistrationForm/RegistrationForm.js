@@ -4,7 +4,7 @@ import { States } from "../../States";
 import { useDispatch } from "react-redux";
 import { authenticate } from "../../slices/User";
 
-function RegistrationForm({setUser, showRegister, setShowRegister}){
+function RegistrationForm({ showRegister, setShowRegister }){
 
     const [form, setForm] = useState({})
     const [errors, setErrors] = useState({})
@@ -70,21 +70,49 @@ function RegistrationForm({setUser, showRegister, setShowRegister}){
             setErrors(foundErrors)
         }
         else{
-            const formData = new FormData()
-            formData.append('email', form['email'])
-            formData.append('firstname', form['firstname'])
-            formData.append('lastname', form['lastname'])
-            formData.append('addr1', form['addr1'])
-            formData.append('addr2', form['addr2'])
-            formData.append('city', form['city'])
-            formData.append('state', form['state'])
-            formData.append('zip', form['zip'])
-            formData.append('password', form['password'])
-            formData.append('password_confirmation', form['password_confirmation'])
-    
+            const formData = {
+                "user": {
+                    "email": form['email'],
+                    "firstname": form['firstname'],
+                    "lastname": form['lastname'],
+                    "addresses_attributes": [{
+                        "address_line1": form['addr1'],
+                        "address_line2": form['addr2'],
+                        "city": form['city'],
+                        "state": form['state'],
+                        "postal_code": form["zip"],
+                        "country": form["country"]
+                    }],
+                    "password": form['password'],
+                    "password_confirmation": form['password_confirmation']
+                }
+            }
+
+            // const formData = new FormData()
+            // formData.append('email', form['email'])
+            // formData.append('firstname', form['firstname'])
+            // formData.append('lastname', form['lastname'])
+            // formData.append('addresses_attributes', JSON.stringify([{
+            //     address_line1: form['addr1'],
+            //     address_line2: form['addr2'],
+            //     city: form['city'],
+            //     state: form['state'],
+            //     postal_code: form["zip"],
+            //     country: form["country"]
+            // }]))
+            // formData.append('password', form['password'])
+            // formData.append('password_confirmation', form['password_confirmation'])
+            
+            // const submitData = new FormData()
+            // submitData.append('user', JSON.stringify(formData))
+
             fetch(`${REACT_APP_BACKEND_URL }/register`, {
                 method: 'POST',
-                body: formData
+                headers: { 
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json' 
+                },
+                body: JSON.stringify(formData)
             })
             .then((data) => data.json())
             .then((ret) => dispatch(authenticate(ret)))
@@ -186,6 +214,17 @@ function RegistrationForm({setUser, showRegister, setShowRegister}){
                                     type="text"
                                     onChange={e => setField('zip', e.target.value)}
                                     isInvalid = {!!errors.zip}
+                                />
+                                <Form.Control.Feedback>
+                                    {errors.zip}
+                                </Form.Control.Feedback>
+                            </Form.Group>
+                            <Form.Group as={Col}>
+                                <Form.Label>Country</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    onChange={e => setField('country', e.target.value)}
+                                    isInvalid = {!!errors.country}
                                 />
                                 <Form.Control.Feedback>
                                     {errors.zip}
