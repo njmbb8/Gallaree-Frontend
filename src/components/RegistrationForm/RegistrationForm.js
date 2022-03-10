@@ -88,23 +88,7 @@ function RegistrationForm({ showRegister, setShowRegister }){
                 }
             }
 
-            // const formData = new FormData()
-            // formData.append('email', form['email'])
-            // formData.append('firstname', form['firstname'])
-            // formData.append('lastname', form['lastname'])
-            // formData.append('addresses_attributes', JSON.stringify([{
-            //     address_line1: form['addr1'],
-            //     address_line2: form['addr2'],
-            //     city: form['city'],
-            //     state: form['state'],
-            //     postal_code: form["zip"],
-            //     country: form["country"]
-            // }]))
-            // formData.append('password', form['password'])
-            // formData.append('password_confirmation', form['password_confirmation'])
-            
-            // const submitData = new FormData()
-            // submitData.append('user', JSON.stringify(formData))
+
 
             fetch(`${REACT_APP_BACKEND_URL }/register`, {
                 method: 'POST',

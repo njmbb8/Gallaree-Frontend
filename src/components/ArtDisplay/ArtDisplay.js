@@ -27,6 +27,14 @@ function ArtDisplay({ statuses }){
             dispatch(remove(art))
         })
     }
+
+    function addToCart(e){
+        e.preventDefault()
+        fetch(`${REACT_APP_BACKEND_URL}/add_to_cart/${art.id}`, {
+            method: 'POST',
+            credentials: 'include'
+        })
+    }
     
     return(
         <>{edit ? 
@@ -51,11 +59,14 @@ function ArtDisplay({ statuses }){
                     </Row>
                     <Row>
                         {
-                            Object.entries(user).length > 0 ? 
-                            <>
-                                <Button variant="primary" onClick={() => setEdit(!edit)}>Edit</Button>
-                                <Button variant="danger" onClick={deleteArt}>Delete</Button>
-                            </>
+                            Object.entries(user).length > 0 ?
+                                user.admin ? 
+                                <>
+                                    <Button variant="primary" onClick={() => setEdit(!edit)}>Edit</Button>
+                                    <Button variant="danger" onClick={deleteArt}>Delete</Button>
+                                </>
+                                :
+                                <Button variant="primary" onClick={addToCart}>Add to cart</Button>
                             :
                             null
                         }
