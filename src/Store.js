@@ -13,10 +13,12 @@ import {
 import storage from "redux-persist/lib/storage";
 import userReducer from "./slices/User"
 import artsReducer from "./slices/Arts"
+import orderReducer from "./slices/Order"
 
 const rootReducer = combineReducers({
     arts: artsReducer,
-    user: userReducer
+    user: userReducer,
+    order: orderReducer
 })
 
 const persistConfig = {
