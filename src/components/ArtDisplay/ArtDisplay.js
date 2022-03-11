@@ -30,9 +30,12 @@ function ArtDisplay({ statuses }){
 
     function addToCart(e){
         e.preventDefault()
-        fetch(`${REACT_APP_BACKEND_URL}/add_to_cart/${art.id}`, {
+        fetch(`${REACT_APP_BACKEND_URL}/add_to_cart/`, {
             method: 'POST',
-            credentials: 'include'
+            credentials: 'include',
+            body: {
+                'art_id': art.id
+            }
         })
     }
     
