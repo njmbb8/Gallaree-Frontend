@@ -53,7 +53,7 @@ function LogInForm({showSignIn, setShowSignIn}){
             .then((data) => data.json())
             .then((ret) => {
                 dispatch(authenticate(ret))
-                fetch(`${REACT_APP_BACKEND_URL}/order/${ret.active_order.id}`, {
+                fetch(`${REACT_APP_BACKEND_URL}/orders/${ret.active_order.id}`, {
                     method: 'GET',
                     credentials: 'include'
                 })
