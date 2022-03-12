@@ -10,6 +10,7 @@ function Navigation({ showSignIn, setShowSignIn, showRegister, setShowRegister }
 
     const { REACT_APP_BACKEND_URL } = process.env
     const user = useSelector(state => state.user)
+    const order = useSelector( state => state.order )
     const dispatch = useDispatch()
 
     function expandRegister(e){
@@ -48,7 +49,7 @@ function Navigation({ showSignIn, setShowSignIn, showRegister, setShowRegister }
                             })}
                             {Object.entries(user).length > 0 ?
                                 <> 
-                                    <Navbar.Text>Hello, {user.firstname}</Navbar.Text>
+                                    <Navbar.Text>Hello, {user.firstname} ({order.order_items.length})</Navbar.Text>
                                     <Nav.Link href="/upload">Upload</Nav.Link>
                                     <Nav.Link href={'/#'} onClick={handleSignOut} >Sign Out</Nav.Link>
                                 </>

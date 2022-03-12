@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import { Form, Button, Offcanvas } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { authenticate } from "../../slices/User";
+import { getOrderItems } from "../../slices/Order"
 
 function LogInForm({showSignIn, setShowSignIn}){
     const [form, setForm] = useState({})
@@ -50,7 +51,15 @@ function LogInForm({showSignIn, setShowSignIn}){
                 body: formData
             })
             .then((data) => data.json())
-            .then((ret) => dispatch(authenticate(ret)))
+            .then((ret) => {
+                dispatch(authenticate(ret))
+                fetch(`${REACT_APP_BACKEND_URL}/order/${ret.active_order.id}`, {
+                    method: 'GET',
+                    credentials: 'include'
+                })
+                .then((orderData) => orderData.json())
+                .then((orderJSON) =>dispatch(getOrderItems(orderJSON)))
+            })
         }
     }
 
