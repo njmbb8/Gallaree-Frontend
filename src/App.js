@@ -50,43 +50,45 @@ function App() {
 
   return (
     <div>
-      <Navbar 
-        showRegister = {showRegister}
-        setShowRegister={setShowRegister}
-        showSignIn={showSignIn}
-        setShowSignIn={setShowSignIn}
-      />
       {ready ? 
-      <Container className="content">
-        <Routes>
-          <Route 
-            exact 
-            path={'/'} 
-            element={<Gallery />} 
-          />
-          <Route 
-            path={'/art/:id'}
-            element= {<ArtDisplay 
-              statuses={statuses}
-            />}
-          />
-          <Route 
-            path={'/upload'} 
-            element={<ArtForm 
-              statuses={statuses} 
-              mode={'upload'}
-            />} 
-          />
-          <Route
-            path={'/password_reset/:token'}
-            element={<PasswordReset />}
-          />
-          <Route
-            path={'/confirm/:token'}
-            element={<Confirmation />}
-          />
-        </Routes>
-      </Container>
+      <>
+        <Navbar 
+          showRegister = {showRegister}
+          setShowRegister={setShowRegister}
+          showSignIn={showSignIn}
+          setShowSignIn={setShowSignIn}
+        />
+        <Container className="content">
+          <Routes>
+            <Route 
+              exact 
+              path={'/'} 
+              element={<Gallery />} 
+            />
+            <Route 
+              path={'/art/:id'}
+              element= {<ArtDisplay 
+                statuses={statuses}
+              />}
+            />
+            <Route 
+              path={'/upload'} 
+              element={<ArtForm 
+                statuses={statuses} 
+                mode={'upload'}
+              />} 
+            />
+            <Route
+              path={'/password_reset/:token'}
+              element={<PasswordReset />}
+            />
+            <Route
+              path={'/confirm/:token'}
+              element={<Confirmation />}
+            />
+          </Routes>
+        </Container>
+      </>
       :<TailSpin 
         color="#00BFFF" 
         height={80} 
