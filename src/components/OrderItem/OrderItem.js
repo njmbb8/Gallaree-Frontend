@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Image, Button } from "react-bootstrap";
+import { Col, Row, Image, Button, ListGroup } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { removeItem } from "../../slices/Order";
 
@@ -18,12 +18,22 @@ function OrderItem({orderItem}){
 
     return(
         <>
-            <Row>
-                <Image thumbnail={true} src={`${REACT_APP_BACKEND_URL }${orderItem.photo}`} />
-                <p>{ orderItem.title }</p>
-                <p>{ orderItem.price }</p>
-                <Button variant="Danger" onClick={remove}>Remove</Button>
-            </Row>
+            <ListGroup.Item>
+                    <Row>
+                    <Col>
+                        <Image thumbnail={true} src={`${REACT_APP_BACKEND_URL }${orderItem.photo}`} />
+                    </Col>
+                    <Col>
+                        <p>{ orderItem.title }</p>
+                    </Col>
+                    <Col>
+                        <p>{ orderItem.price }</p>
+                    </Col>
+                    <Col>
+                        <Button variant="danger" onClick={remove}>Remove</Button>
+                    </Col>
+                </Row>
+            </ListGroup.Item>
         </>
     )
 }

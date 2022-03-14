@@ -1,5 +1,5 @@
 import React from "react";
-import { Col, Offcanvas } from "react-bootstrap";
+import { Col, Offcanvas, ListGroup } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import OrderItem from "../OrderItem/OrderItem";
 
@@ -17,9 +17,9 @@ function OrderDisplay({showOrder, setShowOrder}){
     return(
         <>
             <Offcanvas show={showOrder} onHide={() => setShowOrder(!showOrder)} placement="end">
-                <Col>
+                <ListGroup>
                     {itemRows}
-                </Col>
+                </ListGroup>
             </Offcanvas>
         </>
     )
