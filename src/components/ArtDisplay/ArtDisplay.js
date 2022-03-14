@@ -3,6 +3,7 @@ import { Col, Row, Image, Button } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { remove } from "../../slices/Arts"
+import { addItemToOrder } from "../../slices/Order";
 import ArtForm from "../ArtForm/ArtForm";
 import './ArtDisplay.css'
 
@@ -30,13 +31,21 @@ function ArtDisplay({ statuses }){
 
     function addToCart(e){
         e.preventDefault()
+        const sendData = new FormData()
+        sendData.append('arts_id', art.id)
         fetch(`${REACT_APP_BACKEND_URL}/order_items/`, {
             method: 'POST',
             credentials: 'include',
-            body: {
-                'art_id': art.id
-            }
+            body: sendData
+            // body: JSON.stringify({
+            //     "arts_id": art.id
+            //     // order_items:{
+            //     //     arts_id: art.id
+            //     // }
+            // })
         })
+        // .then((data) => data.json())
+        .then(() => dispatch(addItemToOrder(art)))
     }
     
     return(

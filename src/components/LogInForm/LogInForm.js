@@ -58,7 +58,7 @@ function LogInForm({showSignIn, setShowSignIn}){
                     credentials: 'include'
                 })
                 .then((orderData) => orderData.json())
-                .then((orderJSON) =>dispatch(getOrderItems(orderJSON)))
+                .then((orderJSON) =>dispatch(getOrderItems(orderJSON.order_items)))
             })
         }
     }

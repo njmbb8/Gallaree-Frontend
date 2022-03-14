@@ -1,16 +1,20 @@
-import React from "react";
+import React, {useState} from "react";
 import { NavbarData } from "./NavbarData";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import RegistrationForm from "../RegistrationForm/RegistrationForm";
 import LogInForm from "../LogInForm/LogInForm";
+import OrderDisplay from "../OrderDisplay/OrderDisplay";
 import { signOut } from "../../slices/User"
 
-function Navigation({ showSignIn, setShowSignIn, showRegister, setShowRegister }){
-
+// function Navigation({ showSignIn, setShowSignIn, showRegister, setShowRegister }){
+function Navigation(){
     const { REACT_APP_BACKEND_URL } = process.env
     const user = useSelector(state => state.user)
     const order = useSelector( state => state.order )
+    const [ showRegister, setShowRegister ] = useState(false)
+    const [showSignIn, setShowSignIn] = useState(false)
+    const [showOrder, setShowOrder] = useState(false)
     const dispatch = useDispatch()
 
     function expandRegister(e){
@@ -23,6 +27,11 @@ function Navigation({ showSignIn, setShowSignIn, showRegister, setShowRegister }
         setShowSignIn(!showSignIn)
     }
 
+    function expandOrder(e){
+        e.preventDefault()
+        setShowOrder(!showOrder)
+    }
+
     function handleSignOut(e){
         e.preventDefault()
         fetch(`${REACT_APP_BACKEND_URL}/logout`, {
@@ -31,6 +40,8 @@ function Navigation({ showSignIn, setShowSignIn, showRegister, setShowRegister }
         })
         .then(() => dispatch(signOut()))
     }
+
+
 
     return (
         <>
@@ -49,7 +60,9 @@ function Navigation({ showSignIn, setShowSignIn, showRegister, setShowRegister }
                             })}
                             {Object.entries(user).length > 0 && !!order ?
                                 <> 
-                                    <Navbar.Text>Hello, {user.firstname} ({order.order_items.length})</Navbar.Text>
+                                    <Navbar.Text>Hello, </Navbar.Text>
+                                    <Navbar.Text >{user.firstname}</Navbar.Text>
+                                    <Navbar.Text onClick={expandOrder}>({order.length})</Navbar.Text>
                                     <Nav.Link href="/upload">Upload</Nav.Link>
                                     <Nav.Link href={'/#'} onClick={handleSignOut} >Sign Out</Nav.Link>
                                 </>
@@ -71,6 +84,15 @@ function Navigation({ showSignIn, setShowSignIn, showRegister, setShowRegister }
                 showRegister={showRegister} 
                 setShowRegister={setShowRegister}
             />
+            {!!order?
+                <OrderDisplay 
+                    showOrder={showOrder}
+                    setShowOrder={setShowOrder}
+                />
+                :
+                null
+            }
+            
         </>
     )
 }

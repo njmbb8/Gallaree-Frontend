@@ -13,11 +13,12 @@ import { populate } from './slices/Arts'
 import { TailSpin } from 'react-loader-spinner';
 import PasswordReset from './components/PasswordReset/PasswordReset';
 import Confirmation from './components/Confirmation/Confirmation';
+import { getOrderItems } from './slices/Order';
 
 function App() {
   const [ statuses, setStatuses ] = useState([])
-  const [ showRegister, setShowRegister ] = useState(false)
-  const [showSignIn, setShowSignIn] = useState(false)
+  // const [ showRegister, setShowRegister ] = useState(false)
+  // const [showSignIn, setShowSignIn] = useState(false)
   const dispatch = useDispatch()
   const { REACT_APP_BACKEND_URL } = process.env
   const [ ready, setReady ] = useState(false)
@@ -44,7 +45,14 @@ function App() {
       })
       .then((data) => data.json())
       .then((ret) => {
-        dispatch(authenticate(ret))})
+        dispatch(authenticate(ret))
+        fetch(`${REACT_APP_BACKEND_URL}/order/${ret.active_order.id}`, {
+            method: 'GET',
+            credentials: 'include'
+        })
+        .then((orderData) => orderData.json())
+        .then((orderJSON) =>dispatch(getOrderItems(orderJSON.order_items)))
+      })
     }
   }, [REACT_APP_BACKEND_URL, dispatch])
 
@@ -53,10 +61,10 @@ function App() {
       {ready ? 
       <>
         <Navbar 
-          showRegister = {showRegister}
-          setShowRegister={setShowRegister}
-          showSignIn={showSignIn}
-          setShowSignIn={setShowSignIn}
+          // showRegister = {showRegister}
+          // setShowRegister={setShowRegister}
+          // showSignIn={showSignIn}
+          // setShowSignIn={setShowSignIn}
         />
         <Container className="content">
           <Routes>
