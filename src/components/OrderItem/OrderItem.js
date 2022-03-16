@@ -1,7 +1,7 @@
 import React from "react";
 import { Col, Row, Image, Button, ListGroup } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { removeItem } from "../../slices/Order";
+import { updateOrderItems } from "../../slices/Order";
 
 function OrderItem({orderItem}){
     const { REACT_APP_BACKEND_URL } = process.env
@@ -13,7 +13,7 @@ function OrderItem({orderItem}){
             method: 'DELETE',
             credentials: 'include'
         })
-        .then(()=> dispatch(removeItem(orderItem)))
+        .then((order)=> dispatch(updateOrderItems(order)))
     }
 
     return(

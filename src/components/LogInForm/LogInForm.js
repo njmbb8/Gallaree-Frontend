@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import { Form, Button, Offcanvas } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { authenticate } from "../../slices/User";
-import { getOrderItems } from "../../slices/Order"
+import { updateOrderItems } from "../../slices/Order"
 
 function LogInForm({showSignIn, setShowSignIn}){
     const [form, setForm] = useState({})
@@ -58,7 +58,7 @@ function LogInForm({showSignIn, setShowSignIn}){
                     credentials: 'include'
                 })
                 .then((orderData) => orderData.json())
-                .then((orderJSON) =>dispatch(getOrderItems(orderJSON.order_items)))
+                .then((orderJSON) =>dispatch(updateOrderItems(orderJSON)))
             })
         }
     }

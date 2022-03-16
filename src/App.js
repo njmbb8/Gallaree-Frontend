@@ -13,7 +13,7 @@ import { populate } from './slices/Arts'
 import { TailSpin } from 'react-loader-spinner';
 import PasswordReset from './components/PasswordReset/PasswordReset';
 import Confirmation from './components/Confirmation/Confirmation';
-import { getOrderItems } from './slices/Order';
+import { updateOrderItems } from './slices/Order';
 
 function App() {
   const [ statuses, setStatuses ] = useState([])
@@ -51,7 +51,7 @@ function App() {
             credentials: 'include'
         })
         .then((orderData) => orderData.json())
-        .then((orderJSON) =>dispatch(getOrderItems(orderJSON.order_items)))
+        .then((orderJSON) =>dispatch(updateOrderItems(orderJSON.order_items)))
       })
     }
   }, [REACT_APP_BACKEND_URL, dispatch])
