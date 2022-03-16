@@ -51,7 +51,7 @@ function App() {
             credentials: 'include'
         })
         .then((orderData) => orderData.json())
-        .then((orderJSON) =>dispatch(updateOrderItems(orderJSON.order_items)))
+        .then((orderJSON) =>dispatch(updateOrderItems(orderJSON)))
       })
     }
   }, [REACT_APP_BACKEND_URL, dispatch])

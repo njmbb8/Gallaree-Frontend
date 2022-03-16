@@ -1,10 +1,10 @@
 import React from "react";
-import { Col, Offcanvas, ListGroup } from "react-bootstrap";
+import { Offcanvas, ListGroup } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import OrderItem from "../OrderItem/OrderItem";
 
 function OrderDisplay({showOrder, setShowOrder}){
-    const order = useSelector(state => state.order)
+    const order = useSelector(state => state.order.orderItems)
     const arts = useSelector(state => state.arts)
     const orderItems = order.map((item) => {
         return arts.filter((arts) => {
