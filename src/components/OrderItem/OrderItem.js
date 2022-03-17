@@ -19,7 +19,7 @@ function OrderItem({orderItem}){
     return(
         <>
             <ListGroup.Item>
-                    <Row>
+                <Row>
                     <Col>
                         <Image thumbnail={true} src={`${REACT_APP_BACKEND_URL }${orderItem.photo}`} />
                     </Col>
