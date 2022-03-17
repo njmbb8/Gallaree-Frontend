@@ -41,7 +41,7 @@ function OrderItem({art, orderItem}){
                         <p>{ art.title }</p>
                     </Col>
                     <Col>
-                         <Form.Control type="text" onChange={(e) => setQuantity(e.target.value)}/>
+                         <Form.Control type="text" value={quantity} onChange={(e) => setQuantity(e.target.value)}/>
                          {orderItem.quantity !== quantity ? <Button onClick={update}>Update</Button> : null}
                     </Col>
                     <Col>

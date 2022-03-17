@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Col, Row, Image, Button } from "react-bootstrap";
+import { Col, Row, Image, Button, Form } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { remove } from "../../slices/Arts"
@@ -14,6 +14,7 @@ function ArtDisplay({ statuses }){
     const art = arts.find((art) => parseInt(params.id) === art.id)
     const navigate = useNavigate();
     const [edit, setEdit] = useState(false)
+    const [ quantity, setQuantity ] = useState(0)
     const user = useSelector(state => state.user)
     const dispatch = useDispatch()
 
@@ -32,12 +33,14 @@ function ArtDisplay({ statuses }){
     function addToCart(e){
         e.preventDefault()
         const sendData = new FormData()
-        sendData.append('arts_id', art.id)
+        sendData.append('art_id', art.id)
+        sendData.append('quantity', quantity)
         fetch(`${REACT_APP_BACKEND_URL}/order_items/`, {
             method: 'POST',
             credentials: 'include',
             body: sendData
         })
+        .then((data) => data.json())
         .then((order) => dispatch(updateOrderItems(order)))
     }
     
@@ -71,7 +74,18 @@ function ArtDisplay({ statuses }){
                                     <Button variant="danger" onClick={deleteArt}>Delete</Button>
                                 </>
                                 :
-                                <Button variant="primary" onClick={addToCart}>Add to cart</Button>
+                                <>
+                                    <Form onSubmit={addToCart}>
+                                        <Form.Group>
+                                            <Form.Label>{`Quantity(Max:${art.quantity})`}</Form.Label>
+                                            <Form.Control 
+                                                type="number"
+                                                onChange = {((e) => setQuantity(e.target.value))}
+                                                />
+                                        </Form.Group>
+                                        <Button type="submit" variant="primary">Add to cart</Button>
+                                    </Form>
+                                </>
                             :
                             null
                         }

@@ -67,6 +67,7 @@ function ArtForm({statuses, mode, setEdit}){
             formData.append('description', form['description'])
             formData.append('price', form['price'])
             formData.append('status_id', form['status_id'])
+            formData.append('quantity', form['quantity'])
             if(changePhoto) formData.append('photo', form['photo'])
     
             if(mode === 'upload'){
@@ -130,6 +131,8 @@ function ArtForm({statuses, mode, setEdit}){
                             {errors.title}
                         </Form.Control.Feedback>
                     </Form.Group>
+                </Row>
+                <Row>
                     <Form.Group as={Col}>
                         <Form.Label>Price</Form.Label>
                         <Form.Control 
@@ -147,13 +150,24 @@ function ArtForm({statuses, mode, setEdit}){
                         <Form.Select 
                             onChange={ e => setField('status_id', e.target.value)}
                             isInvalid={!!errors.status_id}
-                            value={art ? art.status.id : 0}
                         >
                             <option value={0}>Select a Status</option>
                             {statusOptions}
                         </Form.Select>
                         <Form.Control.Feedback type='invalid'>
                             {errors.status_id}
+                        </Form.Control.Feedback>
+                    </Form.Group>
+                    <Form.Group as={Col}>
+                        <Form.Label>Stock</Form.Label>
+                        <Form.Control
+                            type="number"
+                            onChange={e => setField('quantity', e.target.value)}
+                            isInvalid={!!errors.quantity}
+                            value={form["quantity"]}
+                        />
+                        <Form.Control.Feedback type='invalid'>
+                            {errors.quantity}
                         </Form.Control.Feedback>
                     </Form.Group>
                 </Row>
