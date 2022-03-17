@@ -84,15 +84,10 @@ function Navigation(){
                 showRegister={showRegister} 
                 setShowRegister={setShowRegister}
             />
-            {!!order?
-                <OrderDisplay 
-                    showOrder={showOrder}
-                    setShowOrder={setShowOrder}
-                />
-                :
-                null
-            }
-            
+            <OrderDisplay 
+                showOrder={showOrder}
+                setShowOrder={setShowOrder}
+            />
         </>
     )
 }

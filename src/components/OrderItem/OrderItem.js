@@ -1,33 +1,50 @@
-import React from "react";
-import { Col, Row, Image, Button, ListGroup } from "react-bootstrap";
+import React, { useState } from "react";
+import { Col, Row, Image, Button, ListGroup, Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { updateOrderItems } from "../../slices/Order";
 
-function OrderItem({orderItem}){
+function OrderItem({art, orderItem}){
     const { REACT_APP_BACKEND_URL } = process.env
     const dispatch = useDispatch()
+    const [ quantity, setQuantity ] = useState(orderItem.quantity)
 
     function remove(e){
         e.preventDefault()
-        fetch(`${REACT_APP_BACKEND_URL}/${orderItem.id}`, {
+        fetch(`${REACT_APP_BACKEND_URL}/order_items/${orderItem.id}`, {
             method: 'DELETE',
             credentials: 'include'
         })
         .then((order)=> dispatch(updateOrderItems(order)))
     }
 
+    function update(e){
+        e.preventDefault()
+        fetch(`${REACT_APP_BACKEND_URL}/order_items/${orderItem.id}`, {
+            method: 'PATCH',
+            credentials: 'include',
+            body:{
+                quantity: quantity
+            }
+        })
+        .then((data) => data.json())
+        .then((ret) => dispatch(updateOrderItems(ret)))
+    }
     return(
         <>
             <ListGroup.Item>
                 <Row>
                     <Col>
-                        <Image thumbnail={true} src={`${REACT_APP_BACKEND_URL }${orderItem.photo}`} />
+                        <Image thumbnail={true} src={`${REACT_APP_BACKEND_URL }${art.photo}`} />
                     </Col>
                     <Col>
-                        <p>{ orderItem.title }</p>
+                        <p>{ art.title }</p>
                     </Col>
                     <Col>
-                        <p>{ orderItem.price }</p>
+                         <Form.Control type="text" onChange={(e) => setQuantity(e.target.value)}/>
+                         {orderItem.quantity !== quantity ? <Button onClick={update}>Update</Button> : null}
+                    </Col>
+                    <Col>
+                        <p>{ art.price }</p>
                     </Col>
                     <Col>
                         <Button variant="danger" onClick={remove}>Remove</Button>

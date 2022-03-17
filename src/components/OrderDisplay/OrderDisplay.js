@@ -6,13 +6,16 @@ import OrderItem from "../OrderItem/OrderItem";
 function OrderDisplay({showOrder, setShowOrder}){
     const order = useSelector(state => state.order)
     const arts = useSelector(state => state.arts)
-    const orderItems = order.order_items.map((item) => {
-        return arts.filter((arts) => {
-            return arts.id === item.art_id
+    const itemRows = order.order_items.map((item) => {
+        return arts.map((art) => {
+            if (art.id === item.art_id)
+                return <OrderItem key={item.id} art={art} orderItem={item}/>
+            else
+                return null
         })
     })
 
-    const itemRows = orderItems[0].map((item) => <OrderItem key={item.id} orderItem={item} />)
+    // const itemRows = orderItems[0].map((item) => <OrderItem key={item.id} art={item} order={order}/>)
 
     return(
         <>
