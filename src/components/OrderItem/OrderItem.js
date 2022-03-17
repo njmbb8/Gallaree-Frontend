@@ -14,6 +14,7 @@ function OrderItem({art, orderItem}){
             method: 'DELETE',
             credentials: 'include'
         })
+        .then((data)=>(data).json())
         .then((order)=> dispatch(updateOrderItems(order)))
     }
 
