@@ -23,9 +23,13 @@ function OrderItem({art, orderItem}){
         fetch(`${REACT_APP_BACKEND_URL}/order_items/${orderItem.id}`, {
             method: 'PATCH',
             credentials: 'include',
-            body:{
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
                 quantity: quantity
-            }
+            })
         })
         .then((data) => data.json())
         .then((ret) => dispatch(updateOrderItems(ret)))
