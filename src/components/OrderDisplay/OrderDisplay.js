@@ -28,7 +28,7 @@ function OrderDisplay({showOrder, setShowOrder}){
                                 <h3>{order.order_total}</h3>
                             </Col>
                             <Col>
-                                <Button variant="primary">Checkout</Button>
+                                <Button href="/checkout" variant="primary">Checkout</Button>
                             </Col>
                         </Row>
                     </ListGroup.Item>

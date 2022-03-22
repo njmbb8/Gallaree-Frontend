@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const slice = createSlice({
     name: 'clientSecret',
-    initialState: '',
+    initialState: "",
     reducers: {
         setClientSecret: (state, action) => {
             return action.payload

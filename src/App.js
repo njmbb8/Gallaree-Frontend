@@ -17,6 +17,7 @@ import { updateOrderItems } from './slices/Order';
 import { setClientSecret } from './slices/ClientSecret';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
+import CheckoutForm from './components/CheckoutForm/CheckoutForm';
 
 function App() {
   const [ statuses, setStatuses ] = useState([])
@@ -60,12 +61,12 @@ function App() {
   }, [REACT_APP_BACKEND_URL, dispatch])
   
   useEffect(() => {
-    fetch(`${REACT_APP_BACKEND_URL}/payment_intents`, {
-      method: 'POST',
+    fetch(`${REACT_APP_BACKEND_URL}/payment_intent`, {
+      method: "POST",
       credentials: 'include'
     })
     .then((data) => data.json())
-    .then((ret) => dispatch(setClientSecret(ret)))
+    .then((ret) => dispatch(setClientSecret(ret.clientSecret)))
   }, [REACT_APP_BACKEND_URL])
 
   const appearance = {
@@ -112,7 +113,9 @@ function App() {
             <Route
               path={'/checkout'}
               element = {
-                <Elements options={options} stripe={stripePromise}></Elements>
+                <Elements options={options} stripe={stripePromise}>
+                  <CheckoutForm/>
+                </Elements>
               }
             />
           </Routes>

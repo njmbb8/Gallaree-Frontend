@@ -14,11 +14,13 @@ import storage from "redux-persist/lib/storage";
 import userReducer from "./slices/User"
 import artsReducer from "./slices/Arts"
 import orderReducer from "./slices/Order"
+import clientSecretReducer from "./slices/ClientSecret"
 
 const rootReducer = combineReducers({
     arts: artsReducer,
     user: userReducer,
-    order: orderReducer
+    order: orderReducer,
+    clientSecret: clientSecretReducer
 })
 
 const persistConfig = {

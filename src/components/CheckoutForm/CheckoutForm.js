@@ -12,13 +12,13 @@ function CheckoutForm(){
     const [message, setMessage] = useState(null)
     const [isLoading, setIsLoading] =  useState(false)
     const order = useSelector(state => state.order)
+    const clientSecret = useSelector(state => state.clientSecret)
 
     useEffect(() => {
         if(!stripe){
             return
         }
 
-        const clientSecret = useSelector(state => state.clientSecret)
 
         if(!clientSecret){
             return
