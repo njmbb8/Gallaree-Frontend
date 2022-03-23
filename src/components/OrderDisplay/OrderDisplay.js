@@ -9,13 +9,11 @@ function OrderDisplay({showOrder, setShowOrder}){
     const itemRows = order.order_items.map((item) => {
         return arts.map((art) => {
             if (art.id === item.art_id)
-                return <OrderItem key={item.id} art={art} orderItem={item}/>
+                return <OrderItem key={item.id} art={art} orderItem={item} mode="order"/>
             else
                 return null
         })
     })
-
-    // const itemRows = orderItems[0].map((item) => <OrderItem key={item.id} art={item} order={order}/>)
 
     return(
         <>

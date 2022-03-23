@@ -67,7 +67,7 @@ function App() {
     })
     .then((data) => data.json())
     .then((ret) => dispatch(setClientSecret(ret.clientSecret)))
-  }, [REACT_APP_BACKEND_URL])
+  }, [REACT_APP_BACKEND_URL, dispatch])
 
   const appearance = {
     theme: 'stripe',

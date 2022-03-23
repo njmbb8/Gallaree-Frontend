@@ -5,6 +5,8 @@ import {
     useStripe,
     useElements
   } from "@stripe/react-stripe-js";
+import { Col, Row, ListGroup } from "react-bootstrap";
+import OrderItem from "../OrderItem/OrderItem";
 
 function CheckoutForm(){
     const stripe = useStripe()
@@ -13,12 +15,21 @@ function CheckoutForm(){
     const [isLoading, setIsLoading] =  useState(false)
     const order = useSelector(state => state.order)
     const clientSecret = useSelector(state => state.clientSecret)
+    const arts = useSelector(state => state.arts)
+
+    const itemRows = order.order_items.map((item) => {
+        return arts.map((art) => {
+            if (art.id === item.art_id)
+                return <OrderItem key={item.id} art={art} orderItem={item} mode="checkout"/>
+            else
+                return null
+        })
+    })
 
     useEffect(() => {
         if(!stripe){
             return
         }
-
 
         if(!clientSecret){
             return
@@ -40,7 +51,7 @@ function CheckoutForm(){
                     break;
             }
         })
-    }, [stripe])
+    }, [stripe, clientSecret])
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -69,15 +80,29 @@ function CheckoutForm(){
     }
 
     return(
-        <form id="payment-form" onSubmit={handleSubmit}>
-            <PaymentElement id="payment-element" />
-            <button disabled={isLoading || !stripe || !elements} id="submit">
-                <span id="button-text">
-                    {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
-                </span>
-            </button>
-            {message && <div id="payment-message">{message}</div>}
-        </form>
+        <>
+            <Row>
+                <ListGroup>
+                    {itemRows}
+                </ListGroup>
+            </Row>
+            <Row>
+                <Col>
+                
+                </Col>
+                <Col>
+                    <form id="payment-form" onSubmit={handleSubmit}>
+                        <PaymentElement id="payment-element" />
+                        <button disabled={isLoading || !stripe || !elements} id="submit">
+                            <span id="button-text">
+                                {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
+                            </span>
+                        </button>
+                        {message && <div id="payment-message">{message}</div>}
+                    </form>
+                </Col>
+            </Row>
+        </>
     )
 }
 
