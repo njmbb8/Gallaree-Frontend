@@ -7,7 +7,7 @@ import LogInForm from "../LogInForm/LogInForm";
 import OrderDisplay from "../OrderDisplay/OrderDisplay";
 import { signOut } from "../../slices/User"
 
-// function Navigation({ showSignIn, setShowSignIn, showRegister, setShowRegister }){
+
 function Navigation(){
     const { REACT_APP_BACKEND_URL } = process.env
     const user = useSelector(state => state.user)
@@ -84,10 +84,14 @@ function Navigation(){
                 showRegister={showRegister} 
                 setShowRegister={setShowRegister}
             />
-            <OrderDisplay 
-                showOrder={showOrder}
-                setShowOrder={setShowOrder}
-            />
+            {!!order.id?
+                <OrderDisplay 
+                    showOrder={showOrder}
+                    setShowOrder={setShowOrder}
+                />
+                :
+                null
+            }
         </>
     )
 }

@@ -7,6 +7,7 @@ import {
   } from "@stripe/react-stripe-js";
 import { Col, Row, ListGroup } from "react-bootstrap";
 import OrderItem from "../OrderItem/OrderItem";
+import AddressSelection from "../AddressSelection/AddressSelection";
 
 function CheckoutForm(){
     const stripe = useStripe()
@@ -88,7 +89,7 @@ function CheckoutForm(){
             </Row>
             <Row>
                 <Col>
-                
+                    <AddressSelection/>
                 </Col>
                 <Col>
                     <form id="payment-form" onSubmit={handleSubmit}>

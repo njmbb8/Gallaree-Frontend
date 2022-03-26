@@ -61,12 +61,14 @@ function App() {
   }, [REACT_APP_BACKEND_URL, dispatch])
   
   useEffect(() => {
-    fetch(`${REACT_APP_BACKEND_URL}/payment_intent`, {
-      method: "POST",
-      credentials: 'include'
-    })
-    .then((data) => data.json())
-    .then((ret) => dispatch(setClientSecret(ret.clientSecret)))
+    if(!!document.cookie.split('; ').find(row => row.startsWith('order_id='))){
+      fetch(`${REACT_APP_BACKEND_URL}/payment_intent`, {
+        method: "POST",
+        credentials: 'include'
+      })
+      .then((data) => data.json())
+      .then((ret) => dispatch(setClientSecret(ret.clientSecret)))
+    }
   }, [REACT_APP_BACKEND_URL, dispatch])
 
   const appearance = {
