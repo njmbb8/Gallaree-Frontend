@@ -2,6 +2,8 @@ import React, {useState} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { FormLabel, FormSelect, Button, Row, ButtonGroup } from "react-bootstrap";
 import { authenticate } from "../../slices/User";
+import AddressForm from "../AddressForm/AddressForm";
+
 function AddressSelection(){
     const dispatch = useDispatch()
     const { REACT_APP_BACKEND_URL } = process.env
@@ -10,6 +12,19 @@ function AddressSelection(){
     const [addressMode, setAddressMode] = useState('')
     const [shipping, setShipping] = useState(null)
     const [billing, setBilling] = useState(null)
+    const [editShipping, setEditShipping] = useState(0)
+    const [addrToEdit, setAddrToEdit] = useState(0)
+    const blank = {
+        address_line1: '',
+        address_line2: '',
+        city: '',
+        state: 0,
+        postal_code: '',
+        country: '',
+        shipping: false,
+        billing: false
+    }
+
     const addressOptions = user.addresses.map((address, index) => {
         if(address.shipping && shipping === null){
             setShipping(index)
@@ -34,21 +49,14 @@ function AddressSelection(){
             method: "PATCH",
             credentials: "include",
             headers: {
-                "Content-Type": "application/json",
                 "Accept": "application/json"
             },
             body: addrData
         })
         .then((data)=> data.json())
         .then((ret)=>{    
-            dispatch(authenticate({...user, addresses: user.addresses.map((addr)=>{
-                if(ret.id === addr.id){
-                    return ret
-                }
-                else{
-                    return addr
-                }
-            })
+            console.log(ret)
+            dispatch(authenticate({...user, addresses: [...user.addresses, ret]
         }))
         })
     }
@@ -59,10 +67,9 @@ function AddressSelection(){
             credentials: "include",
         })
         .then(()=>{
-            user.addresses = user.addresses.map((addr)=>{
-                return address.id === addr.id ? null : addr
-            })
-            dispatch(authenticate(user))
+            dispatch(authenticate({...user, addresses: user.addresses.filter((addr)=>{
+                return address.id !== addr.id
+            })}))
         })
     }
 
@@ -92,13 +99,22 @@ function AddressSelection(){
 
     function expandEdit(e){
         e.preventDefault()
-        setAddressMode(addressMode !== 'edit'? 'edit':'')
+        setAddressMode('edit')
+        setEditShipping(e.target.id === 'shippingEdit'? 1 : 2)
+        if(editShipping === 1){
+            setAddrToEdit(user.addresses[shipping])
+        }
+        else if(editShipping === 2){
+            setAddrToEdit(user.addresses[billing])
+        }
         setShowEdit(!showEdit)
     }
 
     function expandNew(e){
         e.preventDefault()
-        setAddressMode(addressMode !== 'new'? 'new':'')
+        setAddrToEdit(blank)
+        setAddressMode('new')
+        setEditShipping(0)
         setShowEdit(!showEdit)
     }
 
@@ -112,7 +128,7 @@ function AddressSelection(){
             </Row>
             <Row>
                 <ButtonGroup>
-                    <Button onClick={expandEdit} variant="primary">Edit</Button>
+                    <Button id="shippingEdit" onClick={expandEdit} variant="primary">Edit</Button>
                     <Button onClick={deleteShipping} variant="danger">Remove</Button>
                     <Button onClick={defaultShipping} variant="primary">Make Default</Button>
                 </ButtonGroup>
@@ -125,7 +141,7 @@ function AddressSelection(){
             </Row>
             <Row>
                 <ButtonGroup>
-                    <Button onClick={expandEdit} variant="primary">Edit</Button>
+                    <Button id="billingEdit" onClick={expandEdit} variant="primary">Edit</Button>
                     <Button onClick={deleteBilling} variant="danger">Remove</Button>
                     <Button onClick={defaultBilling} variant="primary">Make Default</Button>
                 </ButtonGroup>
@@ -133,6 +149,18 @@ function AddressSelection(){
             <Row>
                 <Button onClick={expandNew} variant="primary">New Address</Button>
             </Row>
+            {
+                showEdit && addrToEdit?
+                    <AddressForm 
+                        mode={addressMode}
+                        address={addrToEdit}
+                        updateAddress={updateAddresses}
+                        showEdit={showEdit}
+                        setShowEdit={setShowEdit}
+                    />
+                :
+                null
+            }
         </>
     )
 }
