@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Image } from "react-bootstrap";
+import { Form, Image, Row, Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
 
 function BioForm(){
