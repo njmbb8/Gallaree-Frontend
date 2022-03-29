@@ -60,6 +60,11 @@ function Navigation(){
                             })}
                             {Object.entries(user).length > 0 && !!order ?
                                 <> 
+                                    {user.admin?
+                                        <Navbar.Link href="/adminpanel">Admin</Navbar.Link>
+                                        :
+                                        null
+                                    }
                                     <Navbar.Text>Hello, </Navbar.Text>
                                     <Navbar.Text >{user.firstname}</Navbar.Text>
                                     <Navbar.Text onClick={expandOrder}>({order.order_items.length})</Navbar.Text>

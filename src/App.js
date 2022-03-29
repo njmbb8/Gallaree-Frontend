@@ -19,6 +19,8 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import CheckoutForm from './components/CheckoutForm/CheckoutForm';
 import PaymentConfirmation from './components/PaymentConfirmation/PaymentConfirmation';
+import AdminPanel from './components/AdminPanel/AdminPanel';
+import userEvent from '@testing-library/user-event';
 
 function App() {
   const [ statuses, setStatuses ] = useState([])
@@ -26,6 +28,7 @@ function App() {
   const { REACT_APP_BACKEND_URL, REACT_APP_STRIPE_PUBLISHABLE_KEY } = process.env
   const [ ready, setReady ] = useState(false)
   const clientSecret = useSelector(state => state.clientSecret)
+  const user = useSelector(state => state.user)
   const stripePromise = loadStripe(REACT_APP_STRIPE_PUBLISHABLE_KEY) 
   
   useEffect(() => {
@@ -98,12 +101,16 @@ function App() {
                 statuses={statuses}
               />}
             />
-            <Route 
+            {/* <Route 
               path={'/upload'} 
               element={<ArtForm 
                 statuses={statuses} 
                 mode={'upload'}
               />} 
+            /> */}
+            <Route
+              path={'/adminpanel'}
+              element={<AdminPanel statuses={statuses}/>}
             />
             <Route
               path={'/password_reset/:token'}

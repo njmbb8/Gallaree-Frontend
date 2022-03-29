@@ -15,12 +15,14 @@ import userReducer from "./slices/User"
 import artsReducer from "./slices/Arts"
 import orderReducer from "./slices/Order"
 import clientSecretReducer from "./slices/ClientSecret"
+import bioReducer from "./slices/Bio"
 
 const rootReducer = combineReducers({
     arts: artsReducer,
     user: userReducer,
     order: orderReducer,
-    clientSecret: clientSecretReducer
+    clientSecret: clientSecretReducer,
+    bioReducer: bioReducer
 })
 
 const persistConfig = {

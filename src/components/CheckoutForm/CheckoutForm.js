@@ -8,6 +8,7 @@ import {
 import { Col, Row, ListGroup } from "react-bootstrap";
 import OrderItem from "../OrderItem/OrderItem";
 import AddressSelection from "../AddressSelection/AddressSelection";
+import SetAddressButton from "../SetAddressButton/SetAddressButton";
 
 function CheckoutForm(){
     const stripe = useStripe()
@@ -17,6 +18,8 @@ function CheckoutForm(){
     const order = useSelector(state => state.order)
     const clientSecret = useSelector(state => state.clientSecret)
     const arts = useSelector(state => state.arts)
+    const [shipping, setShipping] = useState(0)
+    const [billing, setBilling] = useState(0)
 
     const itemRows = order.order_items.map((item) => {
         return arts.map((art) => {
@@ -89,7 +92,18 @@ function CheckoutForm(){
             </Row>
             <Row>
                 <Col>
-                    <AddressSelection/>
+                    <AddressSelection
+                        shipping={shipping}
+                        setShipping={setShipping}
+                        billing={billing}
+                        setBilling={setBilling}
+                    />
+                    <SetAddressButton
+                        shipping={shipping}
+                        setShipping={setShipping}
+                        billing={billing}
+                        setBilling={setBilling}
+                    />
                 </Col>
                 <Col>
                     <form id="payment-form" onSubmit={handleSubmit}>

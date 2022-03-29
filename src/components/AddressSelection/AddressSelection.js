@@ -4,14 +4,12 @@ import { FormLabel, FormSelect, Button, Row, ButtonGroup } from "react-bootstrap
 import { authenticate } from "../../slices/User";
 import AddressForm from "../AddressForm/AddressForm";
 
-function AddressSelection(){
+function AddressSelection({shipping, billing, setShipping, setBilling}){
     const dispatch = useDispatch()
     const { REACT_APP_BACKEND_URL } = process.env
     const user = useSelector(state => state.user)
     const [showEdit, setShowEdit] = useState(false)
     const [addressMode, setAddressMode] = useState('')
-    const [shipping, setShipping] = useState(null)
-    const [billing, setBilling] = useState(null)
     const [editShipping, setEditShipping] = useState(0)
     const [addrToEdit, setAddrToEdit] = useState(0)
     const blank = {
