@@ -61,7 +61,7 @@ function Navigation(){
                             {Object.entries(user).length > 0 && !!order ?
                                 <> 
                                     {user.admin?
-                                        <Navbar.Link href="/adminpanel">Admin</Navbar.Link>
+                                        <Nav.Link href="/adminpanel">Admin</Nav.Link>
                                         :
                                         null
                                     }
