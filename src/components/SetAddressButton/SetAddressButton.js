@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { updateOrderItems } from "../slices/Order";
+import { updateOrderItems } from "../../slices/Order";
 
 function SetAddressButton({shipping, billing}){
     const order = useSelector(state => state.order)
