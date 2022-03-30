@@ -11,7 +11,7 @@ function PaymentConfirmation(){
     const order = user.active_order
 
     function checkForOrderUpdate(){
-        fetch(`${REACT_APP_BACKEND_URL}/orders/${params["id"]}`)
+        fetch(`${REACT_APP_BACKEND_URL}/order/${params["id"]}`)
         .then((data) => data.json())
         .then((ret)=>{
             if(ret.order_status !== order.order_status){
