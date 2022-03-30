@@ -5,6 +5,7 @@ import { updateOrderItems } from "../../slices/Order";
 
 function SetAddressButton({shipping, billing}){
     const order = useSelector(state => state.order)
+    const addresses = useSelector(state => state.user.addresses)
     const {REACT_APP_BACKEND_URL} = process.env
     const dispatch = useDispatch()
 
@@ -17,7 +18,7 @@ function SetAddressButton({shipping, billing}){
             headers: {
                 "Accept": "application/json"
             },
-            body: JSON.stringify({...order, shipping_id: shipping, billing_id: billing})
+            body: JSON.stringify({...order, shipping_id: addresses[shipping].id, billing_id: addresses[billing].id})
         })
         .then((data)=>data.json())
         .then((ret)=>{
