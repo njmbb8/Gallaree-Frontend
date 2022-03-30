@@ -16,7 +16,8 @@ function SetAddressButton({shipping, billing}){
             method: 'PATCH',
             credentials: 'include',
             headers: {
-                "Accept": "application/json"
+                "Accept": "application/json",
+                "Content-type": "application/json"
             },
             body: JSON.stringify({...order, shipping_id: addresses[shipping].id, billing_id: addresses[billing].id})
         })
