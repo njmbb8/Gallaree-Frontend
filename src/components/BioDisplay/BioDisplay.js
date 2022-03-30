@@ -1,6 +1,7 @@
 import React from "react";
 import { Col, Row, Image } from "react-bootstrap";
 import { useSelector } from "react-redux";
+import "./BioDisplay.css"
 
 function BioDisplay(){
     const bio = useSelector(state => state.bio)
@@ -10,16 +11,16 @@ function BioDisplay(){
         <>
             <Col>
                 <Row>
-                    <Image src={`${REACT_APP_BACKEND_URL}/${bio.photo}`} />
+                    <Image id="artistImage" src={`${REACT_APP_BACKEND_URL}/${bio.photo}`} />
                 </Row>
                 <Row>
-                    <Col>
+                    <Col className="textDisplay">
                         <h2>Biography</h2>
                         <p>
                             {bio.biography}
                         </p>
                     </Col>
-                    <Col>
+                    <Col className="textDisplay">
                         <h2>Artist Statement</h2>
                         <p>
                             {bio.artist_statement}
