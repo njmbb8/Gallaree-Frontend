@@ -11,17 +11,17 @@ function SetAddressButton({shipping, billing}){
     function setAddresses(e){
         e.preventDefault()
 
-        fetch(`${REACT_APP_BACKEND_URL}/orders/${order.id}`, {
+        fetch(`${REACT_APP_BACKEND_URL}/order/${order.id}`, {
             method: 'POST',
             credentials: 'include',
             headers: {
                 "Accept": "application/json"
             },
             body: JSON.stringify({...order, shipping_id: shipping, billing_id: billing})
-            .then((data)=>data.json())
-            .then((ret)=>{
-                dispatch(updateOrderItems(ret))
-            })
+        })
+        .then((data)=>data.json())
+        .then((ret)=>{
+            dispatch(updateOrderItems(ret))
         })
     }
 
