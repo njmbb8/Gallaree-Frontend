@@ -5,7 +5,7 @@ function AdminOrders(){
     const {REACT_APP_BACKEND_URL} = process.env
     const [orders, setOrders] = useState([])
     useEffect(()=>{
-        fetch(`${REACT_APP_BACKEND_URL}/orders`)
+        fetch(`${REACT_APP_BACKEND_URL}/order`)
         .then((data)=>data.json())
         .then((ret)=>{
             setOrders(ret)

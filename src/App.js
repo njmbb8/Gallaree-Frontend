@@ -4,7 +4,6 @@ import Navbar from './components/Navbar/Navbar';
 import { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Gallery from './components/Gallery/Gallery';
-import ArtForm from './components/ArtForm/ArtForm';
 import { Container } from 'react-bootstrap';
 import ArtDisplay from './components/ArtDisplay/ArtDisplay';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,6 +19,7 @@ import { Elements } from '@stripe/react-stripe-js';
 import CheckoutForm from './components/CheckoutForm/CheckoutForm';
 import PaymentConfirmation from './components/PaymentConfirmation/PaymentConfirmation';
 import AdminPanel from './components/AdminPanel/AdminPanel';
+import { setBioInfo } from './slices/Bio';
 import userEvent from '@testing-library/user-event';
 
 function App() {
@@ -28,7 +28,6 @@ function App() {
   const { REACT_APP_BACKEND_URL, REACT_APP_STRIPE_PUBLISHABLE_KEY } = process.env
   const [ ready, setReady ] = useState(false)
   const clientSecret = useSelector(state => state.clientSecret)
-  const user = useSelector(state => state.user)
   const stripePromise = loadStripe(REACT_APP_STRIPE_PUBLISHABLE_KEY) 
   
   useEffect(() => {
@@ -45,6 +44,14 @@ function App() {
       setReady(true)
     })
   }, [REACT_APP_BACKEND_URL, dispatch])
+
+  useEffect(()=>{
+    fetch(`${REACT_APP_BACKEND_URL}/bio_index`)
+    .then((data) => data.json())
+    .then((ret) => {
+      dispatch(setBioInfo(ret))
+    })
+  }, [REACT_APP_BACKEND_URL])
   
   useEffect(()=>{
     if(!!document.cookie.split('; ').find(row => row.startsWith('user_id='))){
@@ -101,13 +108,6 @@ function App() {
                 statuses={statuses}
               />}
             />
-            {/* <Route 
-              path={'/upload'} 
-              element={<ArtForm 
-                statuses={statuses} 
-                mode={'upload'}
-              />} 
-            /> */}
             <Route
               path={'/adminpanel'}
               element={<AdminPanel statuses={statuses}/>}

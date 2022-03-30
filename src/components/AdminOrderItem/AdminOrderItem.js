@@ -30,7 +30,7 @@ function AdminOrderItem({order}){
                 <p>{order.shipping_address}</p>
             </Col>
             <Col>
-                <p>{order.status.name}</p>
+                <p>{order.order_status.name}</p>
             </Col>
             {!order.tracking?
                 <Col>

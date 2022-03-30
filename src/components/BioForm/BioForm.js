@@ -5,8 +5,8 @@ import { useSelector } from "react-redux";
 function BioForm(){
     const {REACT_APP_BACKEND_URL} = process.env
     const bio = useSelector(state => state.bio)
-    const placeHolderURL = !!bio.photo ? `${REACT_APP_BACKEND_URL }/images/Placeholder.svg` : `${REACT_APP_BACKEND_URL}${bio.photo}`
-    const [form, setForm] = useState(bio === {} ? {} : bio)
+    const placeHolderURL = `${REACT_APP_BACKEND_URL }/images/Placeholder.svg` //!!bio.photo ? `${REACT_APP_BACKEND_URL }/images/Placeholder.svg` : `${REACT_APP_BACKEND_URL}${bio.photo}`
+    const [form, setForm] = useState({})//useState(bio === {} ? {} : bio)
     const [errors, setErrors] = useState({})
     const [changePhoto, setChangePhoto] = useState(false)
 
