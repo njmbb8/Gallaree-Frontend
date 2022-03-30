@@ -13,7 +13,7 @@ function SetAddressButton({shipping, billing}){
         e.preventDefault()
 
         fetch(`${REACT_APP_BACKEND_URL}/order/${order.id}`, {
-            method: 'POST',
+            method: 'PATCH',
             credentials: 'include',
             headers: {
                 "Accept": "application/json"
