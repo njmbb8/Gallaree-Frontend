@@ -1,5 +1,5 @@
 import React from "react";
-import { Col } from "react-bootstrap";
+import { Col, Row, Image } from "react-bootstrap";
 import { useSelector } from "react-redux";
 
 function BioDisplay(){

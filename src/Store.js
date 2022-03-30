@@ -22,7 +22,7 @@ const rootReducer = combineReducers({
     user: userReducer,
     order: orderReducer,
     clientSecret: clientSecretReducer,
-    bioReducer: bioReducer
+    bio: bioReducer
 })
 
 const persistConfig = {
