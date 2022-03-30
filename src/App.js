@@ -20,6 +20,7 @@ import CheckoutForm from './components/CheckoutForm/CheckoutForm';
 import PaymentConfirmation from './components/PaymentConfirmation/PaymentConfirmation';
 import AdminPanel from './components/AdminPanel/AdminPanel';
 import { setBioInfo } from './slices/Bio';
+import BioDisplay from './components/BioDisplay/BioDisplay';
 import userEvent from '@testing-library/user-event';
 
 function App() {
@@ -131,6 +132,10 @@ function App() {
             <Route
               path={'/success/:id'}
               element={<PaymentConfirmation/>}
+            />
+            <Route
+              path={'/bio'}
+              element={<BioDisplay/>}
             />
           </Routes>
         </Container>
