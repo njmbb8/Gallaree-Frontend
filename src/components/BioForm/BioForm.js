@@ -37,6 +37,8 @@ function BioForm(){
         if(!photo){
             foundErrors.photo = "You're going to want a photo"
         }
+
+        return foundErrors
     }
 
     function photoChange(e){
@@ -57,7 +59,7 @@ function BioForm(){
             formData.append('artist_statement', form['artist_statement'])
             formData.append('biography', form['biography'])
 
-            fetch(`${REACT_APP_BACKEND_URL}`, {
+            fetch(`${REACT_APP_BACKEND_URL}/bio`, {
                 method: 'POST',
                 credentials: 'include',
                 body: formData
