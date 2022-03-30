@@ -8,9 +8,7 @@ function PaymentConfirmation(){
     const { REACT_APP_BACKEND_URL } = process.env
     const params = useParams()
     const user = useSelector(state => state.user)
-    const order = user.orders.find((item) => {
-        return item.id === params["id"]
-    })
+    const order = user.active_order
 
     function checkForOrderUpdate(){
         fetch(`${REACT_APP_BACKEND_URL}/orders/${params["id"]}`)
