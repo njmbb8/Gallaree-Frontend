@@ -131,19 +131,6 @@ function AddressSelection({shipping, billing, setShipping, setBilling}){
                     <Button onClick={defaultShipping} variant="primary">Make Default</Button>
                 </ButtonGroup>
             </Row>
-            <FormLabel htmlFor="billing">Billing Address:</FormLabel>
-            <Row>
-                <FormSelect id="billing" defaultValue={billing} onChange={(e)=>setBilling(e.target.value)}>
-                    {addressOptions}
-                </FormSelect>
-            </Row>
-            <Row>
-                <ButtonGroup>
-                    <Button id="billingEdit" onClick={expandEdit} variant="primary">Edit</Button>
-                    <Button onClick={deleteBilling} variant="danger">Remove</Button>
-                    <Button onClick={defaultBilling} variant="primary">Make Default</Button>
-                </ButtonGroup>
-            </Row>
             <Row>
                 <Button onClick={expandNew} variant="primary">New Address</Button>
             </Row>
