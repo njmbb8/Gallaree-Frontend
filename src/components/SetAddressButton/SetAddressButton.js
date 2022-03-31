@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { updateOrderItems } from "../../slices/Order";
 
-function SetAddressButton({shipping, billing}){
+function SetAddressButton({shipping}){
     const order = useSelector(state => state.order)
     const addresses = useSelector(state => state.user.addresses)
     const {REACT_APP_BACKEND_URL} = process.env
@@ -19,7 +19,7 @@ function SetAddressButton({shipping, billing}){
                 "Accept": "application/json",
                 "Content-type": "application/json"
             },
-            body: JSON.stringify({...order, shipping_id: addresses[shipping].id, billing_id: addresses[billing].id})
+            body: JSON.stringify({...order, shipping_id: addresses[shipping].id})
         })
         .then((data)=>data.json())
         .then((ret)=>{
