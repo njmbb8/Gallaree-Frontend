@@ -77,22 +77,10 @@ function AddressSelection({shipping, billing, setShipping, setBilling}){
         deleteAddress(removeAddress)
     }
 
-    function deleteBilling(e){
-        e.preventDefault()
-        const removeAddress = user.addresses.find((address) => address.id === user.addresses[billing].id)
-        deleteAddress(removeAddress)
-    }
-
     function defaultShipping(e){
         e.preventDefault()
         const activeAddress = user.addresses.find((address) => address.id === user.addresses[shipping].id)
         updateAddresses({...activeAddress, shipping: true})
-    }
-
-    function defaultBilling(e){
-        e.preventDefault()
-        const activeAddress = user.addresses.find((address) => address.id === user.addresses[billing].id)
-        updateAddresses({...activeAddress, billing: true})
     }
 
     function expandEdit(e){
