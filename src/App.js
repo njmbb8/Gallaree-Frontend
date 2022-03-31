@@ -30,6 +30,7 @@ function App() {
   const [ ready, setReady ] = useState(false)
   const clientSecret = useSelector(state => state.clientSecret)
   const stripePromise = loadStripe(REACT_APP_STRIPE_PUBLISHABLE_KEY) 
+  const user = useSelector(state => state.user)
   
   useEffect(() => {
     fetch(`${REACT_APP_BACKEND_URL}/statuses`)
@@ -74,12 +75,25 @@ function App() {
   
   useEffect(() => {
     if(!!document.cookie.split('; ').find(row => row.startsWith('order_id='))){
-      fetch(`${REACT_APP_BACKEND_URL}/payment_intent`, {
-        method: "POST",
-        credentials: 'include'
-      })
-      .then((data) => data.json())
-      .then((ret) => dispatch(setClientSecret(ret.clientSecret)))
+      if(user.active_order.payment_intent===null){
+        fetch(`${REACT_APP_BACKEND_URL}/payment_intent`, {
+          method: "POST",
+          credentials: 'include'
+        })
+        .then((data) => data.json())
+        .then((ret) => {
+          fetch(`${REACT_APP_BACKEND_URL}/order/${user.active_order.id}`, {
+            method: 'PATCH',
+            credentials: 'include',
+            headers: {
+              "Content-type": "application/json"
+            },
+            body: JSON.stringify({...user.active_order, payment_intent: ret.payment_intent})
+          })
+          dispatch(authenticate({...user, active_order: {...user.active_order, payment_intent: ret.payment_intent}}))
+          dispatch(setClientSecret(ret.clientSecret))
+        })
+      }
     }
   }, [REACT_APP_BACKEND_URL, dispatch])
 
