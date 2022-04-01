@@ -68,7 +68,6 @@ function Navigation(){
                                     <Navbar.Text>Hello, </Navbar.Text>
                                     <Navbar.Text >{user.firstname}</Navbar.Text>
                                     <Navbar.Text onClick={expandOrder}>({order.order_items.length})</Navbar.Text>
-                                    <Nav.Link href="/upload">Upload</Nav.Link>
                                     <Nav.Link href={'/#'} onClick={handleSignOut} >Sign Out</Nav.Link>
                                 </>
                                 :
