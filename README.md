@@ -12,10 +12,10 @@ This site was written in React, using react-bootstrap(among many other libraries
 - User Registration and sign in/sign out
 - View, edit, upload and delete art(only if you are signed in, of course)
 - Ability to communicate with a back end api without CORS issues
+- Order multiple items at once using a custom cart and checkout page 
+- Stripe integration for processing payments
 
 ## To Do
 
 - Social media integration(Uploading an artpiece makes an announcement on the blog section as well as any attached social media platforms)
-- User profile displayed in an editable form
-- Cart and checkout with integration to a payment system such as stripe
-- Different access to different features for customer, artist, signed out, etc.
+- A blog for the artist to be able to keep their fans up to date on new artworks, events, etc.
