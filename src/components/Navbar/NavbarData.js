@@ -6,13 +6,5 @@ export const NavbarData = [
     {
         text: 'Bio',
         path: '/bio'
-    },
-    {
-        text: 'News',
-        path: '/news'
-    },
-    {
-        text: 'Contact',
-        path: '/contact'
     }
 ]
