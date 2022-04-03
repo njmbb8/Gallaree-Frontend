@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 function AddressForm({mode, address, updateAddress, showEdit, setShowEdit}){
     const [form, setForm] = useState(address)
-    console.log(form)
     const [errors, setErrors] = useState({})
     const dispatch = useDispatch()
     const { REACT_APP_BACKEND_URL } = process.env
@@ -29,7 +28,7 @@ function AddressForm({mode, address, updateAddress, showEdit, setShowEdit}){
     }
 
     function findErrors(){
-        const { address_line1, address_line2, city, state, postal_code, country} = form
+        const { address_line1, city, state, postal_code } = form
 
         if(!address_line1 || address_line1 === ''){
             errors.address_line1 = "Must not be empty"
