@@ -9,9 +9,13 @@ function PaymentConfirmation(){
     const params = useParams()
     const user = useSelector(state => state.user)
     const order = user.active_order
+    const [intervalID, setIntervalID] = useState(0)
 
     function checkForOrderUpdate(){
-        fetch(`${REACT_APP_BACKEND_URL}/order/${params["id"]}`)
+        fetch(`${REACT_APP_BACKEND_URL}/order/${params["id"]}`,{
+            method: 'GET',
+            credentials: 'include'
+        })
         .then((data) => data.json())
         .then((ret)=>{
             if(ret.order_status !== order.order_status){
@@ -21,11 +25,12 @@ function PaymentConfirmation(){
     }
 
     useEffect(() => {
-        const intervalID = setInterval(checkForOrderUpdate, 1000);
-        if(paymentComplete){
-            clearInterval(intervalID)
-        }
+        setIntervalID(setInterval(checkForOrderUpdate, 1000))
     }, [])
+
+    if(paymentComplete){
+        clearInterval(intervalID)
+    }
 
     return(
         <>
