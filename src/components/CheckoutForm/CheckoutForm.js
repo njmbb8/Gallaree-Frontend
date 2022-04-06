@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
     PaymentElement,
     useStripe,
@@ -9,6 +9,9 @@ import { Col, Row, ListGroup } from "react-bootstrap";
 import OrderItem from "../OrderItem/OrderItem";
 import AddressSelection from "../AddressSelection/AddressSelection";
 import SetAddressButton from "../SetAddressButton/SetAddressButton";
+import { authenticate } from "../../slices/User";
+import { updateOrderItems } from "../../slices/Order";
+import { setClientSecret } from "../../slices/ClientSecret";
 
 function CheckoutForm(){
     const stripe = useStripe()
@@ -20,6 +23,39 @@ function CheckoutForm(){
     const arts = useSelector(state => state.arts)
     const [shipping, setShipping] = useState(0)
     const [billing, setBilling] = useState(0)
+    const user = useSelector(state => state.user)
+    const {REACT_APP_BACKEND_URL} = process.env
+    const dispatch = useDispatch()
+
+    useEffect(()=>{
+        if(user.active_order.payment_intent===null){
+            fetch(`${REACT_APP_BACKEND_URL}/payment_intent`, {
+              method: "POST",
+              credentials: 'include'
+            })
+            .then((data) => data.json())
+            .then((ret) => {
+              fetch(`${REACT_APP_BACKEND_URL}/order/${user.active_order.id}`, {
+                method: 'PATCH',
+                credentials: 'include',
+                headers: {
+                  "Content-type": "application/json"
+                },
+                body: JSON.stringify({...user.active_order, payment_intent: ret.payment_intent})
+              })
+              dispatch(authenticate({...user, active_order: {...user.active_order, payment_intent: ret.payment_intent}}))
+              dispatch(updateOrderItems({...order, payment_intent: ret.paymentIntent}))
+              dispatch(setClientSecret(ret.clientSecret))
+            })
+          }
+          else{
+            fetch(`${REACT_APP_BACKEND_URL}/payment_intent/${user.active_order.id}`, {
+                method: 'POST',
+                credentials: 'include',
+
+            })
+          }
+    })
 
     const itemRows = order.order_items.map((item) => {
         return arts.map((art) => {

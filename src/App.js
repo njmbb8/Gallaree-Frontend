@@ -21,7 +21,6 @@ import PaymentConfirmation from './components/PaymentConfirmation/PaymentConfirm
 import AdminPanel from './components/AdminPanel/AdminPanel';
 import { setBioInfo } from './slices/Bio';
 import BioDisplay from './components/BioDisplay/BioDisplay';
-import userEvent from '@testing-library/user-event';
 
 function App() {
   const [ statuses, setStatuses ] = useState([])
@@ -73,29 +72,11 @@ function App() {
     }
   }, [REACT_APP_BACKEND_URL, dispatch])
   
-  useEffect(() => {
-    if(!!document.cookie.split('; ').find(row => row.startsWith('order_id='))){
-      if(user.active_order.payment_intent===null){
-        fetch(`${REACT_APP_BACKEND_URL}/payment_intent`, {
-          method: "POST",
-          credentials: 'include'
-        })
-        .then((data) => data.json())
-        .then((ret) => {
-          fetch(`${REACT_APP_BACKEND_URL}/order/${user.active_order.id}`, {
-            method: 'PATCH',
-            credentials: 'include',
-            headers: {
-              "Content-type": "application/json"
-            },
-            body: JSON.stringify({...user.active_order, payment_intent: ret.payment_intent})
-          })
-          dispatch(authenticate({...user, active_order: {...user.active_order, payment_intent: ret.payment_intent}}))
-          dispatch(setClientSecret(ret.clientSecret))
-        })
-      }
-    }
-  }, [REACT_APP_BACKEND_URL, dispatch])
+  // useEffect(() => {
+  //   if(!!document.cookie.split('; ').find(row => row.startsWith('order_id='))){
+      
+  //   }
+  // }, [REACT_APP_BACKEND_URL, dispatch])
 
   const appearance = {
     theme: 'stripe',
