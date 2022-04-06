@@ -4,7 +4,7 @@ import { FormLabel, FormSelect, Button, Row, ButtonGroup } from "react-bootstrap
 import { authenticate } from "../../slices/User";
 import AddressForm from "../AddressForm/AddressForm";
 
-function AddressSelection({shipping, billing, setShipping, setBilling}){
+function AddressSelection({shipping,setShipping}){
     const dispatch = useDispatch()
     const { REACT_APP_BACKEND_URL } = process.env
     const user = useSelector(state => state.user)
@@ -19,16 +19,12 @@ function AddressSelection({shipping, billing, setShipping, setBilling}){
         state: 0,
         postal_code: '',
         country: '',
-        shipping: false,
-        billing: false
+        shipping: false
     }
 
     const addressOptions = user.addresses.map((address, index) => {
         if(address.shipping && shipping === null){
             setShipping(index)
-        }
-        else if(address.billing && billing === null){
-            setBilling(index)
         }
         return <option key={address.id} value={index}>{`${address.address_line1}`}</option>
     })
@@ -42,7 +38,6 @@ function AddressSelection({shipping, billing, setShipping, setBilling}){
         addrData.append('country', address.country)
         addrData.append('postal_code', address.postal_code)
         addrData.append('shipping', addrData.shipping)
-        addrData.append('billing', address.billing)
         fetch(`${REACT_APP_BACKEND_URL}/addresses/${address.id}`, {
             method: "PATCH",
             credentials: "include",
@@ -89,9 +84,6 @@ function AddressSelection({shipping, billing, setShipping, setBilling}){
         setEditShipping(e.target.id === 'shippingEdit'? 1 : 2)
         if(editShipping === 1){
             setAddrToEdit(user.addresses[shipping])
-        }
-        else if(editShipping === 2){
-            setAddrToEdit(user.addresses[billing])
         }
         setShowEdit(!showEdit)
     }
