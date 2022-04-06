@@ -12,7 +12,7 @@ function RegistrationForm({ showRegister, setShowRegister }){
     const { REACT_APP_BACKEND_URL } = process.env
 
     const stateOptions = States.map((state, index) => {
-        return <option key={index} value={index}>{state["alpha-2"]}</option>
+        return <option key={index} value={state["alpha-2"]}>{state["alpha-2"]}</option>
     })
 
     function findErrors(){

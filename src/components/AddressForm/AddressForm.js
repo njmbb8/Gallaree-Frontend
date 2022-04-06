@@ -12,7 +12,7 @@ function AddressForm({mode, address, updateAddress, showEdit, setShowEdit}){
     const user = useSelector(state => state.user)
 
     const stateOptions = States.map((state, index) => {
-        return <option key={index} value={index}>{state["alpha-2"]}</option>
+        return <option key={index} value={state["alpha-2"]}>{state["alpha-2"]}</option>
     })
 
     function setField(field, value){
