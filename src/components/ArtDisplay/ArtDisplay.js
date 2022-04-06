@@ -80,6 +80,7 @@ function ArtDisplay({ statuses }){
                                             <Form.Label>{`Quantity(Max:${art.quantity})`}</Form.Label>
                                             <Form.Control 
                                                 type="number"
+                                                max={art.quantity}
                                                 onChange = {((e) => setQuantity(e.target.value))}
                                                 />
                                         </Form.Group>
