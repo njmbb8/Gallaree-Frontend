@@ -50,12 +50,14 @@ function CheckoutForm(){
           }
           else{
             fetch(`${REACT_APP_BACKEND_URL}/payment_intent/${user.active_order.id}`, {
-                method: 'POST',
+                method: 'PATCH',
                 credentials: 'include',
-
+                body: JSON.stringify({
+                    address_id: shipping
+                })
             })
           }
-    })
+    }, [])
 
     const itemRows = order.order_items.map((item) => {
         return arts.map((art) => {
