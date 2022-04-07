@@ -31,7 +31,7 @@ function AddressSelection({shipping,setShipping}){
     }
 
     function updateAddress(){
-        addressData = new FormData()
+        const addressData = new FormData()
         addressData.append('address_line1', shipping.address_line1)
         addressData.append('address_line2', shipping.address_line2)
         addressData.append('city', shipping.city)
@@ -63,7 +63,7 @@ function AddressSelection({shipping,setShipping}){
     }
 
     function setShippingForOrder(e){
-        orderData = new FormData()
+        const orderData = new FormData()
         orderData.append('shipping', e.target.value)
         fetch(`${REACT_APP_BACKEND_URL}/orders/${user.active_order.id}`, {
             method: 'PATCH',
@@ -83,7 +83,7 @@ function AddressSelection({shipping,setShipping}){
             credentials: 'include',
         })
         .then(()=>{
-            addresses = user.addresses.filter((address) => address.id !== shipping.id)
+            const addresses = user.addresses.filter((address) => address.id !== shipping.id)
             dispatch(authenticate({...user, addresses: addresses}))
         })
     }
@@ -96,7 +96,7 @@ function AddressSelection({shipping,setShipping}){
         else if(addressFormMode === "update"){
             setAddressToEdit(shipping)
         }
-        setShowEdit(true)
+        setShowAddressForm(true)
 
     }
 
