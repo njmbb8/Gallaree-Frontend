@@ -13,7 +13,6 @@ import { TailSpin } from 'react-loader-spinner';
 import PasswordReset from './components/PasswordReset/PasswordReset';
 import Confirmation from './components/Confirmation/Confirmation';
 import { updateOrderItems } from './slices/Order';
-import { setClientSecret } from './slices/ClientSecret';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import CheckoutForm from './components/CheckoutForm/CheckoutForm';
@@ -71,12 +70,6 @@ function App() {
       })
     }
   }, [REACT_APP_BACKEND_URL, dispatch])
-  
-  // useEffect(() => {
-  //   if(!!document.cookie.split('; ').find(row => row.startsWith('order_id='))){
-      
-  //   }
-  // }, [REACT_APP_BACKEND_URL, dispatch])
 
   const appearance = {
     theme: 'stripe',
