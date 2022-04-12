@@ -6,7 +6,7 @@ import RegistrationForm from "../RegistrationForm/RegistrationForm";
 import LogInForm from "../LogInForm/LogInForm";
 import OrderDisplay from "../OrderDisplay/OrderDisplay";
 import { signOut } from "../../slices/User"
-
+import { useNavigate } from "react-router-dom";
 
 function Navigation(){
     const { REACT_APP_BACKEND_URL } = process.env
@@ -16,6 +16,7 @@ function Navigation(){
     const [showSignIn, setShowSignIn] = useState(false)
     const [showOrder, setShowOrder] = useState(false)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     function expandRegister(e){
         e.preventDefault()
@@ -41,7 +42,10 @@ function Navigation(){
         .then(() => dispatch(signOut()))
     }
 
-
+    function goToUserPanel(e){
+        e.preventDefault()
+        useNavigate('/user')
+    }
 
     return (
         <>
@@ -66,8 +70,13 @@ function Navigation(){
                                         null
                                     }
                                     <Navbar.Text>Hello, </Navbar.Text>
-                                    <Navbar.Text >{user.firstname}</Navbar.Text>
-                                    <Navbar.Text onClick={expandOrder}>({order.order_items.length})</Navbar.Text>
+                                    <Navbar.Text 
+                                        onClick={!user.admin ? goToUserPanel : null}
+                                        onMouseOver={!user.admin ? 'pointer' : 'default'}   
+                                    >
+                                            {user.firstname}
+                                    </Navbar.Text>
+                                    {!user.admin ? <Navbar.Text onClick={expandOrder}>({order.order_items.length})</Navbar.Text> : null}
                                     <Nav.Link href={'/#'} onClick={handleSignOut} >Sign Out</Nav.Link>
                                 </>
                                 :

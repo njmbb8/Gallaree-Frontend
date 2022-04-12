@@ -20,6 +20,7 @@ import PaymentConfirmation from './components/PaymentConfirmation/PaymentConfirm
 import AdminPanel from './components/AdminPanel/AdminPanel';
 import { setBioInfo } from './slices/Bio';
 import BioDisplay from './components/BioDisplay/BioDisplay';
+import UserPanel from './components/UserPanel/UserPanel';
 
 function App() {
   const [ statuses, setStatuses ] = useState([])
@@ -123,6 +124,10 @@ function App() {
             <Route
               path={'/bio'}
               element={<BioDisplay/>}
+            />
+            <Route
+              path={'/user'}
+              element={<UserPanel/>}
             />
           </Routes>
         </Container>
