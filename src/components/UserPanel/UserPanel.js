@@ -7,11 +7,11 @@ import AddressSelection from "../AddressSelection/AddressSelection";
 function UserPanel(){
     const activeOrder = useSelector(state => state.order)
     const [orders, setOrders] = useState([])
-    const {REACT_APP_BACKGROUND_URL} = process.env 
+    const {REACT_APP_BACKEND_URL} = process.env 
     const [shipping, setShipping] = useState(activeOrder.address)
     
     useEffect(()=>{
-        fetch(`${REACT_APP_BACKGROUND_URL}/orders`, {
+        fetch(`${REACT_APP_BACKEND_URL}/orders`, {
             method: 'GET',
             credentials: 'include',
             headers: {
