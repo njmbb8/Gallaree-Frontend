@@ -17,7 +17,7 @@ function AddressSelection({shipping,setShipping}){
             setShipping(address)
         }
         return (
-            <option selected={address.shipping} value={address.id}>{address.address_line1}</option>
+            <option key={address.id} selected={address.shipping} value={address.id}>{address.address_line1}</option>
         )
     })
     const blankAddress={
