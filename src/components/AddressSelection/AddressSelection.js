@@ -16,7 +16,7 @@ function AddressSelection({shipping,setShipping}){
 
     useEffect(()=>{
          setAddressOptions(user.addresses.map((address) =>{
-            if(address.shipping){
+            if(address.id === user.active_order.shipping_id || (address.shipping && Object.entries(shipping).length < 1)){
                 setShipping(address)
             }
             return (
@@ -69,7 +69,7 @@ function AddressSelection({shipping,setShipping}){
 
     function setShippingForOrder(e){
         const orderData = new FormData()
-        orderData.append('shipping', e.target.value)
+        orderData.append('shipping_id', e.target.value)
         fetch(`${REACT_APP_BACKEND_URL}/order/${user.active_order.id}`, {
             method: 'PATCH',
             credentials: 'include',
@@ -79,6 +79,9 @@ function AddressSelection({shipping,setShipping}){
         .then((ret) => {
             dispatch(updateOrderItems(ret))
             dispatch(authenticate({...user, active_order: ret}))
+            setShipping(user.addresses.find((address) => {
+                return address.id === parseInt(e.target.value)
+            }))
         })
     }
 
