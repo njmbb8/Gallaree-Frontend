@@ -70,7 +70,7 @@ function AddressSelection({shipping,setShipping}){
     function setShippingForOrder(e){
         const orderData = new FormData()
         orderData.append('shipping', e.target.value)
-        fetch(`${REACT_APP_BACKEND_URL}/orders/${user.active_order.id}`, {
+        fetch(`${REACT_APP_BACKEND_URL}/order/${user.active_order.id}`, {
             method: 'PATCH',
             credentials: 'include',
             body: orderData
