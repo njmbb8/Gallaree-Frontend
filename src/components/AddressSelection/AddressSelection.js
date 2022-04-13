@@ -20,7 +20,7 @@ function AddressSelection({shipping,setShipping}){
                 setShipping(address)
             }
             return (
-                <option key={address.id} selected={address.shipping} value={address.id}>{address.address_line1}</option>
+                <option key={address.id} value={address.id}>{address.address_line1}</option>
             )
         }))
     }, [])
@@ -110,7 +110,10 @@ function AddressSelection({shipping,setShipping}){
             <Form>
                 <Form.Group>
                     <Form.Label>Shipping Address:</Form.Label>
-                    <Form.Select onChange={setShippingForOrder}>{addressOptions}</Form.Select>
+                    <Form.Select 
+                        onChange={setShippingForOrder}
+                        defaultValue={shipping.id}
+                    >{addressOptions}</Form.Select>
                 </Form.Group>
                 <ButtonGroup>
                     <Button id="edit" onClick={displayAddressForm}>Edit Address</Button>
