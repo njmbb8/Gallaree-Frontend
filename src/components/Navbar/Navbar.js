@@ -44,7 +44,7 @@ function Navigation(){
 
     function goToUserPanel(e){
         e.preventDefault()
-        useNavigate('/user')
+        navigate('/user')
     }
 
     return (
