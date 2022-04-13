@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { FormLabel, FormSelect, Button, Row, ButtonGroup, Form } from "react-bootstrap";
 import { authenticate } from "../../slices/User";
@@ -10,16 +10,21 @@ function AddressSelection({shipping,setShipping}){
     const [showAddressForm, setShowAddressForm] = useState(false)
     const [addressFormMode, setAddressFormMode] = useState("")
     const [addressToEdit, setAddressToEdit] = useState({})
+    const [addressOptions, setAddressOptions] = useState([])
     const {REACT_APP_BACKEND_URL} = process.env
     const dispatch = useDispatch()
-    const addressOptions = user.addresses.map((address) =>{
-        if(address.shipping){
-            setShipping(address)
-        }
-        return (
-            <option key={address.id} selected={address.shipping} value={address.id}>{address.address_line1}</option>
-        )
+
+    useEffect(()=>{
+         setAddressOptions(user.addresses.map((address) =>{
+            if(address.shipping){
+                setShipping(address)
+            }
+            return (
+                <option key={address.id} selected={address.shipping} value={address.id}>{address.address_line1}</option>
+            )
+        }))
     })
+
     const blankAddress={
         address_line1: "",
         address_line2: "",
