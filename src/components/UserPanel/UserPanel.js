@@ -11,7 +11,7 @@ function UserPanel(){
     const [shipping, setShipping] = useState(activeOrder.address)
     
     useEffect(()=>{
-        fetch(`${REACT_APP_BACKEND_URL}/orders`, {
+        fetch(`${REACT_APP_BACKEND_URL}/order`, {
             method: 'GET',
             credentials: 'include',
             headers: {
