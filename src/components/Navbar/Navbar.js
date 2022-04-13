@@ -72,7 +72,7 @@ function Navigation(){
                                     <Navbar.Text>Hello, </Navbar.Text>
                                     <Navbar.Text 
                                         onClick={!user.admin ? goToUserPanel : null}
-                                        onMouseOver={!user.admin ? 'pointer' : 'default'}   
+                                        onMouseOver={(e) => e.target.style.cursor = (!user.admin ? 'pointer' : 'default')}   
                                     >
                                             {user.firstname}
                                     </Navbar.Text>
