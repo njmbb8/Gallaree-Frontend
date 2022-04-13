@@ -23,7 +23,7 @@ function AddressSelection({shipping,setShipping}){
                 <option key={address.id} selected={address.shipping} value={address.id}>{address.address_line1}</option>
             )
         }))
-    })
+    }, [])
 
     const blankAddress={
         address_line1: "",
