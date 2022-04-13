@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { useSelector } from "react-redux";
-import { Col } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import UserOrders from "../UserOrders/UserOrders";
 import AddressSelection from "../AddressSelection/AddressSelection";
 
@@ -24,15 +24,17 @@ function UserPanel(){
 
     return(
         <>
-            <Col>
-                <AddressSelection 
-                    shipping={shipping} 
-                    setShipping={setShipping}
-                />
-            </Col>
-            <Col>
-                <UserOrders orders={orders}/>
-            </Col>
+            <Row>
+                <Col>
+                    <AddressSelection 
+                        shipping={shipping} 
+                        setShipping={setShipping}
+                    />
+                </Col>
+                <Col>
+                    <UserOrders orders={orders}/>
+                </Col>
+            </Row>
         </>
     )
 
