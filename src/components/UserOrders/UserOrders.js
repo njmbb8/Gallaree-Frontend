@@ -4,7 +4,7 @@ import { ListGroup, Row, Col } from "react-bootstrap";
 
 function UserOrders({orders}){
     const orderItems = orders.map((order) => {
-        return <UserOderListItem order={order}/>
+        return <UserOderListItem key={order.id} order={order}/>
     })
 
     return(
@@ -14,15 +14,17 @@ function UserOrders({orders}){
             </Row>
             <ListGroup>
                 <ListGroup.Item>
-                    <Col>
-                        <h3>Order ID:</h3>
-                    </Col>
-                    <Col>
-                        <h3>Address</h3>
-                    </Col>
-                    <Col>
-                        <h3>Tracking #:</h3>
-                    </Col>
+                    <Row>
+                        <Col>
+                            <h5>Order ID:</h5>
+                        </Col>
+                        <Col>
+                            <h5>Address</h5>
+                        </Col>
+                        <Col>
+                            <h5>Tracking #:</h5>
+                        </Col>
+                    </Row>
                 </ListGroup.Item>
                 {orderItems}
             </ListGroup>
