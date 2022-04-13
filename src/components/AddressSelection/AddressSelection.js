@@ -25,6 +25,10 @@ function AddressSelection({shipping,setShipping}){
         }))
     }, [])
 
+    useEffect(()=>{
+        updateAddress()
+    }, [shipping])
+
     const blankAddress={
         address_line1: "",
         address_line2: "",
@@ -45,7 +49,7 @@ function AddressSelection({shipping,setShipping}){
         addressData.append('country', shipping.country)
         addressData.append('shipping', shipping.shipping)
 
-        fetch(`${REACT_APP_BACKEND_URL}/address/${shipping.id}`,{
+        fetch(`${REACT_APP_BACKEND_URL}/addresses/${shipping.id}`,{
             method: 'PATCH',
             headers: {
                 Accepts: 'application/json'
@@ -121,7 +125,7 @@ function AddressSelection({shipping,setShipping}){
                 <ButtonGroup>
                     <Button id="edit" onClick={displayAddressForm}>Edit Address</Button>
                     <Button variant="danger" onClick={removeAddress}>Delete Address</Button>
-                    {shipping.shipping ? null : <Button>Make Default</Button>}
+                    {shipping.shipping ? null : <Button onClick={()=>setShipping({...shipping, shipping: true})}>Make Default</Button>}
                 </ButtonGroup>
                 <Button id="new" onClick={displayAddressForm}>New Address</Button>
             </Form>
