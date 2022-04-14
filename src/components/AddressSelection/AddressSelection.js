@@ -125,12 +125,12 @@ function AddressSelection({shipping,setShipping}){
                         defaultValue={shipping.id}
                     >{addressOptions}</Form.Select>
                 </Form.Group>
-                <ButtonGroup>
+                <ButtonGroup className="w-100">
                     <Button id="edit" onClick={displayAddressForm}>Edit Address</Button>
                     <Button variant="danger" onClick={removeAddress}>Delete Address</Button>
                     {shipping.shipping ? null : <Button onClick={()=>setShipping({...shipping, shipping: true})}>Make Default</Button>}
                 </ButtonGroup>
-                <Button id="new" onClick={displayAddressForm}>New Address</Button>
+                <Button id="new" className="w-100" onClick={displayAddressForm}>New Address</Button>
             </Form>
             {showAddressForm ? 
                 <AddressForm 
