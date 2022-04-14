@@ -8,7 +8,6 @@ import {
 import { Col, Row, ListGroup } from "react-bootstrap";
 import OrderItem from "../OrderItem/OrderItem";
 import AddressSelection from "../AddressSelection/AddressSelection";
-import SetAddressButton from "../SetAddressButton/SetAddressButton";
 import { authenticate } from "../../slices/User";
 import { updateOrderItems } from "../../slices/Order";
 import { setClientSecret } from "../../slices/ClientSecret";
@@ -22,7 +21,6 @@ function CheckoutForm(){
     const clientSecret = useSelector(state => state.clientSecret)
     const arts = useSelector(state => state.arts)
     const [shipping, setShipping] = useState(0)
-    const [billing, setBilling] = useState(0)
     const user = useSelector(state => state.user)
     const {REACT_APP_BACKEND_URL} = process.env
     const dispatch = useDispatch()
@@ -133,14 +131,6 @@ function CheckoutForm(){
                     <AddressSelection
                         shipping={shipping}
                         setShipping={setShipping}
-                        billing={billing}
-                        setBilling={setBilling}
-                    />
-                    <SetAddressButton
-                        shipping={shipping}
-                        setShipping={setShipping}
-                        billing={billing}
-                        setBilling={setBilling}
                     />
                 </Col>
                 <Col>
