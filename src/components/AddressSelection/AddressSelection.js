@@ -15,7 +15,10 @@ function AddressSelection({shipping,setShipping}){
     const dispatch = useDispatch()
 
     useEffect(()=>{
-         setAddressOptions(user.addresses.map((address) =>{
+        const activeAddresses = user.addresses.filter((address)=>{
+            return !address.archived
+        })
+         setAddressOptions(activeAddresses.map((address) =>{
             if(address.id === user.active_order.shipping_id || (address.shipping && Object.entries(shipping).length < 1)){
                 setShipping(address)
             }
