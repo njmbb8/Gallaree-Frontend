@@ -70,7 +70,7 @@ function AddressForm({mode, address, updateAddress, showEdit, setShowEdit}){
             method: 'POST',
             credentials: 'include',
             headers: {
-                accept: 'application/json'
+                "Accept": 'application/json'
             },
             body: addressData
         })

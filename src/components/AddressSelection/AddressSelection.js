@@ -26,7 +26,7 @@ function AddressSelection({shipping,setShipping}){
                 <option key={address.id} value={address.id}>{address.address_line1}</option>
             )
         }))
-    }, [])
+    }, [user])
 
     useEffect(()=>{
         updateAddress()
@@ -99,6 +99,7 @@ function AddressSelection({shipping,setShipping}){
         })
         .then(()=>{
             const addresses = user.addresses.filter((address) => address.id !== shipping.id)
+
             dispatch(authenticate({...user, addresses: addresses}))
         })
     }
