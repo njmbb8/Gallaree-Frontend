@@ -104,17 +104,18 @@ function AddressSelection({shipping,setShipping}){
         })
     }
 
-    function displayAddressForm(e){
-        setAddressFormMode(e.target.id)
+    useEffect(()=>{
         if(addressFormMode === "new"){
             setAddressToEdit(blankAddress)
         }
-        else if(addressFormMode === "update"){
+        else if(addressFormMode === "edit"){
             setAddressToEdit(shipping)
         }
-        setShowAddressForm(true)
+    }, [addressFormMode])
 
-    }
+    useEffect(()=>{
+        setShowAddressForm(true)
+    }, [addressToEdit])
 
     return(
         <>
@@ -127,11 +128,11 @@ function AddressSelection({shipping,setShipping}){
                     >{addressOptions}</Form.Select>
                 </Form.Group>
                 <ButtonGroup className="w-100">
-                    <Button id="edit" onClick={displayAddressForm}>Edit Address</Button>
+                    <Button id="edit" onClick={e => setAddressFormMode(e.target.id)}>Edit Address</Button>
                     <Button variant="danger" onClick={removeAddress}>Delete Address</Button>
                     {shipping.shipping ? null : <Button onClick={()=>setShipping({...shipping, shipping: true})}>Make Default</Button>}
                 </ButtonGroup>
-                <Button id="new" className="w-100" onClick={displayAddressForm}>New Address</Button>
+                <Button id="new" className="w-100" onClick={e => setAddressFormMode(e.target.id)}>New Address</Button>
             </Form>
             {showAddressForm ? 
                 <AddressForm 

@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { Offcanvas, Form, Row, Button, ButtonGroup } from "react-bootstrap";
+import { Offcanvas, Form, Row, Button, ButtonGroup, ToggleButton } from "react-bootstrap";
 import { States } from "../../States";
 import { authenticate } from "../../slices/User";
 import { useDispatch, useSelector } from "react-redux";
@@ -177,13 +177,24 @@ function AddressForm({mode, address, updateAddress, showEdit, setShowEdit}){
                 </Row>
                 <Row>
                     <ButtonGroup>
-                        <Button
+                        <ToggleButton
+                            id="defaultAddress"
+                            type="checkbox"
+                            value={address.shipping}
+                            checked={address.shipping}
+                            onChange={(e) => {
+                                setField('shipping', e.target.checked)
+                            }}
+                        >
+                            Default  Shipping
+                        </ToggleButton>
+                        {/* <Button
                             variant="primary"
                             active={form.shipping}
                             onChange={e => setField('shipping', e.target.value)}
                         >
                             Default Shipping
-                        </Button>
+                        </Button> */}
                     </ButtonGroup>
                 </Row>
                 <Button type="submit">Submit</Button>
