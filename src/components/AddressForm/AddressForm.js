@@ -184,13 +184,6 @@ function AddressForm({mode, address, updateAddress, showEdit, setShowEdit}){
                         >
                             Default Shipping
                         </Button>
-                        <Button
-                            variant="primary"
-                            active={form.billing}
-                            onChange={e => setField('billing', e.target.value)}
-                        >
-                            Default Billing
-                        </Button>
                     </ButtonGroup>
                 </Row>
                 <Button type="submit">Submit</Button>
