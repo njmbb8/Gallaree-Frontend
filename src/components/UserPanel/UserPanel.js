@@ -9,6 +9,7 @@ function UserPanel(){
     const [orders, setOrders] = useState([])
     const {REACT_APP_BACKEND_URL} = process.env 
     const [shipping, setShipping] = useState(activeOrder.address)
+    const user = useSelector(state => state.user)
     
     useEffect(()=>{
         fetch(`${REACT_APP_BACKEND_URL}/order`, {
@@ -20,7 +21,7 @@ function UserPanel(){
         })
         .then((data) => data.json())
         .then((ret)=> setOrders(ret))
-    }, [])
+    }, [user])
 
     return(
         <>
