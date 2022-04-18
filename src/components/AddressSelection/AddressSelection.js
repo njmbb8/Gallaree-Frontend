@@ -19,18 +19,14 @@ function AddressSelection({shipping,setShipping}){
             return !address.archived
         })
          setAddressOptions(activeAddresses.map((address) =>{
-            if(address.id === user.active_order.shipping_id || (address.shipping && Object.entries(shipping).length < 1)){
+            if(address.id === user.active_order.shipping_id || (address.shipping && user.active_order.shipping_id == null)){
                 setShipping(address)
             }
             return (
                 <option key={address.id} value={address.id}>{address.address_line1}</option>
             )
         }))
-    }, [user])
-
-    useEffect(()=>{
-        updateAddress()
-    }, [shipping])
+    }, [user, setShipping])
 
     const blankAddress={
         address_line1: "",
@@ -40,38 +36,6 @@ function AddressSelection({shipping,setShipping}){
         postal_code: "",
         country: "",
         shipping: false
-    }
-
-    function updateAddress(){
-        const addressData = new FormData()
-        addressData.append('address_line1', shipping.address_line1)
-        addressData.append('address_line2', shipping.address_line2)
-        addressData.append('city', shipping.city)
-        addressData.append('state', shipping.state)
-        addressData.append('postal_code', shipping.zip)
-        addressData.append('country', shipping.country)
-        addressData.append('shipping', shipping.shipping)
-
-        fetch(`${REACT_APP_BACKEND_URL}/addresses/${shipping.id}`,{
-            method: 'PATCH',
-            headers: {
-                Accepts: 'application/json'
-            },
-            credentials: 'include',
-            body:addressData
-        })
-        .then((data) => data.json)
-        .then((ret)=>{
-            const addresses = user.addresses.map((address) => {
-                if(address.id === ret.id){
-                    return ret
-                }
-                else{
-                    return address
-                }
-            })
-            dispatch(authenticate({...user, addresses: addresses}))
-        })
     }
 
     function setShippingForOrder(e){
@@ -86,9 +50,6 @@ function AddressSelection({shipping,setShipping}){
         .then((ret) => {
             dispatch(updateOrderItems(ret))
             dispatch(authenticate({...user, active_order: ret}))
-            setShipping(user.addresses.find((address) => {
-                return address.id === parseInt(e.target.value)
-            }))
         })
     }
 
@@ -99,8 +60,21 @@ function AddressSelection({shipping,setShipping}){
         })
         .then(()=>{
             const addresses = user.addresses.filter((address) => address.id !== shipping.id)
-
             dispatch(authenticate({...user, addresses: addresses}))
+        })
+    }
+
+    function makeDefault(){
+        const shippingData = new FormData()
+        shippingData.append('shipping', true)
+        fetch(`${REACT_APP_BACKEND_URL}/addresses/${shipping.id}`, {
+            method: 'PATCH',
+            credentials: 'include',
+            body: shippingData
+        })
+        .then((data) => data.json())
+        .then((ret)=>{
+            setShipping(ret)
         })
     }
 
@@ -111,11 +85,12 @@ function AddressSelection({shipping,setShipping}){
         else if(addressFormMode === "edit"){
             setAddressToEdit(shipping)
         }
-    }, [addressFormMode])
-
-    useEffect(()=>{
+        else if(addressFormMode === ""){
+            setShowAddressForm(false)
+            return
+        }
         setShowAddressForm(true)
-    }, [addressToEdit])
+    }, [addressFormMode, shipping])
 
     return(
         <>
@@ -124,13 +99,13 @@ function AddressSelection({shipping,setShipping}){
                     <Form.Label>Shipping Address:</Form.Label>
                     <Form.Select 
                         onChange={setShippingForOrder}
-                        defaultValue={shipping.id}
+                        value={shipping.id}
                     >{addressOptions}</Form.Select>
                 </Form.Group>
                 <ButtonGroup className="w-100">
                     <Button id="edit" onClick={e => setAddressFormMode(e.target.id)}>Edit Address</Button>
                     <Button variant="danger" onClick={removeAddress}>Delete Address</Button>
-                    {shipping.shipping ? null : <Button onClick={()=>setShipping({...shipping, shipping: true})}>Make Default</Button>}
+                    {shipping.shipping ? null : <Button onClick={()=>makeDefault()}>Make Default</Button>}
                 </ButtonGroup>
                 <Button id="new" className="w-100" onClick={e => setAddressFormMode(e.target.id)}>New Address</Button>
             </Form>
@@ -138,9 +113,10 @@ function AddressSelection({shipping,setShipping}){
                 <AddressForm 
                     mode={addressFormMode}
                     address={addressToEdit}
-                    updateAddress={updateAddress}
                     showEdit={showAddressForm}
                     setShowEdit={setShowAddressForm}
+                    setAddress={setShipping}
+                    setMode={setAddressFormMode}
                 />
             : 
                 null}

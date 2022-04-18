@@ -20,7 +20,7 @@ function CheckoutForm(){
     const order = useSelector(state => state.order)
     const clientSecret = useSelector(state => state.clientSecret)
     const arts = useSelector(state => state.arts)
-    const [shipping, setShipping] = useState(0)
+    const [shipping, setShipping] = useState({})
     const user = useSelector(state => state.user)
     const {REACT_APP_BACKEND_URL} = process.env
     const dispatch = useDispatch()

@@ -1,15 +1,17 @@
-import React, {useState} from "react";
-import { Offcanvas, Form, Row, Button, ButtonGroup, ToggleButton } from "react-bootstrap";
+import React, {useEffect, useState} from "react";
+import { Offcanvas, Form, Row, Button, ToggleButton, ToggleButtonGroup } from "react-bootstrap";
 import { States } from "../../States";
 import { authenticate } from "../../slices/User";
 import { useDispatch, useSelector } from "react-redux";
+import { updateOrderItems } from "../../slices/Order";
 
-function AddressForm({mode, address, updateAddress, showEdit, setShowEdit}){
+function AddressForm({mode, address, setAddress, showEdit, setMode}){
     const [form, setForm] = useState(address)
     const [errors, setErrors] = useState({})
     const dispatch = useDispatch()
     const { REACT_APP_BACKEND_URL } = process.env
     const user = useSelector(state => state.user)
+    const order = useSelector(state => state.order)
 
     const stateOptions = States.map((state, index) => {
         return <option key={index} value={state["alpha-2"]}>{state["alpha-2"]}</option>
@@ -52,6 +54,12 @@ function AddressForm({mode, address, updateAddress, showEdit, setShowEdit}){
             errors.postal_code = "ZIP must be numerical"
         }
 
+        Object.keys(errors).forEach(key =>{
+            if(errors[key]){
+                delete errors[key]
+            }
+        })
+
         return errors
     }
 
@@ -74,8 +82,44 @@ function AddressForm({mode, address, updateAddress, showEdit, setShowEdit}){
             },
             body: addressData
         })
-        .then((data) => {data.json()})
-        .then((ret) => dispatch(authenticate({...user, addresses: [...user.addresses, ret]})))
+        .then((data) => data.json())
+        .then((ret) => {
+            dispatch(authenticate({...user, addresses: [...user.addresses, ret]}))
+            dispatch(updateOrderItems({...order, shipping_id: ret.id}))
+            setAddress(ret)
+        })
+    }
+
+    function updateAddress(){
+        const addressData = new FormData()
+        addressData.append('address_line1', form.address_line1)
+        addressData.append('address_line2', form.address_line2)
+        addressData.append('city', form.city)
+        addressData.append('state', form.state)
+        addressData.append('postal_code', form.postal_code)
+        addressData.append('country', form.country)
+        addressData.append('shipping', form.shipping)
+
+        fetch(`${REACT_APP_BACKEND_URL}/addresses/${form.id}`,{
+            method: 'PATCH',
+            headers: {
+                Accepts: 'application/json'
+            },
+            credentials: 'include',
+            body:addressData
+        })
+        .then((data) => data.json())
+        .then((ret)=>{
+            const addresses = user.addresses.map((address) => {
+                if(address.id === ret.id){
+                    return ret
+                }
+                else{
+                    return address
+                }
+            })
+            dispatch(authenticate({...user, addresses: addresses}))
+        })
     }
 
     function handleSubmit(e){
@@ -86,15 +130,16 @@ function AddressForm({mode, address, updateAddress, showEdit, setShowEdit}){
         }
         else{
             if(mode === "new"){
-                createAddress(form)
+                createAddress()
             }
             else if(mode === "edit"){
-                updateAddress(form)
+                updateAddress()
             }
         }
     }
+
     return(
-        <Offcanvas show={showEdit} onHide={() => setShowEdit(!showEdit)} placement="end">
+        <Offcanvas show={showEdit} onHide={()=>setMode("")} placement="end">
             <Form onSubmit={handleSubmit}>
                 <Row>
                     <Form.Group>
@@ -176,26 +221,19 @@ function AddressForm({mode, address, updateAddress, showEdit, setShowEdit}){
                     </Form.Group>
                 </Row>
                 <Row>
-                    <ButtonGroup>
+                    <ToggleButtonGroup type="checkbox">
                         <ToggleButton
                             id="defaultAddress"
                             type="checkbox"
-                            value={address.shipping}
-                            checked={address.shipping}
+                            value={{label: form.shipping}}
+                            checked={form.shipping}
                             onChange={(e) => {
                                 setField('shipping', e.target.checked)
                             }}
                         >
                             Default  Shipping
                         </ToggleButton>
-                        {/* <Button
-                            variant="primary"
-                            active={form.shipping}
-                            onChange={e => setField('shipping', e.target.value)}
-                        >
-                            Default Shipping
-                        </Button> */}
-                    </ButtonGroup>
+                    </ToggleButtonGroup>
                 </Row>
                 <Button type="submit">Submit</Button>
             </Form>
