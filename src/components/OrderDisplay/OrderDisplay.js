@@ -23,13 +23,34 @@ function OrderDisplay({showOrder, setShowOrder}){
                     <ListGroup.Item>
                         <Row>
                             <Col>
-                                <h3>{order.order_total}</h3>
+                                <h5>Subotal: </h5>
                             </Col>
                             <Col>
-                                <Button href="/checkout" variant="primary">Checkout</Button>
+                                <h5>{order.order_total}</h5>
                             </Col>
                         </Row>
                     </ListGroup.Item>
+                    <ListGroup.Item>
+                        <Row>
+                            <Col>
+                                <h5>Processing Fees: </h5>
+                            </Col>
+                            <Col>
+                                <h5>{order.stripe_fee}</h5>
+                            </Col>
+                        </Row>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                        <Row>
+                            <Col>
+                                <h5>Total: </h5>
+                            </Col>
+                            <Col>
+                                <h5>{order.total_with_fee}</h5>
+                            </Col>
+                        </Row>
+                    </ListGroup.Item>
+                    <Button href="/checkout" variant="primary">Checkout</Button>
                 </ListGroup>
             </Offcanvas>
         </>
