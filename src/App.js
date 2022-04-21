@@ -21,6 +21,7 @@ import AdminPanel from './components/AdminPanel/AdminPanel';
 import { setBioInfo } from './slices/Bio';
 import BioDisplay from './components/BioDisplay/BioDisplay';
 import UserPanel from './components/UserPanel/UserPanel';
+import ErrorModal from './components/ErrorModal/ErrorModal';
 
 function App() {
   const [ statuses, setStatuses ] = useState([])
@@ -28,7 +29,8 @@ function App() {
   const { REACT_APP_BACKEND_URL, REACT_APP_STRIPE_PUBLISHABLE_KEY } = process.env
   const [ ready, setReady ] = useState(false)
   const clientSecret = useSelector(state => state.clientSecret)
-  const stripePromise = loadStripe(REACT_APP_STRIPE_PUBLISHABLE_KEY) 
+  const stripePromise = loadStripe(REACT_APP_STRIPE_PUBLISHABLE_KEY)
+  const error = useSelector(state => state.error) 
   
   useEffect(() => {
     fetch(`${REACT_APP_BACKEND_URL}/statuses`)
@@ -131,6 +133,7 @@ function App() {
             />
           </Routes>
         </Container>
+        <ErrorModal/>
       </>
       :<TailSpin 
         color="#00BFFF" 
