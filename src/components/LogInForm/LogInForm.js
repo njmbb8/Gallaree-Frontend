@@ -3,6 +3,7 @@ import { Form, Button, Offcanvas } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { authenticate } from "../../slices/User";
 import { updateOrderItems } from "../../slices/Order"
+import { setError } from "../../slices/Error"
 
 function LogInForm({showSignIn, setShowSignIn}){
     const [form, setForm] = useState({})
@@ -50,7 +51,14 @@ function LogInForm({showSignIn, setShowSignIn}){
                 credentials: 'include',
                 body: formData
             })
-            .then((data) => data.json())
+            .then((data) => {
+                if(!data.ok){
+                    throw Error(data.json())
+                }
+                else{
+                    return data.json()
+                }
+            })
             .then((ret) => {
                 dispatch(authenticate(ret))
                 fetch(`${REACT_APP_BACKEND_URL}/order/${ret.active_order.id}`, {
@@ -60,6 +68,7 @@ function LogInForm({showSignIn, setShowSignIn}){
                 .then((orderData) => orderData.json())
                 .then((orderJSON) =>dispatch(updateOrderItems(orderJSON)))
             })
+            .catch((error) => dispatch(setError(error)))
         }
     }
 

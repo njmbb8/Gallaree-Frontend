@@ -6,6 +6,7 @@ import { remove } from "../../slices/Arts"
 import { updateOrderItems } from "../../slices/Order";
 import ArtForm from "../ArtForm/ArtForm";
 import './ArtDisplay.css'
+import { setError } from "../../slices/Error"
 
 function ArtDisplay({ statuses }){
     const { REACT_APP_BACKEND_URL } = process.env
@@ -24,9 +25,14 @@ function ArtDisplay({ statuses }){
             method: 'DELETE',
             credentials: 'include'
         })
-        .then(() => {
-            navigate('/')
-            dispatch(remove(art))
+        .then((data)=>{
+            if(data.ok){                
+                navigate('/')
+                dispatch(remove(art))
+            }
+            else{
+                dispatch(setError(data.json()))
+            }
         })
     }
 
@@ -40,8 +46,16 @@ function ArtDisplay({ statuses }){
             credentials: 'include',
             body: sendData
         })
-        .then((data) => data.json())
+        .then((data) => {
+            if(!data.ok){
+                throw Error(data.json())
+            }
+            else{
+                return data.json()
+            }
+        })
         .then((order) => dispatch(updateOrderItems(order)))
+        .catch((error) => dispatch(setError(error)))
     }
     
     return(

@@ -7,6 +7,7 @@ import LogInForm from "../LogInForm/LogInForm";
 import OrderDisplay from "../OrderDisplay/OrderDisplay";
 import { signOut } from "../../slices/User"
 import { useNavigate } from "react-router-dom";
+import { setError } from "../../slices/Error"
 
 function Navigation(){
     const { REACT_APP_BACKEND_URL } = process.env
@@ -39,7 +40,14 @@ function Navigation(){
             credentials: 'include',
             method: "DELETE"
         })
-        .then(() => dispatch(signOut()))
+        .then((data) => {
+            if(!data.ok){
+                dispatch(setError("Ran into a problem while signing you out"))
+            }
+            else{
+                dispatch(signOut())
+            }
+        })
     }
 
     function goToUserPanel(e){

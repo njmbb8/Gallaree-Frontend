@@ -4,6 +4,7 @@ import { Form, Button, Row, Col, Image } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { update, addNew } from "../../slices/Arts"
+import { setError } from "../../slices/Error"
 import './ArtForm.css'
 
 function ArtForm({statuses, mode, setEdit}){
@@ -76,11 +77,19 @@ function ArtForm({statuses, mode, setEdit}){
                     body: formData,
                     credentials: "include"
                 })
-                .then((data) => data.json())
+                .then((data) => {
+                    if(!data.ok){
+                        throw Error(data.json())
+                    }
+                    else{
+                        return data.json()
+                    }
+                })
                 .then((ret)=>{
                     navigate('/')
                     dispatch(addNew(ret))
                 })
+                .catch((error) => dispatch(setError(error)))
             }
             else if(mode === 'edit'){
                 fetch(`${REACT_APP_BACKEND_URL }/arts/${art.id}`, {
@@ -88,11 +97,19 @@ function ArtForm({statuses, mode, setEdit}){
                     body: formData,
                     credentials: "include"
                 })
-                .then((data) => data.json())
+                .then((data) => {
+                    if(!data.ok){
+                        throw Error(data.json())
+                    }
+                    else{
+                        return data.json()
+                    }
+                })
                 .then((ret)=>{
                     navigate('/')
                     dispatch(update(ret))
                 })
+                .catch((error) => dispatch(setError(error)))
             }
         }
     }

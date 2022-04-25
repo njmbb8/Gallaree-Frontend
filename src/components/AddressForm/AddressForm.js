@@ -4,6 +4,7 @@ import { States } from "../../States";
 import { authenticate } from "../../slices/User";
 import { useDispatch, useSelector } from "react-redux";
 import { updateOrderItems } from "../../slices/Order";
+import { setError } from "../../slices/Error"
 
 function AddressForm({mode, address, setAddress, showEdit, setMode}){
     const [form, setForm] = useState(address)
@@ -82,12 +83,20 @@ function AddressForm({mode, address, setAddress, showEdit, setMode}){
             },
             body: addressData
         })
-        .then((data) => data.json())
+        .then((data) => {
+            if(!data.ok){
+                throw Error(data.json())
+            }
+            else{
+                return data.json()
+            }
+        })
         .then((ret) => {
             dispatch(authenticate({...user, addresses: [...user.addresses, ret]}))
             dispatch(updateOrderItems({...order, shipping_id: ret.id}))
             setAddress(ret)
         })
+        .catch((error) => dispatch(setError(error)))
     }
 
     function updateAddress(){
@@ -108,7 +117,14 @@ function AddressForm({mode, address, setAddress, showEdit, setMode}){
             credentials: 'include',
             body:addressData
         })
-        .then((data) => data.json())
+        .then((data) => {
+            if(!data.ok){
+                throw Error(data.json())
+            }
+            else{
+                return data.json()
+            }
+        })
         .then((ret)=>{
             const addresses = user.addresses.map((address) => {
                 if(address.id === ret.id){
@@ -120,6 +136,7 @@ function AddressForm({mode, address, setAddress, showEdit, setMode}){
             })
             dispatch(authenticate({...user, addresses: addresses}))
         })
+        .catch((error) => dispatch(setError(error)))
     }
 
     function handleSubmit(e){

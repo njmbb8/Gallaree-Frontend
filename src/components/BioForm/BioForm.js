@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Form, Image, Row, Button } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setBioInfo } from "../../slices/Bio"
+import { setError } from "../../slices/Error"
 
 function BioForm(){
     const {REACT_APP_BACKEND_URL} = process.env
@@ -9,6 +11,7 @@ function BioForm(){
     const [form, setForm] = useState({})//useState(bio === {} ? {} : bio)
     const [errors, setErrors] = useState({})
     const [changePhoto, setChangePhoto] = useState(false)
+    const dispatch = useDispatch()
 
     function setField(field, value){
         setForm({
@@ -64,6 +67,16 @@ function BioForm(){
                 credentials: 'include',
                 body: formData
             })
+            .then((data) => {
+                if(!data.ok){
+                    throw Error(data.json())
+                }
+                else{
+                    return data.json()
+                }
+            })
+            .then((ret) => dispatch(setBioInfo(ret)))
+            .then((error) => dispatch((setError(error))))
         }
     }
 

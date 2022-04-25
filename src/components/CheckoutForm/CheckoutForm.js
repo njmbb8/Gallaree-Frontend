@@ -11,6 +11,7 @@ import AddressSelection from "../AddressSelection/AddressSelection";
 import { authenticate } from "../../slices/User";
 import { updateOrderItems } from "../../slices/Order";
 import { setClientSecret } from "../../slices/ClientSecret";
+import { setError } from "../../slices/Error"
 
 function CheckoutForm(){
     const stripe = useStripe()
@@ -34,6 +35,12 @@ function CheckoutForm(){
                     address_id: shipping.id
                 })
             })
+            .then((data) => {
+                if(!data.ok){
+                    throw Error(data.json())
+                }
+            })
+            .catch((error) => dispatch(setError(error)))
         }
     }, [])
 
@@ -61,7 +68,14 @@ function CheckoutForm(){
                   method: "POST",
                   credentials: 'include'
                 })
-                .then((data) => data.json())
+                .then((data) => {
+                    if(!data.ok){
+                        throw Error(data.json())
+                    }
+                    else{
+                        return data.json()
+                    }
+                })
                 .then((ret) => {
                   fetch(`${REACT_APP_BACKEND_URL}/order/${user.active_order.id}`, {
                     method: 'PATCH',
@@ -71,12 +85,19 @@ function CheckoutForm(){
                     },
                     body: JSON.stringify({...user.active_order, payment_intent: ret.payment_intent})
                   })
+                  .then((data) => {
+                      if(!data.ok){
+                          throw Error(data.json())
+                      }
+                  })
                   .then(()=>{
                       dispatch(authenticate({...user, active_order: {...user.active_order, payment_intent: ret.payment_intent}}))
                       dispatch(updateOrderItems({...order, payment_intent: ret.payment_intent}))
                       dispatch(setClientSecret(ret.clientSecret))
                   })
-                })      
+                  .catch((error) => dispatch(setError(error)))
+                })
+                .catch((error) => dispatch(setError(error)))      
             }
             switch (paymentIntent.status) {
                 case "succeeded":
@@ -107,7 +128,7 @@ function CheckoutForm(){
         const { error } = await stripe.confirmPayment({
             elements,
             confirmParams: {
-                return_url: `http://localhost:3000/success/${order.id}`
+                return_url: `${REACT_APP_BACKEND_URL}/success/${order.id}`
             }
         })
 

@@ -18,12 +18,17 @@ function Confirmation(){
             method: 'PATCH',
             body: formData
         })
+        .then((data) => {
+            if(!data.ok){
+                throw Error(data.json())
+            }
+        })
         .then(() => {
             setSuccess(true)
             setRender(true)
         })
         .catch((data) => {
-            setErrorText(JSON.stringify(data))
+            setErrorText(data.error)
             setRender(true)
         })
     }, [REACT_APP_BACKEND_URL, params])

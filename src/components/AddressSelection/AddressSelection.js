@@ -4,6 +4,7 @@ import { Button, ButtonGroup, Form } from "react-bootstrap";
 import { authenticate } from "../../slices/User";
 import AddressForm from "../AddressForm/AddressForm";
 import { updateOrderItems } from "../../slices/Order";
+import { setError } from "../../slices/Error"
 
 function AddressSelection({shipping,setShipping}){
     const user = useSelector(state => state.user)
@@ -46,11 +47,19 @@ function AddressSelection({shipping,setShipping}){
             credentials: 'include',
             body: orderData
         })
-        .then((data) => data.json())
+        .then((data) => {
+            if(!data.ok){
+                throw Error(data.json())
+            }
+            else{
+                return data.json()
+            }
+        })
         .then((ret) => {
             dispatch(updateOrderItems(ret))
             dispatch(authenticate({...user, active_order: ret}))
         })
+        .catch((error) => dispatch(setError(error)))
     }
 
     function removeAddress(){
@@ -58,9 +67,14 @@ function AddressSelection({shipping,setShipping}){
             method: 'DELETE',
             credentials: 'include',
         })
-        .then(()=>{
-            const addresses = user.addresses.filter((address) => address.id !== shipping.id)
-            dispatch(authenticate({...user, addresses: addresses}))
+        .then((data)=>{
+            if(data.ok){
+                const addresses = user.addresses.filter((address) => address.id !== shipping.id)
+                dispatch(authenticate({...user, addresses: addresses}))
+            }
+            else{
+                dispatch(setError(data.json()))
+            }
         })
     }
 
@@ -72,10 +86,18 @@ function AddressSelection({shipping,setShipping}){
             credentials: 'include',
             body: shippingData
         })
-        .then((data) => data.json())
+        .then((data) => {
+            if(!data.ok){
+                throw Error(data.json())
+            }
+            else{
+                return data.json()
+            }
+        })
         .then((ret)=>{
             setShipping(ret)
         })
+        .catch((error) => dispatch(setError(error)))
     }
 
     useEffect(()=>{

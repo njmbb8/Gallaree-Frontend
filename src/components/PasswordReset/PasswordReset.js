@@ -2,12 +2,15 @@ import React from "react";
 import { Form, Row, Col, Button } from "react-bootstrap";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setError } from "../../slices/Error"
 
 function PasswordReset(){
     const [form, setForm] = useState({})
     const [ errors, setErrors ] = useState({})
     const params = useParams()
     const { REACT_APP_BACKEND_URL } = process.env
+    const dispatch = useDispatch()
 
     function findErrors(){
         const { password, password_confirmation } = form
@@ -49,6 +52,12 @@ function PasswordReset(){
                 method: 'PATCH',
                 body: formData
             })
+            .then((data) => {
+                if(!data.ok){
+                    throw Error(data.json())
+                }
+            })
+            .catch((error)=>dispatch(setError(error)))
         }
     }
 

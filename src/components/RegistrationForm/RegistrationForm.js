@@ -3,6 +3,7 @@ import { Form, Row, Col, Button, Offcanvas } from "react-bootstrap";
 import { States } from "../../States";
 import { useDispatch } from "react-redux";
 import { authenticate } from "../../slices/User";
+import { setError } from "../../slices/Error"
 
 function RegistrationForm({ showRegister, setShowRegister }){
 
@@ -88,8 +89,6 @@ function RegistrationForm({ showRegister, setShowRegister }){
                 }
             }
 
-
-
             fetch(`${REACT_APP_BACKEND_URL }/register`, {
                 method: 'POST',
                 headers: { 
@@ -98,8 +97,16 @@ function RegistrationForm({ showRegister, setShowRegister }){
                 },
                 body: JSON.stringify(formData)
             })
-            .then((data) => data.json())
+            .then((data) => {
+                if(!data.ok){
+                    throw Error(data.json())
+                }
+                else{
+                    return data.json()
+                }
+            })
             .then((ret) => dispatch(authenticate(ret)))
+            .catch((error) => dispatch(setError(error)))
         }
     }
 

@@ -10,5 +10,5 @@ const slice = createSlice({
     }
 })
 
-export const { setClientSecret } = slice.actions
+export const { setError } = slice.actions
 export default slice.reducer
