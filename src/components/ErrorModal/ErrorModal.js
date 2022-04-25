@@ -7,13 +7,13 @@ function ErrorModal(){
     const error = useSelector(state => state.error)
     const dispatch = useDispatch()
     return(
-        <Modal show={error.length > 0} onHide={dispatch(setError(''))}>
+        <Modal show={error.length > 0} onHide={() => dispatch(setError(''))}>
             <Modal.Header closeButton>
                 <Modal.Title>Error</Modal.Title>
             </Modal.Header>
             <Modal.Body>{error.error}</Modal.Body>
             <Modal.Footer>
-                <Button variant="primary" onClick={dispatch(setError(''))}>
+                <Button variant="primary" onClick={() => dispatch(setError(''))}>
                     Ok
                 </Button>
             </Modal.Footer>
