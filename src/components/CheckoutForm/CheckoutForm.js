@@ -27,7 +27,7 @@ function CheckoutForm(){
     const dispatch = useDispatch()
 
     useEffect(()=>{
-        if(user.active_order.payment_intent!==null){
+        if(user.active_order.payment_intent){
             fetch(`${REACT_APP_BACKEND_URL}/payment_intent/${user.active_order.id}`, {
                 method: 'PATCH',
                 credentials: 'include',
@@ -41,6 +41,45 @@ function CheckoutForm(){
                 }
             })
             .catch((error) => dispatch(setError(error)))
+        }
+
+        if(!clientSecret){
+            fetch(`${REACT_APP_BACKEND_URL}/payment_intent/`, {
+                method: 'POST',
+                credentials: 'include'
+            })
+            .then((data)=>{
+                if(data.ok){
+                    return data.json()
+                }
+                else{
+                    throw Error(data.json())
+                }
+            })
+            .then((ret)=>{
+                if(user.active_order.payment_intent !== ret.payment_intent){
+                    fetch(`${REACT_APP_BACKEND_URL}/order/${order.id}`, {
+                        method: 'PATCH',
+                        credentials: 'include',
+                        body: JSON.stringify({...order, payment_intent: ret.payment_intent})
+                    })
+                    .then((data)=>{
+                        if(!data.ok){
+                            throw Error(data.json())
+                        }
+                        else{
+                            return data.json()
+                        }
+                    })
+                    .then((r) => {
+                        dispatch(authenticate({...user, active_order: r}))
+                        dispatch(updateOrderItems({r}))
+                    })
+                    .catch((error) => dispatch(setError(error.error)))
+                }
+                dispatch(setClientSecret(ret.clientSecret))
+            })
+            .catch((error) => dispatch(setError(error.error)))
         }
     }, [])
 
@@ -63,42 +102,47 @@ function CheckoutForm(){
         }
 
         stripe.retrievePaymentIntent(clientSecret).then(({paymentIntent}) => {
-            if(order.payment_intent === null || paymentIntent.id !== order.payment_intent){
-                fetch(`${REACT_APP_BACKEND_URL}/payment_intent`, {
-                  method: "POST",
-                  credentials: 'include'
-                })
-                .then((data) => {
-                    if(!data.ok){
-                        throw Error(data.json())
-                    }
-                    else{
-                        return data.json()
-                    }
-                })
-                .then((ret) => {
-                  fetch(`${REACT_APP_BACKEND_URL}/order/${user.active_order.id}`, {
-                    method: 'PATCH',
-                    credentials: 'include',
-                    headers: {
-                      "Content-type": "application/json"
-                    },
-                    body: JSON.stringify({...user.active_order, payment_intent: ret.payment_intent})
-                  })
-                  .then((data) => {
-                      if(!data.ok){
-                          throw Error(data.json())
-                      }
-                  })
-                  .then(()=>{
-                      dispatch(authenticate({...user, active_order: {...user.active_order, payment_intent: ret.payment_intent}}))
-                      dispatch(updateOrderItems({...order, payment_intent: ret.payment_intent}))
-                      dispatch(setClientSecret(ret.clientSecret))
-                  })
-                  .catch((error) => dispatch(setError(error)))
-                })
-                .catch((error) => dispatch(setError(error)))      
-            }
+            // if(order.payment_intent === null || paymentIntent.id !== order.payment_intent){
+            //     fetch(`${REACT_APP_BACKEND_URL}/payment_intent`, {
+            //       method: "POST",
+            //       credentials: 'include'
+            //     })
+            //     .then((data) => {
+            //         if(!data.ok){
+            //             throw Error(data.json())
+            //         }
+            //         else{
+            //             return data.json()
+            //         }
+            //     })
+            //     .then((ret) => {
+            //       fetch(`${REACT_APP_BACKEND_URL}/order/${user.active_order.id}`, {
+            //         method: 'PATCH',
+            //         credentials: 'include',
+            //         headers: {
+            //           "Content-type": "application/json"
+            //         },
+            //         body: JSON.stringify({...user.active_order, payment_intent: ret.payment_intent})
+            //       })
+            //       .then((data) => {
+            //           if(!data.ok){
+            //               throw Error(data.json())
+            //           }
+            //           else{
+            //               return data.json()
+            //           }
+            //       })
+            //       .then((ret) => {
+            //         dispatch(authenticate({...user, active_order: {...user.active_order, payment_intent: ret.payment_intent}}))
+            //         dispatch(updateOrderItems({...order, payment_intent: ret.payment_intent}))
+            //       })
+            //       .catch((error) => dispatch(setError(error)))
+            //     })
+            //     .then((ret)=>{
+            //         dispatch(setClientSecret(ret.clientSecret))
+            //     })
+            //     .catch((error) => dispatch(setError(error)))      
+            // }
             switch (paymentIntent.status) {
                 case "succeeded":
                     setMessage("Payment succeeded!");
