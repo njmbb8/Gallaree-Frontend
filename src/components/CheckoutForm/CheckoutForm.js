@@ -8,9 +8,6 @@ import {
 import { Col, Row, ListGroup } from "react-bootstrap";
 import OrderItem from "../OrderItem/OrderItem";
 import AddressSelection from "../AddressSelection/AddressSelection";
-import { authenticate } from "../../slices/User";
-import { updateOrderItems } from "../../slices/Order";
-import { setClientSecret } from "../../slices/ClientSecret";
 import { setError } from "../../slices/Error"
 
 function CheckoutForm(){
@@ -42,45 +39,6 @@ function CheckoutForm(){
             })
             .catch((error) => dispatch(setError(error)))
         }
-
-        if(!clientSecret){
-            fetch(`${REACT_APP_BACKEND_URL}/payment_intent/`, {
-                method: 'POST',
-                credentials: 'include'
-            })
-            .then((data)=>{
-                if(data.ok){
-                    return data.json()
-                }
-                else{
-                    throw Error(data.json())
-                }
-            })
-            .then((ret)=>{
-                if(user.active_order.payment_intent !== ret.payment_intent){
-                    fetch(`${REACT_APP_BACKEND_URL}/order/${order.id}`, {
-                        method: 'PATCH',
-                        credentials: 'include',
-                        body: JSON.stringify({...order, payment_intent: ret.payment_intent})
-                    })
-                    .then((data)=>{
-                        if(!data.ok){
-                            throw Error(data.json())
-                        }
-                        else{
-                            return data.json()
-                        }
-                    })
-                    .then((r) => {
-                        dispatch(authenticate({...user, active_order: r}))
-                        dispatch(updateOrderItems({r}))
-                    })
-                    .catch((error) => dispatch(setError(error.error)))
-                }
-                dispatch(setClientSecret(ret.clientSecret))
-            })
-            .catch((error) => dispatch(setError(error.error)))
-        }
     }, [])
 
     const itemRows = order.order_items.map((item) => {
@@ -102,47 +60,6 @@ function CheckoutForm(){
         }
 
         stripe.retrievePaymentIntent(clientSecret).then(({paymentIntent}) => {
-            // if(order.payment_intent === null || paymentIntent.id !== order.payment_intent){
-            //     fetch(`${REACT_APP_BACKEND_URL}/payment_intent`, {
-            //       method: "POST",
-            //       credentials: 'include'
-            //     })
-            //     .then((data) => {
-            //         if(!data.ok){
-            //             throw Error(data.json())
-            //         }
-            //         else{
-            //             return data.json()
-            //         }
-            //     })
-            //     .then((ret) => {
-            //       fetch(`${REACT_APP_BACKEND_URL}/order/${user.active_order.id}`, {
-            //         method: 'PATCH',
-            //         credentials: 'include',
-            //         headers: {
-            //           "Content-type": "application/json"
-            //         },
-            //         body: JSON.stringify({...user.active_order, payment_intent: ret.payment_intent})
-            //       })
-            //       .then((data) => {
-            //           if(!data.ok){
-            //               throw Error(data.json())
-            //           }
-            //           else{
-            //               return data.json()
-            //           }
-            //       })
-            //       .then((ret) => {
-            //         dispatch(authenticate({...user, active_order: {...user.active_order, payment_intent: ret.payment_intent}}))
-            //         dispatch(updateOrderItems({...order, payment_intent: ret.payment_intent}))
-            //       })
-            //       .catch((error) => dispatch(setError(error)))
-            //     })
-            //     .then((ret)=>{
-            //         dispatch(setClientSecret(ret.clientSecret))
-            //     })
-            //     .catch((error) => dispatch(setError(error)))      
-            // }
             switch (paymentIntent.status) {
                 case "succeeded":
                     setMessage("Payment succeeded!");
@@ -172,7 +89,7 @@ function CheckoutForm(){
         const { error } = await stripe.confirmPayment({
             elements,
             confirmParams: {
-                return_url: `${REACT_APP_BACKEND_URL}/success/${order.id}`
+                return_url: `/success/${order.id}`
             }
         })
 

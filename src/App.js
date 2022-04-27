@@ -22,6 +22,8 @@ import { setBioInfo } from './slices/Bio';
 import BioDisplay from './components/BioDisplay/BioDisplay';
 import UserPanel from './components/UserPanel/UserPanel';
 import ErrorModal from './components/ErrorModal/ErrorModal';
+import { setError } from './slices/Error';
+import { setClientSecret } from './slices/ClientSecret';
 
 function App() {
   const [ statuses, setStatuses ] = useState([])
@@ -30,6 +32,98 @@ function App() {
   const [ ready, setReady ] = useState(false)
   const clientSecret = useSelector(state => state.clientSecret)
   const stripePromise = loadStripe(REACT_APP_STRIPE_PUBLISHABLE_KEY)
+  const user = useSelector(state => state.user)
+  const order = useSelector(state => state.order)
+
+  useEffect(() => {
+    if(Object.entries(user).length > 0){
+      fetch(`${REACT_APP_BACKEND_URL}/order/${user.active_order.id}`, {
+        method: 'GET',
+        credentials: 'include'
+      })
+      .then((orderData) => orderData.json())
+      .then((orderJSON) =>dispatch(updateOrderItems(orderJSON)))
+      if(!clientSecret && Object.entries(user).length > 0){
+        fetch(`${REACT_APP_BACKEND_URL}/payment_intent/`, {
+            method: 'POST',
+            credentials: 'include'
+        })
+        .then((data)=>{
+            if(data.ok){
+                return data.json()
+            }
+            else{
+                throw Error(data.json())
+            }
+        })
+        .then((ret)=>{
+            if(user.active_order.payment_intent !== ret.payment_intent){
+                fetch(`${REACT_APP_BACKEND_URL}/order/${order.id}`, {
+                    method: 'PATCH',
+                    credentials: 'include',
+                    body: JSON.stringify({...order, payment_intent: ret.payment_intent})
+                })
+                .then((data)=>{
+                    if(!data.ok){
+                        throw Error(data.json())
+                    }
+                    else{
+                        return data.json()
+                    }
+                })
+                .then((r) => {
+                    dispatch(authenticate({...user, active_order: r}))
+                    dispatch(updateOrderItems(r))
+                })
+                .catch((error) => dispatch(setError(error.error)))
+            }
+            dispatch(setClientSecret(ret.clientSecret))
+        })
+        .catch((error) => dispatch(setError(error.error)))
+      }
+    }
+  }, [user])
+
+  // useEffect(()=>{
+  //   if(!clientSecret && Object.entries(user) > 0){
+  //     fetch(`${REACT_APP_BACKEND_URL}/payment_intent/`, {
+  //         method: 'POST',
+  //         credentials: 'include'
+  //     })
+  //     .then((data)=>{
+  //         if(data.ok){
+  //             return data.json()
+  //         }
+  //         else{
+  //             throw Error(data.json())
+  //         }
+  //     })
+  //     .then((ret)=>{
+  //         if(user.active_order.payment_intent !== ret.payment_intent){
+  //             fetch(`${REACT_APP_BACKEND_URL}/order/${order.id}`, {
+  //                 method: 'PATCH',
+  //                 credentials: 'include',
+  //                 body: JSON.stringify({...order, payment_intent: ret.payment_intent})
+  //             })
+  //             .then((data)=>{
+  //                 if(!data.ok){
+  //                     throw Error(data.json())
+  //                 }
+  //                 else{
+  //                     return data.json()
+  //                 }
+  //             })
+  //             .then((r) => {
+  //                 dispatch(authenticate({...user, active_order: r}))
+  //                 dispatch(updateOrderItems(r))
+  //             })
+  //             .catch((error) => dispatch(setError(error.error)))
+  //         }
+  //         dispatch(setClientSecret(ret.clientSecret))
+  //     })
+  //     .catch((error) => dispatch(setError(error.error)))
+  //   }
+  // }, [])
   
   useEffect(() => {
     fetch(`${REACT_APP_BACKEND_URL}/statuses`)

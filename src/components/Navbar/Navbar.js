@@ -84,7 +84,7 @@ function Navigation(){
                                     >
                                             {user.firstname}
                                     </Navbar.Text>
-                                    {!user.admin ? <Navbar.Text onMouseOver={(e)=> e.target.style.cursor = 'pointer'} onClick={expandOrder}>({order.order_items.length})</Navbar.Text> : null}
+                                    {!user.admin ? <Navbar.Text onMouseOver={(e)=> e.target.style.cursor = 'pointer'} onClick={expandOrder}>({Object.entries(order).length > 0 ? order.order_items.length : null})</Navbar.Text> : null}
                                     <Nav.Link href={'/#'} onClick={handleSignOut} >Sign Out</Nav.Link>
                                 </>
                                 :
