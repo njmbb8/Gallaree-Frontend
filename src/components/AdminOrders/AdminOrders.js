@@ -9,7 +9,10 @@ function AdminOrders(){
     const dispatch = useDispatch()
 
     useEffect(()=>{
-        fetch(`${REACT_APP_BACKEND_URL}/order`)
+        fetch(`${REACT_APP_BACKEND_URL}/order`, {
+            method: 'GET',
+            credentials: 'include'
+        })
         .then((data)=>{
             if(!data.ok){
                 throw Error(data.json())
