@@ -32,7 +32,7 @@ function ArtForm({statuses, mode, setEdit}){
     }
 
     function findErrors(){
-        const { title, price, status_id, photo } = form
+        const { title, price, status_id, photo, length, height, weight, width} = form
         const foundErrors = {}
 
         if(!title || title === '') foundErrors.title = 'Give it a title!'
@@ -42,6 +42,14 @@ function ArtForm({statuses, mode, setEdit}){
         if((!price || price <= 0) && status_id !== 1) foundErrors.price = 'Set a Price!'
 
         if(!status_id || status_id === 0) foundErrors.status_id = 'Pick a status for the art'
+
+        if((!length || length <= 0)) foundErrors.length = 'Set a legnth!'
+
+        if((!height || height <= 0)) foundErrors.height = 'Set a height!'
+
+        if((!weight || weight <= 0)) foundErrors.weight = 'Set a weight!'
+
+        if((!width || width <= 0)) foundErrors.width = 'Set a width!'
 
         return foundErrors
     }
@@ -69,6 +77,10 @@ function ArtForm({statuses, mode, setEdit}){
             formData.append('price', form['price'])
             formData.append('status_id', form['status_id'])
             formData.append('quantity', form['quantity'])
+            formData.append('length', form['length'])
+            formData.append('height', form['height'])
+            formData.append('width', form['width'])
+            formData.append('weight', form['weight'])
             if(changePhoto) formData.append('photo', form['photo'])
     
             if(mode === 'upload'){
@@ -135,7 +147,7 @@ function ArtForm({statuses, mode, setEdit}){
                         { errors.photo }
                     </Form.Control.Feedback>
                 </Form.Group>
-                <Row>
+                {/* <Row>
                     <Form.Group as={Col}>
                         <Form.Label>Title</Form.Label>
                         <Form.Control 
@@ -148,7 +160,7 @@ function ArtForm({statuses, mode, setEdit}){
                             {errors.title}
                         </Form.Control.Feedback>
                     </Form.Group>
-                </Row>
+                </Row> */}
                 <Row>
                     <Form.Group as={Col}>
                         <Form.Label>Price</Form.Label>
@@ -185,6 +197,56 @@ function ArtForm({statuses, mode, setEdit}){
                         />
                         <Form.Control.Feedback type='invalid'>
                             {errors.quantity}
+                        </Form.Control.Feedback>
+                    </Form.Group>
+                </Row>
+                <Row>
+                    <Form.Group as={Col}>
+                        <Form.Label>Length</Form.Label>
+                        <Form.Control
+                            type="number"
+                            onChange={e => setField('length', e.target.value)}
+                            isInvalid={!!errors.length}
+                            value={form["length"]}
+                        />
+                        <Form.Control.Feedback type='invalid'>
+                            {errors.length}
+                        </Form.Control.Feedback>
+                    </Form.Group>
+                    <Form.Group as={Col}>
+                        <Form.Label>Height</Form.Label>
+                        <Form.Control
+                            type="number"
+                            onChange={e => setField('height', e.target.value)}
+                            isInvalid={!!errors.length}
+                            value={form["height"]}
+                        />
+                        <Form.Control.Feedback type='invalid'>
+                            {errors.height}
+                        </Form.Control.Feedback>
+                    </Form.Group>
+                    <Form.Group as={Col}>
+                        <Form.Label>Width</Form.Label>
+                        <Form.Control
+                            type="number"
+                            onChange={e => setField('width', e.target.value)}
+                            isInvalid={!!errors.width}
+                            value={form["width"]}
+                        />
+                        <Form.Control.Feedback type='invalid'>
+                            {errors.width}
+                        </Form.Control.Feedback>
+                    </Form.Group>
+                    <Form.Group as={Col}>
+                        <Form.Label>Weight</Form.Label>
+                        <Form.Control
+                            type="number"
+                            onChange={e => setField('weight', e.target.value)}
+                            isInvalid={!!errors.length}
+                            value={form["weight"]}
+                        />
+                        <Form.Control.Feedback type='invalid'>
+                            {errors.weight}
                         </Form.Control.Feedback>
                     </Form.Group>
                 </Row>
