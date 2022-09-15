@@ -131,6 +131,8 @@ function ArtForm({statuses, mode, setEdit}){
         setEdit(false)
     }
 
+    
+
     return (
         <>
             <h1>{mode.charAt(0).toUpperCase() + mode.slice(1)} an art!</h1>
@@ -147,7 +149,7 @@ function ArtForm({statuses, mode, setEdit}){
                         { errors.photo }
                     </Form.Control.Feedback>
                 </Form.Group>
-                {/* <Row>
+                <Row>
                     <Form.Group as={Col}>
                         <Form.Label>Title</Form.Label>
                         <Form.Control 
@@ -160,7 +162,7 @@ function ArtForm({statuses, mode, setEdit}){
                             {errors.title}
                         </Form.Control.Feedback>
                     </Form.Group>
-                </Row> */}
+                </Row>
                 <Row>
                     <Form.Group as={Col}>
                         <Form.Label>Price</Form.Label>
@@ -179,6 +181,7 @@ function ArtForm({statuses, mode, setEdit}){
                         <Form.Select 
                             onChange={ e => setField('status_id', e.target.value)}
                             isInvalid={!!errors.status_id}
+                            value={form["status_id"]}
                         >
                             <option value={0}>Select a Status</option>
                             {statusOptions}
