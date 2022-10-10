@@ -82,7 +82,7 @@ function Navigation(){
                                         onClick={!user.admin ? goToUserPanel : null}
                                         onMouseOver={(e) => e.target.style.cursor = (!user.admin ? 'pointer' : 'default')}   
                                     >
-                                            {user.firstname}
+                                            {user.stripe_info.name}
                                     </Navbar.Text>
                                     {!user.admin ? <Navbar.Text onMouseOver={(e)=> e.target.style.cursor = 'pointer'} onClick={expandOrder}>({Object.entries(order).length > 0 ? order.order_items.length : null})</Navbar.Text> : null}
                                     <Nav.Link href={'/#'} onClick={handleSignOut} >Sign Out</Nav.Link>

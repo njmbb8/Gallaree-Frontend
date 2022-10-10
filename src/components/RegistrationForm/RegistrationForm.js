@@ -73,7 +73,7 @@ function RegistrationForm({ showRegister, setShowRegister }){
 
     function handleSubmit(e){
         e.preventDefault()
-        const foundErrors = {}//findErrors()
+        const foundErrors = findErrors()
 
         if( Object.keys(foundErrors).length > 0){
             setErrors(foundErrors)
@@ -102,6 +102,7 @@ function RegistrationForm({ showRegister, setShowRegister }){
 
             fetch(`${REACT_APP_BACKEND_URL }/register`, {
                 method: 'POST',
+                credentials: 'include',
                 body: formData
             })
             .then((data) => {

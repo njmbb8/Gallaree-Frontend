@@ -22,8 +22,6 @@ import { setBioInfo } from './slices/Bio';
 import BioDisplay from './components/BioDisplay/BioDisplay';
 import UserPanel from './components/UserPanel/UserPanel';
 import ErrorModal from './components/ErrorModal/ErrorModal';
-import { setError } from './slices/Error';
-import { setClientSecret } from './slices/ClientSecret';
 
 function App() {
   const [ statuses, setStatuses ] = useState([])
@@ -33,7 +31,6 @@ function App() {
   const clientSecret = useSelector(state => state.clientSecret)
   const stripePromise = loadStripe(REACT_APP_STRIPE_PUBLISHABLE_KEY)
   const user = useSelector(state => state.user)
-  const order = useSelector(state => state.order)
 
   useEffect(() => {
     if(Object.entries(user).length > 0){
@@ -44,50 +41,7 @@ function App() {
       .then((orderData) => orderData.json())
       .then((orderJSON) =>dispatch(updateOrderItems(orderJSON)))
     }
-  }, [user])
-
-  useEffect(()=>{
-    if(!clientSecret && Object.entries(user).length > 0){
-      fetch(`${REACT_APP_BACKEND_URL}/payment_intent/`, {
-          method: 'POST',
-          credentials: 'include'
-      })
-      .then((data)=>{
-          if(data.ok){
-              return data.json()
-          }
-          else{
-              throw Error(data.json())
-          }
-      })
-      .then((ret)=>{
-          const payment_intent = new FormData()
-          payment_intent.append('payment_intent', ret.payment_intent)
-          if(user.active_order.payment_intent !== ret.payment_intent){
-              fetch(`${REACT_APP_BACKEND_URL}/order/${order.id}`, {
-                  method: 'PATCH',
-                  credentials: 'include',
-                  body: payment_intent
-              })
-              .then((data)=>{
-                  if(!data.ok){
-                      throw Error(data.json())
-                  }
-                  else{
-                      return data.json()
-                  }
-              })
-              .then((r) => {
-                  dispatch(authenticate({...user, active_order: r}))
-                  dispatch(updateOrderItems(r))
-              })
-              .catch((error) => dispatch(setError(error.error)))
-          }
-          dispatch(setClientSecret(ret.clientSecret))
-      })
-      .catch((error) => dispatch(setError(error.error)))
-    }
-  }, [order])
+  }, [user, REACT_APP_BACKEND_URL, dispatch])
   
   useEffect(() => {
     fetch(`${REACT_APP_BACKEND_URL}/statuses`)
@@ -110,7 +64,7 @@ function App() {
     .then((ret) => {
       dispatch(setBioInfo(ret))
     })
-  }, [REACT_APP_BACKEND_URL])
+  }, [REACT_APP_BACKEND_URL, dispatch])
   
   useEffect(()=>{
     if(!!document.cookie.split('; ').find(row => row.startsWith('user_id='))){
