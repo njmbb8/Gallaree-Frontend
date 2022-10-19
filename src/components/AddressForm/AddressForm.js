@@ -1,260 +1,76 @@
-import React, {useEffect, useState} from "react";
-import { Offcanvas, Form, Row, Button, ToggleButton, ToggleButtonGroup } from "react-bootstrap";
+import React, {useState} from "react";
+import { Col, Form, Row, } from "react-bootstrap";
 import { States } from "../../States";
 import { authenticate } from "../../slices/User";
 import { useDispatch, useSelector } from "react-redux";
 import { updateOrderItems } from "../../slices/Order";
 import { setError } from "../../slices/Error"
 
-function AddressForm({mode, address, setAddress, showEdit, setMode}){
-    const [form, setForm] = useState(address)
-    const [errors, setErrors] = useState({})
-    const dispatch = useDispatch()
-    const { REACT_APP_BACKEND_URL } = process.env
-    const user = useSelector(state => state.user)
-    const order = useSelector(state => state.order)
-
+function AddressForm({ address, setAddress }){
     const stateOptions = States.map((state, index) => {
         return <option key={index} value={state["alpha-2"]}>{state["alpha-2"]}</option>
     })
 
-    function setField(field, value){
-        setForm({
-            ...form,
-            [field]: value
-        })
-
-        if( !!errors[field] ) setErrors({
-            ...errors,
-            [field]: null
-        })
-    }
-
-    function findErrors(){
-        const { address_line1, city, state, postal_code } = form
-
-        if(!address_line1 || address_line1 === ''){
-            errors.address_line1 = "Must not be empty"
-        }
-
-        if(!city || city === ''){
-            errors.city = "Must not be empty"
-        }
-
-        if(!state || state === '' || state === 0){
-            errors.state = "Pick a state"
-        }
-
-        if(!postal_code || postal_code === ''){
-            errors.postal_code = "ZIP can not be empty"
-        }
-        else if(postal_code.length !== 5){
-            errors.postal_code = "ZIP must be 5 digits"
-        }
-        else if(isNaN(postal_code)){
-            errors.postal_code = "ZIP must be numerical"
-        }
-
-        Object.keys(errors).forEach(key =>{
-            if(errors[key]){
-                delete errors[key]
-            }
-        })
-
-        return errors
-    }
-
-    function createAddress(){
-        const addressData = new FormData()
-        addressData.append('address_line1', form.address_line1)
-        addressData.append('address_line2', form.address_line2)
-        addressData.append('city', form.city)
-        addressData.append('postal_code', form.postal_code)
-        addressData.append('state', form.state)
-        addressData.append('country', form.country)
-        addressData.append('shipping', form.shipping)
-        addressData.append('billing', form.billing)
-
-        fetch(`${REACT_APP_BACKEND_URL}/addresses`, {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                "Accept": 'application/json'
-            },
-            body: addressData
-        })
-        .then((data) => {
-            if(!data.ok){
-                throw Error(data.json())
-            }
-            else{
-                return data.json()
-            }
-        })
-        .then((ret) => {
-            dispatch(authenticate({...user, addresses: [...user.addresses, ret]}))
-            dispatch(updateOrderItems({...order, shipping_id: ret.id}))
-            setAddress(ret)
-        })
-        .catch((error) => dispatch(setError(error)))
-    }
-
-    function updateAddress(){
-        const addressData = new FormData()
-        addressData.append('address_line1', form.address_line1)
-        addressData.append('address_line2', form.address_line2)
-        addressData.append('city', form.city)
-        addressData.append('state', form.state)
-        addressData.append('postal_code', form.postal_code)
-        addressData.append('country', form.country)
-        addressData.append('shipping', form.shipping)
-
-        fetch(`${REACT_APP_BACKEND_URL}/addresses/${form.id}`,{
-            method: 'PATCH',
-            headers: {
-                Accepts: 'application/json'
-            },
-            credentials: 'include',
-            body:addressData
-        })
-        .then((data) => {
-            if(!data.ok){
-                throw Error(data.json())
-            }
-            else{
-                return data.json()
-            }
-        })
-        .then((ret)=>{
-            const addresses = user.addresses.map((address) => {
-                if(address.id === ret.id){
-                    return ret
-                }
-                else{
-                    return address
-                }
-            })
-            dispatch(authenticate({...user, addresses: addresses}))
-        })
-        .catch((error) => dispatch(setError(error)))
-    }
-
-    function handleSubmit(e){
-        e.preventDefault()
-        const foundErrors = findErrors()
-        if(Object.entries(foundErrors).length > 0){
-            setErrors(foundErrors)
-        }
-        else{
-            if(mode === "new"){
-                createAddress()
-            }
-            else if(mode === "edit"){
-                updateAddress()
-            }
-        }
-    }
-
     return(
-        <Offcanvas show={showEdit} onHide={()=>setMode("")} placement="end">
-            <Form onSubmit={handleSubmit}>
+        <>
+            <Form>
                 <Row>
-                    <Form.Group>
-                        <Form.Label>Address Line 1</Form.Label>
+                    <Form.Group as={Col}>
+                        <Form.Label>Address Line 1:</Form.Label>
                         <Form.Control 
-                            type="text"
-                            onChange={e => setField('address_line1', e.target.value)}
-                            value={form.address_line1}
-                            isInvalid={!!errors.address_line1}
+                            type="text" 
+                            onChange={e => setAddress({...address, line1: e.target.value})}
+                            value={address.line1}
                         />
-                        <Form.Control.Feedback type="invalid">
-                            {errors.address_line1}
-                        </Form.Control.Feedback>
                     </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Address Line 2</Form.Label>
+                    <Form.Group as={Col}>
+                        <Form.Label>Address Line 2:</Form.Label>
                         <Form.Control 
                             type="text"
-                            onChange={e => setField('address_line2', e.target.value)}
-                            value={form.address_line2}
-                            isInvalid={!!errors.address_line2}
+                            onChange={e => setAddress({...address, line2: e.target.value})}
+                            value={address.line2}
                         />
-                        <Form.Control.Feedback type="invalid">
-                            {errors.address_line2}
-                        </Form.Control.Feedback>
                     </Form.Group>
                 </Row>
                 <Row>
-                    <Form.Group>
-                        <Form.Label>City</Form.Label>
-                        <Form.Control 
+                    <Form.Group as={Col}>
+                        <Form.Label>City:</Form.Label>
+                        <Form.Control
                             type="text"
-                            onChange={e => setField('city', e.target.value)}
-                            value={form.city}
-                            isInvalid={!!errors.city}
+                            onChange={e => setAddress({...address, city: e.target.value})}
+                            value={address.city}
                         />
-                        <Form.Control.Feedback type="invalid">
-                            {errors.city}
-                        </Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>State</Form.Label>
-                        <Form.Select
-                            defaultValue={form.state}
-                            onChange={e => setField('state', e.target.value)}
-                            isInvalid={!!errors.state}
-                        >
-                            {stateOptions}
-                        </Form.Select>
-                        <Form.Control.Feedback>
-                            {errors.state}
-                        </Form.Control.Feedback>
+                            <Form.Select
+                                value={address.state}
+                                onChange={e => setAddress({...address, state: e.target.value})}
+                            >
+                                {stateOptions}
+                            </Form.Select>
+                    </Form.Group>
+                    <Form.Group as={Col}>
+                        <Form.Label>ZIP:</Form.Label>
+                        <Form.Control 
+                            type="text"
+                            value={address.postal_code}
+                            onChange={e => setAddress({...address, postal_code: address.city})}
+                        />
                     </Form.Group>
                 </Row>
                 <Row>
-                    <Form.Group>
-                        <Form.Label>ZIP</Form.Label>
-                        <Form.Control
-                            type="text"
-                            value={form.postal_code}
-                            onChange={e => setField('postal_code', e.target.value)}
-                            isInvalid={!!errors.postal_code}
-                        />
-                        <Form.Control.Feedback>
-                            {errors.postal_code}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Country</Form.Label>
-                        <Form.Control
-                            type="text"
-                            value={form.country}
-                            onChange={e => setField('country', e.target.value)}
-                            isInvalid={!!errors.country}
-                        />
-                        <Form.Control.Feedback>
-                            {errors.country}
-                        </Form.Control.Feedback>
+                    <Form.Group as={Col}>
+                        <Form.Label>Country:</Form.Label>
+                            <Form.Control
+                                type="text"
+                                value={address.country}
+                                onChange={e => setAddress({...address, country: address.country})}
+                            />
                     </Form.Group>
                 </Row>
-                <Row>
-                    <ToggleButtonGroup type="checkbox">
-                        <ToggleButton
-                            id="defaultAddress"
-                            type="checkbox"
-                            value={{label: form.shipping}}
-                            checked={form.shipping}
-                            onChange={(e) => {
-                                setField('shipping', e.target.checked)
-                            }}
-                        >
-                            Default  Shipping
-                        </ToggleButton>
-                    </ToggleButtonGroup>
-                </Row>
-                <Button type="submit">Submit</Button>
             </Form>
-        </Offcanvas>
+        </>
     )
 }
 

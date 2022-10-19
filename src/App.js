@@ -36,7 +36,10 @@ function App() {
     if(Object.entries(user).length > 0){
       fetch(`${REACT_APP_BACKEND_URL}/order/${user.active_order.id}`, {
         method: 'GET',
-        credentials: 'include'
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
       })
       .then((orderData) => orderData.json())
       .then((orderJSON) =>dispatch(updateOrderItems(orderJSON)))
