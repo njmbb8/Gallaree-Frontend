@@ -31,20 +31,38 @@ function App() {
   const clientSecret = useSelector(state => state.clientSecret)
   const stripePromise = loadStripe(REACT_APP_STRIPE_PUBLISHABLE_KEY)
   const user = useSelector(state => state.user)
-
-  useEffect(() => {
-    if(Object.entries(user).length > 0){
-      fetch(`${REACT_APP_BACKEND_URL}/order/${user.active_order.id}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
+  
+  useEffect(()=>{
+    if(!!document.cookie.split('; ').find(row => row.startsWith('user_id='))){
+      fetch(`${REACT_APP_BACKEND_URL}/me`,{
+        credentials: "include"
       })
-      .then((orderData) => orderData.json())
-      .then((orderJSON) =>dispatch(updateOrderItems(orderJSON)))
+      .then((data) => data.json())
+      .then((ret) => {
+        dispatch(authenticate(ret))
+        fetch(`${REACT_APP_BACKEND_URL}/order/${ret.active_order.id}`, {
+          method: 'GET',
+          credentials: 'include'
+        })
+        .then((orderData) => orderData.json())
+        .then((orderJSON) =>dispatch(updateOrderItems(orderJSON)))
+      })
     }
-  }, [user, REACT_APP_BACKEND_URL, dispatch])
+  }, [REACT_APP_BACKEND_URL, dispatch])
+  
+  // useEffect(() => {
+  //   if(Object.entries(user).length > 0){
+  //     fetch(`${REACT_APP_BACKEND_URL}/order/${user.active_order.id}`, {
+  //       method: 'GET',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       credentials: 'include',
+  //     })
+  //     .then((orderData) => orderData.json())
+  //     .then((orderJSON) =>dispatch(updateOrderItems(orderJSON)))
+  //   }
+  // }, [user, REACT_APP_BACKEND_URL, dispatch])
   
   useEffect(() => {
     fetch(`${REACT_APP_BACKEND_URL}/statuses`)
@@ -67,24 +85,6 @@ function App() {
     .then((ret) => {
       dispatch(setBioInfo(ret))
     })
-  }, [REACT_APP_BACKEND_URL, dispatch])
-  
-  useEffect(()=>{
-    if(!!document.cookie.split('; ').find(row => row.startsWith('user_id='))){
-      fetch(`${REACT_APP_BACKEND_URL}/me`,{
-        credentials: "include"
-      })
-      .then((data) => data.json())
-      .then((ret) => {
-        dispatch(authenticate(ret))
-        fetch(`${REACT_APP_BACKEND_URL}/order/${ret.active_order.id}`, {
-          method: 'GET',
-          credentials: 'include'
-        })
-        .then((orderData) => orderData.json())
-        .then((orderJSON) =>dispatch(updateOrderItems(orderJSON)))
-      })
-    }
   }, [REACT_APP_BACKEND_URL, dispatch])
 
   const appearance = {
@@ -146,7 +146,7 @@ function App() {
             />
             <Route
               path={'/user'}
-              element={<UserPanel/>}
+              element={<UserPanel stripePromise={stripePromise}/>}
             />
           </Routes>
         </Container>

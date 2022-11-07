@@ -27,62 +27,6 @@ function CheckoutForm(){
     const dispatch = useDispatch()
 
     useEffect(()=>{
-        // if(!clientSecret || !user.active_order.payment_intent){
-        //     fetch(`${REACT_APP_BACKEND_URL}/payment_intent/`, {
-        //         method: 'POST',
-        //         credentials: 'include',
-        //         body: JSON.stringify({
-        //             address_id: shipping.id
-        //         })
-        //     })
-        //     .then((data) => {
-        //         if(data.ok){
-        //             return data.json()
-        //         }
-        //         else{
-        //             throw Error(data.json())
-        //         }
-        //     })
-        //     .then((ret)=>{
-        //         dispatch(setClientSecret(ret.clientSecret))
-        //         const payment_intent = new FormData()
-        //         payment_intent.append('payment_intent', ret.payment_intent)
-        //         fetch(`${REACT_APP_BACKEND_URL}/order/${order.id}`, {
-        //             method: 'PATCH',
-        //             credentials: 'include',
-        //             body: payment_intent
-        //         })
-        //         .then((data)=>{
-        //             if(data.ok){
-        //                 return data.json()
-        //             }
-        //             else{
-        //                 throw Error(data.json())
-        //             }
-        //         })
-        //         .then((r)=>{
-        //             dispatch(updateOrderItems(r))
-        //             dispatch(authenticate({...user, active_order: r}))
-        //         })
-        //         .catch((error) => dispatch(setError(error.error)))
-        //     })
-        //     .catch((error)=>{dispatch(setError(error.error))})
-        // }
-        // else{
-        //     fetch(`${REACT_APP_BACKEND_URL}/payment_intent/${user.active_order.id}`, {
-        //         method: 'PATCH',
-        //         credentials: 'include',
-        //         body: JSON.stringify({
-        //             address_id: shipping.id
-        //         })
-        //     })
-        //     .then((data) => {
-        //         if(!data.ok){
-        //             throw Error(data.json())
-        //         }
-        //     })
-        //     .catch((error) => dispatch(setError(error)))
-        // }
         if(order.payment_intent){
             fetch(`${REACT_APP_BACKEND_URL}/payment_intent/${user.active_order.id}`, {
                 method: 'PATCH',
