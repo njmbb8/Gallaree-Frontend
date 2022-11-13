@@ -6,7 +6,7 @@ import OrderItem from "../OrderItem/OrderItem";
 function OrderDisplay({showOrder, setShowOrder}){
     const order = useSelector(state => state.order)
     const arts = useSelector(state => state.arts)
-    const itemRows = order.order_items.map((item) => {
+    const itemRows = order.items.map((item) => {
         return arts.map((art) => {
             if (art.id === item.art_id)
                 return <OrderItem key={item.id} art={art} orderItem={item} mode="order"/>
