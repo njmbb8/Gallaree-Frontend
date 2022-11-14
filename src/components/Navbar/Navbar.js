@@ -45,6 +45,7 @@ function Navigation(){
                 dispatch(setError("Ran into a problem while signing you out"))
             }
             else{
+                navigate('/')
                 dispatch(signOut())
             }
         })

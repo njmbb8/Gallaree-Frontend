@@ -61,12 +61,7 @@ function LogInForm({showSignIn, setShowSignIn}){
             })
             .then((ret) => {
                 dispatch(authenticate(ret))
-                // fetch(`${REACT_APP_BACKEND_URL}/order/${ret.active_order.id}`, {
-                //     method: 'GET',
-                //     credentials: 'include'
-                // })
-                // .then((orderData) => orderData.json())
-                // .then((orderJSON) =>dispatch(updateOrderItems(orderJSON)))
+                setShowSignIn(false)
             })
             .catch((error) => dispatch(setError(error)))
         }
