@@ -20,10 +20,14 @@ function RegistrationForm({ showRegister, setShowRegister }){
         const { email, 
                 firstname, 
                 lastname, 
-                addr1, 
-                city,
-                zip, 
-                state, 
+                billingAddr1, 
+                billingCity,
+                billingZip, 
+                billingState,
+                shippingAddr1, 
+                shippingCity,
+                shippingZip, 
+                shippingState, 
                 password, 
                 password_confirmation} = form
         const foundErrors = {}
@@ -34,18 +38,33 @@ function RegistrationForm({ showRegister, setShowRegister }){
         
         if(!lastname || lastname === '') foundErrors.lastname = "Last name is Mandatory"
         
-        if(!addr1 || lastname === '') foundErrors.addr1 = "Address is mandatory"
+        if(!billingAddr1 || billingAddr1 === '') foundErrors.billingAddr1 = "Address is mandatory"
         
-        if(!city || city === '') foundErrors.city = "City is mandatory"
+        if(!billingCity || billingCity === '') foundErrors.billingCity = "City is mandatory"
         
-        if(!zip || zip === ''){
-            foundErrors.zip = "ZIP is mandatory"
+        if(!billingZip || billingZip === ''){
+            foundErrors.billingZip = "ZIP is mandatory"
         }
-        else if(isNaN(zip) || zip.length !== 5){
-            foundErrors.zip = "ZIP must be a 5 digit number"
+        else if(isNaN(billingZip) || billingZip.length !== 5){
+            foundErrors.billingZip = "ZIP must be a 5 digit number"
         }
 
-        if(!state || state === '') foundErrors.state = "Pick a State!"
+        if(!billingState || billingState === '') foundErrors.billingState = "Pick a State!"
+
+        if(!sameAsShipping){
+            if(!shippingAddr1 || shippingAddr1 === '') foundErrors.billingAddr1 = "Address is mandatory"
+            
+            if(!shippingCity || shippingCity === '') foundErrors.billingCity = "City is mandatory"
+            
+            if(!shippingZip || shippingZip === ''){
+                foundErrors.shippinZip = "ZIP is mandatory"
+            }
+            else if(isNaN(shippingZip) || shippingZip.length !== 5){
+                foundErrors.shippingZip = "ZIP must be a 5 digit number"
+            }
+
+            if(!shippingState || shippingState === '') foundErrors.billingState = "Pick a State!"
+        }
 
         if(!password || password === ''){
             foundErrors.password = "Password is mandatory"
@@ -79,31 +98,13 @@ function RegistrationForm({ showRegister, setShowRegister }){
             setErrors(foundErrors)
         }
         else{
-            const formData = new FormData()
-            formData.append('email', form['email'])
-            formData.append('password', form['password'])
-            formData.append('password_confirmation', form['password_confirmation'])
-            formData.append('firstname', form['firstname'])
-            formData.append('lastname', form['lastname'])
-            formData.append('shippingAddr1', form['shippingAddr1'])
-            formData.append('shippingAddr2', form['shippingAddr2'])
-            formData.append('shippingCity', form['shippingCity'])
-            formData.append('shippingState', form['shippingState'])
-            formData.append('shippingZip', form['shippingZip'])
-            formData.append('shippingCountry', form['shippingCountry'])
-            formData.append('sameAsShipping', sameAsShipping)
-            formData.append('billingAddr1', form['billingAddr1'])
-            formData.append('billingAddr2', form['billingAddr2'])
-            formData.append('billingCity', form['billingCity'])
-            formData.append('billingState', form['billingState'])
-            formData.append('billingZip', form['billingZip'])
-            formData.append('billingCountry', form['billingCountry'])
-            formData.append('phone', form['phone'])
-
             fetch(`${REACT_APP_BACKEND_URL }/register`, {
                 method: 'POST',
                 credentials: 'include',
-                body: formData
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({...form, sameAsShipping: sameAsShipping})
             })
             .then((data) => {
                 if(!data.ok){
@@ -113,7 +114,10 @@ function RegistrationForm({ showRegister, setShowRegister }){
                     return data.json()
                 }
             })
-            .then((ret) => dispatch(authenticate(ret)))
+            .then((ret) => {
+                dispatch(authenticate(ret))
+                setShowRegister(false)
+            })
             .catch((error) => dispatch(setError(error)))
         }
     }
@@ -209,7 +213,7 @@ function RegistrationForm({ showRegister, setShowRegister }){
                                 <Form.Check
                                     type="switch"
                                     label="Same as Shipping?"
-                                    onChange={() => setSameAsShipping(!sameAsShipping)}
+                                    onChange={(e) => setSameAsShipping(!sameAsShipping)}
                                     value={sameAsShipping}
                                     checked={sameAsShipping}
                                 />
@@ -265,17 +269,6 @@ function RegistrationForm({ showRegister, setShowRegister }){
                                     type="text"
                                     onChange={e => setField('billingZip', e.target.value)}
                                     isInvalid = {!!errors.zip}
-                                />
-                                <Form.Control.Feedback>
-                                    {errors.zip}
-                                </Form.Control.Feedback>
-                            </Form.Group>
-                            <Form.Group as={Col}>
-                                <Form.Label>Country</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    onChange={e => setField('billingCountry', e.target.value)}
-                                    isInvalid = {!!errors.country}
                                 />
                                 <Form.Control.Feedback>
                                     {errors.zip}
@@ -337,17 +330,6 @@ function RegistrationForm({ showRegister, setShowRegister }){
                                     type="text"
                                     onChange={e => setField('shippingZip', e.target.value)}
                                     isInvalid = {!!errors.zip}
-                                />
-                                <Form.Control.Feedback>
-                                    {errors.zip}
-                                </Form.Control.Feedback>
-                            </Form.Group>
-                            <Form.Group as={Col}>
-                                <Form.Label>Country</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    onChange={e => setField('shippingCountry', e.target.value)}
-                                    isInvalid = {!!errors.country}
                                 />
                                 <Form.Control.Feedback>
                                     {errors.zip}
