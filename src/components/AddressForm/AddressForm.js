@@ -1,10 +1,6 @@
-import React, {useState} from "react";
+import React from "react";
 import { Button, Col, Form, Row, } from "react-bootstrap";
 import { States } from "../../States";
-import { authenticate } from "../../slices/User";
-import { useDispatch, useSelector } from "react-redux";
-import { updateOrderItems } from "../../slices/Order";
-import { setError } from "../../slices/Error"
 
 function AddressForm({ address, setAddress, setAddresses, addresses, editMode, setEditMode}){
     const stateOptions = States.map((state, index) => {
@@ -14,19 +10,31 @@ function AddressForm({ address, setAddress, setAddresses, addresses, editMode, s
     const {REACT_APP_BACKEND_URL} = process.env
 
     function removeAddress(){
-        fetch(`${REACT_APP_BACKEND_URL}/address/${address.id}`, {
+        fetch(`${REACT_APP_BACKEND_URL}/addresses/${address.id}`, {
             method: 'DELETE',
             credentials: 'include'
         })
-        .then(()=>{
+        .then((ret)=>ret.json())
+        .then((data)=>{
             setAddresses(
-                addresses.filter((addr)=>addr.id != address.id)
+                addresses.reduce((result, addr) => {
+                    data.forEach((updatedAddr)=>{
+                        if(updatedAddr.id === addr.id &&
+                            addr.id !== address.id
+                        ){
+                            result.push(updatedAddr)
+                        } 
+                    })
+    
+                    return result
+                }, [])
             )
+            clearForm()
         })
     }
 
     function updateAddress(){
-        fetch(`${REACT_APP_BACKEND_URL}/address/${address.id}`, {
+        fetch(`${REACT_APP_BACKEND_URL}/addresses/${address.id}`, {
             method: 'PATCH',
             credentials: 'include',
             headers: {
@@ -50,7 +58,7 @@ function AddressForm({ address, setAddress, setAddresses, addresses, editMode, s
     }
 
     function createNewAddress(){
-        fetch(`${REACT_APP_BACKEND_URL}/address`, {
+        fetch(`${REACT_APP_BACKEND_URL}/addresses`, {
             method: 'POST',
             credentials: 'include',
             headers: {
