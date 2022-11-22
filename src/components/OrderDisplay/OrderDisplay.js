@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import OrderItem from "../OrderItem/OrderItem";
 
 function OrderDisplay({showOrder, setShowOrder}){
-    const order = useSelector(state => state.order)
+    const order = useSelector(state => state.user.active_order)
     const arts = useSelector(state => state.arts)
     const itemRows = order.items.map((item) => {
         return arts.map((art) => {

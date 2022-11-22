@@ -70,7 +70,7 @@ function Navigation(){
                                     <Nav.Link key={index} href={item.path}>{item.text}</Nav.Link>
                                 )
                             })}
-                            {Object.entries(user).length > 0 && !!order ?
+                            {Object.entries(user).length > 0 ?
                                 <> 
                                     {user.admin?
                                         <Nav.Link href="/adminpanel">Admin</Nav.Link>
@@ -105,7 +105,7 @@ function Navigation(){
                 showRegister={showRegister} 
                 setShowRegister={setShowRegister}
             />
-            {!!order.id?
+            {Object.keys(user).length > 0?
                 <OrderDisplay 
                     showOrder={showOrder}
                     setShowOrder={setShowOrder}
