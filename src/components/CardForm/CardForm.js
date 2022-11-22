@@ -27,18 +27,23 @@ function CardForm({ cards, setCards }){
             fetch(`${REACT_APP_BACKEND_URL}/card/`, {
                 method: 'POST',
                 credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify({
                     stripe_id: setupIntent.payment_method
                 })
             })
             .then((data) => data.json())
-            .then((ret) => setCards([...cards, {
-                stripe_id: ret.id,
-                final4: ret.card.last4,
-                brand: ret.card.brand,
-                month: ret.card.exp_month,
-                year: ret.card.exp_year
-            }]))
+            .then((ret) => {
+                setCards([...cards, {
+                    stripe_id: ret.id,
+                    last4: ret.last4,
+                    brand: ret.brand,
+                    exp_month: ret.exp_month,
+                    exp_year: ret.exp_year
+                }])
+            })
         }
     }
     return(

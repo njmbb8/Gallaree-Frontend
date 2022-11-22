@@ -1,9 +1,8 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import CardForm from "../CardForm/CardForm";
 import CardSelection from "../CardSelection/CardSelection";
 import { Elements } from "@stripe/react-stripe-js";
-import { useSelector } from "react-redux";
 import { TailSpin } from "react-loader-spinner";
 
 function CardPanel({stripePromise}){
@@ -24,6 +23,16 @@ function CardPanel({stripePromise}){
                 console.log(err);
             }) 
         });
+
+        fetch(`${REACT_APP_BACKEND_URL}/card`, {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then((ret)=>ret.json())
+        .then((data)=>setCards(data))
     }, [])
 
     const options = {

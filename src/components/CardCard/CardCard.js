@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { FaCcAmex, FaCcDiscover, FaCcJcb, FaCcMastercard, FaCcStripe, FaCcVisa } from 'react-icons/fa'
 import { Row, Col, Card } from "react-bootstrap";
 
@@ -41,14 +41,14 @@ function CardCard({card, setSelectedCard}){
                             {cardLogo}
                         </Col>
                         <Col>
-                            {`************${card.final4}`}
+                            {`************${card.last4}`}
                         </Col>
                     </Row>
                 </Card.Header>
                 <Card.Body>
                     <Row>
                         <Col>Exp Date: </Col>
-                        <Col>{`${card.month}/${card.year}`}</Col>
+                        <Col>{`${card.exp_month}/${card.exp_year}`}</Col>
                     </Row>
                 </Card.Body>
             </Card>

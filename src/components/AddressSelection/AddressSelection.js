@@ -1,10 +1,4 @@
-import React, {useState, useEffect} from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Button, Row, Col } from "react-bootstrap";
-import { authenticate } from "../../slices/User";
-import AddressForm from "../AddressForm/AddressForm";
-import { updateOrderItems } from "../../slices/Order";
-import { setError } from "../../slices/Error"
+import React from "react";
 import AddressCard from "../AddressPanel/AddressCard/AddressCard";
 
 function AddressSelection({addresses, setSelectedAddress, setEditMode}){
