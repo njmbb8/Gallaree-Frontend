@@ -12,7 +12,6 @@ import { setError } from "../../slices/Error"
 function Navigation(){
     const { REACT_APP_BACKEND_URL } = process.env
     const user = useSelector(state => state.user)
-    const order = useSelector( state => state.order )
     const [ showRegister, setShowRegister ] = useState(false)
     const [showSignIn, setShowSignIn] = useState(false)
     const [showOrder, setShowOrder] = useState(false)
