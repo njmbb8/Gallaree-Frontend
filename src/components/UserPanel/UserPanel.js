@@ -4,6 +4,7 @@ import { Col, Row, Tabs, Tab } from "react-bootstrap";
 import UserOrders from "../UserOrders/UserOrders";
 import AddressSelection from "../AddressSelection/AddressSelection";
 import CardPanel from "../CardPanel/CardPanel";
+import AddressPanel from "../AddressPanel/AddressPanel";
 
 function UserPanel({stripePromise}){
     return(
@@ -11,7 +12,7 @@ function UserPanel({stripePromise}){
             <Tabs>
                 <Tab eventKey="Addresses" title="Address Information">
                     <Row>
-                        <AddressSelection />
+                        <AddressPanel />
                     </Row>
                 </Tab>
                 <Tab eventKey="Cards" title="Payment Cards">

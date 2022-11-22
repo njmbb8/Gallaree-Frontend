@@ -26,7 +26,7 @@ function AdminOrders(){
         })
         .catch((error) => dispatch(setError(error)))
     }, [REACT_APP_BACKEND_URL])
-    const orderRows = orders.map((order)=><AdminOrderItem order={order}/>)
+    const orderRows = orders.map((order)=><AdminOrderItem order={order} key={order.id}/>)
 
     return(
         <>
