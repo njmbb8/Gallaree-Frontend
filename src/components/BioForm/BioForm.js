@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { Form, Image, Row, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { setBioInfo } from "../../slices/Bio"
 import { setError } from "../../slices/Error"
 
 function BioForm(){
     const {REACT_APP_BACKEND_URL} = process.env
-    const bio = useSelector(state => state.bio)
+    const [bio, setBio] = useState('')
     const placeHolderURL = `${REACT_APP_BACKEND_URL }/images/Placeholder.svg` //!!bio.photo ? `${REACT_APP_BACKEND_URL }/images/Placeholder.svg` : `${REACT_APP_BACKEND_URL}${bio.photo}`
     const [form, setForm] = useState({})//useState(bio === {} ? {} : bio)
     const [errors, setErrors] = useState({})
@@ -75,8 +74,8 @@ function BioForm(){
                     return data.json()
                 }
             })
-            .then((ret) => dispatch(setBioInfo(ret)))
-            .then((error) => dispatch((setError(error))))
+            .then((ret) => setBio(ret))
+            .catch((error) => dispatch((setError(error))))
         }
     }
 

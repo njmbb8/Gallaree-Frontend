@@ -12,13 +12,11 @@ import { populate } from './slices/Arts'
 import { TailSpin } from 'react-loader-spinner';
 import PasswordReset from './components/PasswordReset/PasswordReset';
 import Confirmation from './components/Confirmation/Confirmation';
-import { updateOrderItems } from './slices/Order';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import CheckoutForm from './components/CheckoutForm/CheckoutForm';
 import PaymentConfirmation from './components/PaymentConfirmation/PaymentConfirmation';
 import AdminPanel from './components/AdminPanel/AdminPanel';
-import { setBioInfo } from './slices/Bio';
 import BioDisplay from './components/BioDisplay/BioDisplay';
 import UserPanel from './components/UserPanel/UserPanel';
 import ErrorModal from './components/ErrorModal/ErrorModal';

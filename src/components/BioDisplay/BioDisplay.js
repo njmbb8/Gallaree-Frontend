@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Col, Row, Image } from "react-bootstrap";
 import "./BioDisplay.css"
 
@@ -12,7 +12,7 @@ function BioDisplay(){
         .then((ret) => {
             setBio(ret)
         })
-    }, [REACT_APP_BACKEND_URL, dispatch])
+    }, [REACT_APP_BACKEND_URL])
 
     return(
         <>
