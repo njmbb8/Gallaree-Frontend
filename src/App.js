@@ -40,29 +40,9 @@ function App() {
       .then((data) => data.json())
       .then((ret) => {
         dispatch(authenticate(ret))
-        fetch(`${REACT_APP_BACKEND_URL}/order/${ret.active_order.id}`, {
-          method: 'GET',
-          credentials: 'include'
-        })
-        .then((orderData) => orderData.json())
-        .then((orderJSON) =>dispatch(updateOrderItems(orderJSON)))
       })
     }
   }, [REACT_APP_BACKEND_URL, dispatch])
-  
-  // useEffect(() => {
-  //   if(Object.entries(user).length > 0){
-  //     fetch(`${REACT_APP_BACKEND_URL}/order/${user.active_order.id}`, {
-  //       method: 'GET',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       credentials: 'include',
-  //     })
-  //     .then((orderData) => orderData.json())
-  //     .then((orderJSON) =>dispatch(updateOrderItems(orderJSON)))
-  //   }
-  // }, [user, REACT_APP_BACKEND_URL, dispatch])
   
   useEffect(() => {
     fetch(`${REACT_APP_BACKEND_URL}/statuses`)
