@@ -15,7 +15,6 @@ import userReducer from "./slices/User"
 import artsReducer from "./slices/Arts"
 import orderReducer from "./slices/Order"
 import clientSecretReducer from "./slices/ClientSecret"
-import bioReducer from "./slices/Bio"
 import errorReducer from "./slices/Error"
 
 const rootReducer = combineReducers({
@@ -23,7 +22,6 @@ const rootReducer = combineReducers({
     user: userReducer,
     order: orderReducer,
     clientSecret: clientSecretReducer,
-    bio: bioReducer,
     error: errorReducer
 })
 

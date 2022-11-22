@@ -59,14 +59,6 @@ function App() {
     })
   }, [REACT_APP_BACKEND_URL, dispatch])
 
-  useEffect(()=>{
-    fetch(`${REACT_APP_BACKEND_URL}/bio`)
-    .then((data) => data.json())
-    .then((ret) => {
-      dispatch(setBioInfo(ret))
-    })
-  }, [REACT_APP_BACKEND_URL, dispatch])
-
   const appearance = {
     theme: 'stripe',
   };

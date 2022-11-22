@@ -1,11 +1,18 @@
 import React from "react";
 import { Col, Row, Image } from "react-bootstrap";
-import { useSelector } from "react-redux";
 import "./BioDisplay.css"
 
 function BioDisplay(){
-    const bio = useSelector(state => state.bio)
+    const [bio, setBio] = ("")
     const {REACT_APP_BACKEND_URL} = process.env
+
+    useEffect(()=>{
+        fetch(`${REACT_APP_BACKEND_URL}/bio`)
+        .then((data) => data.json())
+        .then((ret) => {
+            setBio(ret)
+        })
+    }, [REACT_APP_BACKEND_URL, dispatch])
 
     return(
         <>
