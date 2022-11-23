@@ -32,16 +32,16 @@ function ArtForm({statuses, mode, setEdit}){
     }
 
     function findErrors(){
-        const { title, price, status_id, photo, length, height, weight, width} = form
+        const { title, price, status, photo, length, height, weight, width} = form
         const foundErrors = {}
 
         if(!title || title === '') foundErrors.title = 'Give it a title!'
 
         if(!photo ) foundErrors.photo = 'Show it to the people!'
         
-        if((!price || price <= 0) && status_id !== 1) foundErrors.price = 'Set a Price!'
+        if((!price || price <= 0) && status !== 'Not For Sale') foundErrors.price = 'Set a Price!'
 
-        if(!status_id || status_id === 0) foundErrors.status_id = 'Pick a status for the art'
+        if(!status || status === 0) foundErrors.status = 'Pick a status for the art'
 
         if((!length || length <= 0)) foundErrors.length = 'Set a legnth!'
 
@@ -75,7 +75,7 @@ function ArtForm({statuses, mode, setEdit}){
             formData.append('title', form['title'])
             formData.append('description', form['description'])
             formData.append('price', form['price'])
-            formData.append('status_id', form['status_id'])
+            formData.append('status', form['status'])
             formData.append('quantity', form['quantity'])
             formData.append('length', form['length'])
             formData.append('height', form['height'])
@@ -179,12 +179,14 @@ function ArtForm({statuses, mode, setEdit}){
                     <Form.Group as={Col}>
                         <Form.Label>Status</Form.Label>
                         <Form.Select 
-                            onChange={ e => setField('status_id', e.target.value)}
-                            isInvalid={!!errors.status_id}
-                            value={form["status_id"]}
+                            onChange={ e => setField('status', e.target.value)}
+                            isInvalid={!!errors.status}
+                            value={form["status"]}
                         >
                             <option value={0}>Select a Status</option>
-                            {statusOptions}
+                            <option value="Not For Sale">Not For Sale</option>
+                            <option value="For Sale">For Sale</option>
+                            <option value="Sold">Sold</option>
                         </Form.Select>
                         <Form.Control.Feedback type='invalid'>
                             {errors.status_id}
