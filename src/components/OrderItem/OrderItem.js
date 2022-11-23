@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { Col, Row, Image, Button, ListGroup, Form } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { updateOrderItems } from "../../slices/Order";
+import { useDispatch, useSelector } from "react-redux";
+import { authenticate } from "../../slices/User";
 
 function OrderItem({art, orderItem, mode}){
     const { REACT_APP_BACKEND_URL } = process.env
     const dispatch = useDispatch()
+    const user = useSelector(state => state.user)
     const [ quantity, setQuantity ] = useState(orderItem.quantity)
 
     function remove(e){
@@ -14,8 +15,9 @@ function OrderItem({art, orderItem, mode}){
             method: 'DELETE',
             credentials: 'include'
         })
-        .then((data)=>(data).json())
-        .then((order)=> dispatch(updateOrderItems(order)))
+        .then(()=>{
+            dispatch(authenticate({...user, active_order: {...user.active_order, order_items: user.active_order.order_items.filter((item) => item.id !== orderItem.id)}}))
+        })
     }
 
     function update(e){
@@ -32,7 +34,16 @@ function OrderItem({art, orderItem, mode}){
             })
         })
         .then((data) => data.json())
-        .then((ret) => dispatch(updateOrderItems(ret)))
+        .then((ret) => {
+            dispatch(authenticate({
+                ...user, 
+                active_order: {
+                    ...user.active_order, 
+                    order_items: user.active_order.order_items.map((item)=>item.id===ret.id ? ret : item)
+                }
+            }))
+            setQuantity(ret.quantity)
+        })
     }
     return(
         <>

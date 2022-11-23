@@ -4,12 +4,14 @@ import { Form, Button, Row, Col, Image } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { update, addNew } from "../../slices/Arts"
+import { authenticate } from "../../slices/User";
 import { setError } from "../../slices/Error"
 import './ArtForm.css'
 
-function ArtForm({statuses, mode, setEdit}){
+function ArtForm({mode, setEdit}){
     const params = useParams()
     const arts = useSelector(state => state.arts)
+    const user = useSelector(state => state.user)
     const dispatch = useDispatch()
     const art = arts.find((art) => parseInt(params.id) === art.id)
     const [form, setForm] = useState(mode === 'edit' ? art : {})
@@ -53,10 +55,6 @@ function ArtForm({statuses, mode, setEdit}){
 
         return foundErrors
     }
-
-    const statusOptions = statuses.map((status) => {
-        return <option key={status.id} value={status.id}>{status.name}</option>
-    })
 
     function photoChange(e){
         setField('photo', e.target.files[0])

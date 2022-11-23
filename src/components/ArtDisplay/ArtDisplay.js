@@ -3,7 +3,7 @@ import { Col, Row, Image, Button, Form } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { remove } from "../../slices/Arts"
-import { updateOrderItems } from "../../slices/Order";
+import { authenticate } from "../../slices/User";
 import ArtForm from "../ArtForm/ArtForm";
 import './ArtDisplay.css'
 import { setError } from "../../slices/Error"
@@ -54,7 +54,7 @@ function ArtDisplay({ statuses }){
                 return data.json()
             }
         })
-        .then((order) => dispatch(updateOrderItems(order)))
+        .then((ret) => dispatch(authenticate({...user, active_order: {...user.active_order, order_items: [...user.active_order.order_items, ret]}})))
         .catch((error) => dispatch(setError(error)))
     }
     
