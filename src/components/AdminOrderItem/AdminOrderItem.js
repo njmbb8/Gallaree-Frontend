@@ -45,23 +45,14 @@ function AdminOrderItem({order}){
                 <p>{order.user.firstname} {order.user.lastname} </p>
             </Col>
             <Col>
-                <p>{order.shipping_address}</p>
+                <p>{`${order.shipping_address.city}, ${order.shipping_address.state}`}</p>
             </Col>
             <Col>
-                <p>{order.order_status.name}</p>
+                <p>{order.status}</p>
             </Col>
-            {!order.tracking?
-                <Col>
-                    <Form onSubmit={shipOrder}>
-                        <Form.Control type="text" value={tracking} onChange={e => setTracking(e.target.value)}/>
-                        <Button type="submit">ship</Button>
-                    </Form>
-                </Col>
-            :
-                <Col>
-                    <p>{order.tracking}</p>
-                </Col>
-            }
+            <Col>
+                <p>${order.total_with_fee}</p>
+            </Col>
         </Row>
     )
 }

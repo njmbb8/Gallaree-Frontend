@@ -71,7 +71,7 @@ function ArtDisplay({ statuses }){
                         <h1>{art.title}</h1>
                     </Row>
                     <Row>
-                        <h6>{art.status.name}</h6>
+                        <h6>{art.status}</h6>
                     </Row>
                     <Row>
                         <h6>{art.price}</h6>
