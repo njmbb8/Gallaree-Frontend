@@ -1,8 +1,7 @@
 import React, {useState} from "react";
-import { Form, Button, Offcanvas } from "react-bootstrap";
+import { Form, Button, Offcanvas, Alert } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { authenticate } from "../../slices/User";
-import { updateOrderItems } from "../../slices/Order"
 import { setError } from "../../slices/Error"
 
 function LogInForm({showSignIn, setShowSignIn}){
@@ -10,6 +9,8 @@ function LogInForm({showSignIn, setShowSignIn}){
     const [errors, setErrors] = useState({})
     const { REACT_APP_BACKEND_URL } = process.env
     const dispatch = useDispatch()
+    const [showSuccessAlert, setShowSuccessAlert] = useState(false)
+    const [showFailureAlert, setShowFailureAlert] = useState(false)
 
     function setField(field, value){
         setForm({
@@ -67,6 +68,32 @@ function LogInForm({showSignIn, setShowSignIn}){
         }
     }
 
+    function forgotPassword(e){
+        e.preventDefault()
+
+        if(!form['email'] || form['email'] === ''){
+            setError({email: 'E-mail is required to set password'})
+        }
+        else{
+            fetch(`${REACT_APP_BACKEND_URL}/reset_password`, {
+                method: 'POST',
+                credentials: "include",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({email: form['email']})
+            })
+            .then((data)=>{
+                if(data.ok){
+                    setShowSuccessAlert(true)
+                }
+                else{
+                    setShowFailureAlert(true)
+                }
+            })
+        }
+    }
+
     return(
         <>
             <Offcanvas 
@@ -78,6 +105,8 @@ function LogInForm({showSignIn, setShowSignIn}){
                     <Offcanvas.Title>Log-In</Offcanvas.Title>
                 </Offcanvas.Header>
                 <Offcanvas.Body>
+                    <Alert variant="success" show={showSuccessAlert}>Password reset email successfully sent!</Alert>
+                    <Alert variant="danger" show={showFailureAlert}>Password reset email could not be sent, please try again later.</Alert>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group>
                             <Form.Label>E-Mail</Form.Label>
@@ -104,6 +133,7 @@ function LogInForm({showSignIn, setShowSignIn}){
                         <Button variant="primary" type="submit">
                             Submit
                         </Button>
+                        <Button variant="danger" onClick={forgotPassword}>Forgot Password?</Button>
                     </Form>
                 </Offcanvas.Body>
             </Offcanvas>
