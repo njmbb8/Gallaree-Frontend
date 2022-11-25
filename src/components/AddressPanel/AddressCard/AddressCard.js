@@ -1,10 +1,9 @@
 import React from "react";
 import { Card, Col, Row } from "react-bootstrap";
 
-function AddressCard({ address, setSelectedAddress, setEditMode }){
+function AddressCard({ address, setSelectedAddress}){
     function handleClick(){
         setSelectedAddress(address)
-        setEditMode(true)
     }
 
     return(

@@ -1,12 +1,11 @@
 import React from "react";
 import AddressCard from "../AddressPanel/AddressCard/AddressCard";
 
-function AddressSelection({addresses, setSelectedAddress, setEditMode}){
+function AddressSelection({addresses, setSelectedAddress}){
     const addressCards = addresses.map((address) => <AddressCard 
                                                         address={address} 
                                                         setSelectedAddress={setSelectedAddress}
                                                         key={address.id}
-                                                        setEditMode={setEditMode}
                                                         />
                                         )
 

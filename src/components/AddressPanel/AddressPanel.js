@@ -21,32 +21,30 @@ function AddressPanel(){
         .then((data) => setAddresses(data))
     }, [])
 
+    useEffect(()=>{
+        if(selectedAddress.id){
+            setEditMode(true)
+        }
+    }, [selectedAddress])
+
     return(
         <Row>
             <Col>
                 <AddressSelection 
                     addresses={addresses} 
-                    setSelectedAddress={setSelectedAddress} 
-                    editMode={editMode}
-                    setEditMode={setEditMode}
+                    setSelectedAddress={setSelectedAddress}
                 />
             </Col>
             <Col>
                 <AddressForm 
                     address={selectedAddress} 
-                    setAddress={setSelectedAddress} 
-                    addresses={addresses}
-                    setAddresses={setAddresses}
-                    setEditMode={setEditMode} 
-                    editMode={editMode}
+                    setAddress={setSelectedAddress}
                 />
                 <AddressPanelButtons 
                     address={selectedAddress} 
                     setAddress={setSelectedAddress}
                     setAddresses={setAddresses} 
                     addresses={addresses}
-                    editMode={editMode}
-                    setEditMode={setEditMode}
                 />
             </Col>
         </Row>
