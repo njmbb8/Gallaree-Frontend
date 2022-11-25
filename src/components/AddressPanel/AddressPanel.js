@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import AddressForm from "../AddressForm/AddressForm";
+import AddressPanelButtons from "../AddressForm/AddressPanelButtons/AddressPanelButtons";
 import AddressSelection from "../AddressSelection/AddressSelection";
 
 function AddressPanel(){
@@ -38,6 +39,14 @@ function AddressPanel(){
                     setAddresses={setAddresses}
                     setEditMode={setEditMode} 
                     editMode={editMode}
+                />
+                <AddressPanelButtons 
+                    address={selectedAddress} 
+                    setAddress={setSelectedAddress}
+                    setAddresses={setAddresses} 
+                    addresses={addresses}
+                    editMode={editMode}
+                    setEditMode={setEditMode}
                 />
             </Col>
         </Row>
