@@ -10,9 +10,9 @@ function AddressCard({ address, setSelectedAddress}){
         <Card onClick={handleClick}>
             <Card.Header>
                 <Row>
-                <Col>{`${address.line1} ${address.line2}`}</Col>
-                {address.shipping? <Col>Shipping</Col> : null}
-                {address.billing? <Col>Billing</Col> : null}
+                    <Col>{`${address.line1} ${address.line2}`}</Col>
+                    {address.shipping? <Col>Default Shipping</Col> : null}
+                    {address.billing? <Col>Default Billing</Col> : null}
                 </Row>
             </Card.Header>
             <Card.Body>
