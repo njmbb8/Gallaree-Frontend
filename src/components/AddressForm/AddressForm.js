@@ -55,24 +55,6 @@ function AddressForm({ address, setAddress}){
                         />
                     </Form.Group>
                 </Row>
-                <Row>
-                    <Form.Group as={Col}>
-                        <Form.Check
-                            type="switch"
-                            label='Default Shipping?'
-                            checked={address.shipping}
-                            onChange={() => setAddress({...address, shipping: !address.shipping})}
-                        />
-                    </Form.Group>
-                    <Form.Group as={Col}>
-                        <Form.Check
-                            type="switch"
-                            label='Default Billing?'
-                            checked={address.billing}
-                            onChange={() => setAddress({...address,billing: !address.billing})}
-                        />
-                    </Form.Group>
-                </Row>
             </Form>
         </>
     )

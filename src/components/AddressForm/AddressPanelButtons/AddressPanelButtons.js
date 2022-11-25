@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Button } from "react-bootstrap";
+import { Col, Row, Button, Form } from "react-bootstrap";
 
 function AddressPanelButtons({address, setAddress, setAddresses, addresses}){
 
@@ -82,6 +82,25 @@ function AddressPanelButtons({address, setAddress, setAddresses, addresses}){
 
     return(
         <>
+            
+            <Row>
+                <Form.Group as={Col}>
+                    <Form.Check
+                        type="switch"
+                        label='Default Shipping?'
+                        checked={address.shipping}
+                        onChange={() => setAddress({...address, shipping: !address.shipping})}
+                    />
+                </Form.Group>
+                <Form.Group as={Col}>
+                    <Form.Check
+                        type="switch"
+                        label='Default Billing?'
+                        checked={address.billing}
+                        onChange={() => setAddress({...address,billing: !address.billing})}
+                    />
+                </Form.Group>
+            </Row>
             {
                 address.id ?
                 <Row>
