@@ -97,14 +97,7 @@ function App() {
             />
             <Route
               path={'/checkout'}
-              element = {
-                clientSecret?
-                  <Elements options={options} stripe={stripePromise}>
-                    <CheckoutForm/>
-                  </Elements>
-                :
-                  null
-              }
+              element = {<CheckoutForm/>}
             />
             <Route
               path={'/success/:id'}

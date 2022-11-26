@@ -1,136 +1,88 @@
-import React, {useState, useEffect} from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-    PaymentElement,
-    useStripe,
-    useElements
-  } from "@stripe/react-stripe-js";
-import { Col, Row, ListGroup } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { Button, Col, Row, Card } from "react-bootstrap";
 import OrderItem from "../OrderItem/OrderItem";
+import AddressForm from "../AddressForm/AddressForm";
 import AddressSelection from "../AddressSelection/AddressSelection";
-import { setError } from "../../slices/Error"
-import { setClientSecret } from "../../slices/ClientSecret";
-import { authenticate } from "../../slices/User";
-import { updateOrderItems } from "../../slices/Order";
+import { loadStripe } from "@stripe/stripe-js";
 
 function CheckoutForm(){
-    const stripe = useStripe()
-    const elements = useElements()
-    const [message, setMessage] = useState(null)
-    const [isLoading, setIsLoading] =  useState(false)
-    const order = useSelector(state => state.order)
-    const clientSecret = useSelector(state => state.clientSecret)
-    const arts = useSelector(state => state.arts)
-    const [shipping, setShipping] = useState({})
     const user = useSelector(state => state.user)
-    const {REACT_APP_BACKEND_URL} = process.env
-    const dispatch = useDispatch()
+    const arts = useSelector(state => state.arts)
+    const order = user.active_order
+    const [addresses, setAddresses] = useState([])
+    const [newAddress, setNewAddress] = useState(false)
+    const [selectedAddress, setSelectedAddress] = useState(user.addresses.shipping)
+    const {REACT_APP_BACKEND_URL, REACT_APP_STRIPE_PUBLISHABLE_KEY} = process.env
 
     useEffect(()=>{
-        if(order.payment_intent){
-            fetch(`${REACT_APP_BACKEND_URL}/payment_intent/${user.active_order.id}`, {
-                method: 'PATCH',
-                credentials: 'include',
-                body: JSON.stringify({
-                    address_id: shipping.id
-                })
-            })
-            .then((data) => {
-                if(!data.ok){
-                    throw Error(data.json())
-                }
-            })
-            .catch((error) => dispatch(setError(error)))
-        }
+        fetch(`${REACT_APP_BACKEND_URL}/addresses`, {
+            method: 'GET',
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        })
+        .then((ret) => ret.json())
+        .then((data) => setAddresses(data))
     }, [])
 
-    const itemRows = order.order_items.map((item) => {
-        return arts.map((art) => {
-            if (art.id === item.art_id)
-                return <OrderItem key={item.id} art={art} orderItem={item} mode="checkout"/>
-            else
-                return null
+    const orderItems = order.order_items.map((item) => <OrderItem 
+                                                            art={arts.find((art) => art.id == item.art_id)} 
+                                                            orderItem={item}
+                                                            mode="order"
+                                                        />)
+
+    function checkOut(){
+        fetch(`${REACT_APP_BACKEND_URL}/checkout_session`, {
+            method: 'POST',
+            credentials: 'include',
+            headers:{
+                'Content-Type': 'application/json',
+                referer: window.location.href
+            },
+            body: JSON.stringify({
+                line1: selectedAddress.line1,
+                line2: selectedAddress.line2,
+                city: selectedAddress.city,
+                state: selectedAddress.state,
+                postal_code: selectedAddress.postal_code
+            })
         })
-    })
-
-    useEffect(() => {
-        if(!stripe){
-            return
-        }
-
-        if(!clientSecret){
-            return
-        }
-
-        stripe.retrievePaymentIntent(clientSecret).then(({paymentIntent}) => {
-            switch (paymentIntent.status) {
-                case "succeeded":
-                    setMessage("Payment succeeded!");
-                    break;
-                  case "processing":
-                    setMessage("Your payment is processing.");
-                    break;
-                  case "requires_payment_method":
-                    setMessage("Your payment was not successful, please try again.");
-                    break;
-                  default:
-                    setMessage("Something went wrong.");
-                    break;
-            }
+        .then((ret) => ret.json())
+        .then(async (data)=>{
+            const stripe = await loadStripe(REACT_APP_STRIPE_PUBLISHABLE_KEY)
+            stripe.redirectToCheckout(data)
         })
-    }, [stripe, clientSecret])
-
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-
-        if(!stripe || !elements){
-            return
-        }
-
-        setIsLoading(true)
-
-        const { error } = await stripe.confirmPayment({
-            elements,
-            confirmParams: {
-                return_url: `http://localhost:3000/success/${order.id}`
-            }
-        })
-
-        if (error.type === "card_error" || error.type === "validation_error") {
-            setMessage(error.message);
-        } 
-        else {
-            setMessage("An unexpected error occured.");
-        }
-
-        setIsLoading(false)
     }
 
     return(
         <>
             <Row>
-                <ListGroup>
-                    {itemRows}
-                </ListGroup>
+                <Col>{orderItems}</Col>   
+                <Col>
+                    {
+                        newAddress ?
+                        <Card>
+                            <AddressForm 
+                                setAddress={setSelectedAddress} 
+                                address={selectedAddress} 
+                            />
+                            <Button onClick={()=>{setNewAddress(false)}} >Pick address from a list</Button>
+                        </Card>
+                        :
+                        <Card>
+                            <AddressSelection
+                                addresses = {addresses}
+                                setSelectedAddress = {setSelectedAddress}
+                            />
+                            <Button onClick={()=>{setNewAddress(true)}}>Use a new Address</Button>
+                        </Card>
+                    }
+                </Col>
             </Row>
             <Row>
-                <Col>
-                    <AddressSelection
-                        shipping={shipping}
-                        setShipping={setShipping}
-                    />
-                </Col>
-                <Col>
-                    <form id="payment-form" onSubmit={handleSubmit}>
-                        <PaymentElement id="payment-element" />
-                        <button disabled={isLoading || !stripe || !elements} id="submit">
-                            <span id="button-text">
-                                {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
-                            </span>
-                        </button>
-                        {/* {message && <div id="payment-message">{message}</div>} */}
-                    </form>
-                </Col>
+                <Button onClick={checkOut}>Checkout</Button>
             </Row>
         </>
     )
