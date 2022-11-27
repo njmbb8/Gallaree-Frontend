@@ -1,21 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, Row } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import CardCard from "../CardCard/CardCard";
 
 function CardSelection({cards, setCards}){
     const {REACT_APP_BACKEND_URL} = process.env
-    const [selectedCard, setSelectedCard] = useState(null)
+    const [selectedCard, setSelectedCard] = useState(useRef(cards[0]))
 
-    useEffect(() => {
-        fetch(`${REACT_APP_BACKEND_URL}/card`, {
-            method: 'GET',
-            credentials: 'include'
-        })
-        .then((response) => response.json())
-        .then((data) => setCards(data))
-    }, [])
+    useEffect(()=>{
+        setSelectedCard(cards[0])
+    }, [cards])
     
-    const cardCards = cards.map((card) => <CardCard key={card.stripe_id} card={card} setSelectedCard={setSelectedCard}/>)
+    const cardCards = cards.map((card) => <CardCard key={card.stripe_id} card={card} selectedCard={selectedCard} setSelectedCard={setSelectedCard}/>)
 
     function handleDelete(){
         fetch(`${REACT_APP_BACKEND_URL}/card/${selectedCard}`, {
