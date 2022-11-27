@@ -17,7 +17,6 @@ function CardPanel({stripePromise}){
         })
         .then((response) => { 
             response.json().then((data) => {
-                console.log(data);
                 setClientSecret(data);
             }).catch((err) => {
                 console.log(err);
