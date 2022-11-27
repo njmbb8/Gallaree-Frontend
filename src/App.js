@@ -13,7 +13,6 @@ import { TailSpin } from 'react-loader-spinner';
 import PasswordReset from './components/PasswordReset/PasswordReset';
 import Confirmation from './components/Confirmation/Confirmation';
 import { loadStripe } from '@stripe/stripe-js';
-import { Elements } from '@stripe/react-stripe-js';
 import CheckoutForm from './components/CheckoutForm/CheckoutForm';
 import PaymentConfirmation from './components/PaymentConfirmation/PaymentConfirmation';
 import AdminPanel from './components/AdminPanel/AdminPanel';
@@ -97,7 +96,7 @@ function App() {
             />
             <Route
               path={'/checkout'}
-              element = {<CheckoutForm/>}
+              element = {<CheckoutForm stripePromise={stripePromise}/>}
             />
             <Route
               path={'/success/:id'}
