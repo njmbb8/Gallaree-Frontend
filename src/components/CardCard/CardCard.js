@@ -2,7 +2,7 @@ import React from "react";
 import { FaCcAmex, FaCcDiscover, FaCcJcb, FaCcMastercard, FaCcStripe, FaCcVisa } from 'react-icons/fa'
 import { Row, Col, Card } from "react-bootstrap";
 
-function CardCard({card, setSelectedCard, selectedCard}){
+function CardCard({card, cards, setSelectedCard, selectedCard}){
 
     function getLogo(){
         switch (card.brand) {
@@ -31,6 +31,10 @@ function CardCard({card, setSelectedCard, selectedCard}){
     }
 
     const cardLogo = getLogo()
+
+    if(!selectedCard){
+        setSelectedCard(cards[0])
+    }
 
     return(
         <Row>

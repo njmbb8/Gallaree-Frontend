@@ -11,8 +11,8 @@ function CardSelection({cards, setCards, setSelectedCard, selectedCard}){
     //     setSelectedCard(cards[0])
     // }, [cards])
     
-    const cardCards = cards.map((card) => <CardCard key={card.stripe_id} card={card} selectedCard={!!selectedCard ? selectedCard : cards[0]} setSelectedCard={setSelectedCard}/>)
-
+    // const cardCards = cards.map((card) => <CardCard key={card.stripe_id} card={card} selectedCard={!!selectedCard ? selectedCard : cards[0]} setSelectedCard={setSelectedCard}/>)
+    const cardCards = cards.map((card) => <CardCard key={card.stripe_id} card={card} selectedCard={selectedCard}/>)
     function handleDelete(){
         fetch(`${REACT_APP_BACKEND_URL}/card/${selectedCard}`, {
             method: "DELETE",
