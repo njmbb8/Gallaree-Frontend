@@ -1,13 +1,13 @@
 import React from "react";
 import { Card, Col, Row } from "react-bootstrap";
 
-function AddressCard({ address, setSelectedAddress}){
+function AddressCard({ address, setSelectedAddress, selectedAddress}){
     function handleClick(){
         setSelectedAddress(address)
     }
 
     return(
-        <Card onClick={handleClick}>
+        <Card onClick={handleClick} bg={selectedAddress.id === address.id ? 'info' : null}>
             <Card.Header>
                 <Row>
                     <Col>{`${address.line1} ${address.line2}`}</Col>
