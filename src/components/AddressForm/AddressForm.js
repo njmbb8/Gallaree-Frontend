@@ -51,7 +51,7 @@ function AddressForm({ address, setAddress}){
                         <Form.Control 
                             type="text"
                             value={address.postal_code}
-                            onChange={e => setAddress({...address, postal_code: address.city})}
+                            onChange={e => setAddress({...address, postal_code: address.postal_code})}
                         />
                     </Form.Group>
                 </Row>

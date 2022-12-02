@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FaCcAmex, FaCcDiscover, FaCcJcb, FaCcMastercard, FaCcStripe, FaCcVisa } from 'react-icons/fa'
 import { Row, Col, Card } from "react-bootstrap";
+import { TailSpin } from "react-loader-spinner";
 
 function CardCard({card, cards, setSelectedCard, selectedCard}){
 
@@ -32,31 +33,36 @@ function CardCard({card, cards, setSelectedCard, selectedCard}){
 
     const cardLogo = getLogo()
 
-    if(!selectedCard){
-        setSelectedCard(cards[0])
-    }
+    useEffect(()=>{
+        if(!selectedCard){
+            setSelectedCard(cards[0])
+        }
+    }, [cards])
 
     return(
-        <Row>
-            <Card onClick={() => setSelectedCard(card.id)} bg={selectedCard.id === card.id ? 'info' : null}>
-                <Card.Header>
-                    <Row>    
-                        <Col>
-                            {cardLogo}
-                        </Col>
-                        <Col>
-                            {`************${card.last4}`}
-                        </Col>
-                    </Row>
-                </Card.Header>
-                <Card.Body>
-                    <Row>
-                        <Col>Exp Date: </Col>
-                        <Col>{`${card.exp_month}/${card.exp_year}`}</Col>
-                    </Row>
-                </Card.Body>
-            </Card>
-        </Row>
+        !!selectedCard ?
+            <Row>
+                <Card onClick={() => setSelectedCard(card)} bg={selectedCard.id === card.id ? 'primary' : null}>
+                    <Card.Header>
+                        <Row>    
+                            <Col>
+                                {cardLogo}
+                            </Col>
+                            <Col>
+                                {`************${card.last4}`}
+                            </Col>
+                        </Row>
+                    </Card.Header>
+                    <Card.Body>
+                        <Row>
+                            <Col>Exp Date: </Col>
+                            <Col>{`${card.exp_month}/${card.exp_year}`}</Col>
+                        </Row>
+                    </Card.Body>
+                </Card>
+            </Row>
+        :
+            <TailSpin />
     )
 }
 

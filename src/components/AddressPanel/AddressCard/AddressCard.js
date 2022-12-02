@@ -1,12 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Card, Col, Row } from "react-bootstrap";
+import { TailSpin } from "react-loader-spinner";
 
-function AddressCard({ address, setSelectedAddress, selectedAddress}){
+function AddressCard({ address, addresses, setSelectedAddress, selectedAddress}){
     function handleClick(){
-        setSelectedAddress(address)
+        if(selectedAddress.id === address.id){
+            setSelectedAddress(null)
+        }
+        else{
+            setSelectedAddress(address)
+        }
+        
     }
 
+    useEffect(()=>{
+        if(!selectedAddress){
+            setSelectedAddress(addresses.find((addr)=>addr.shipping))
+        }
+    }, [addresses])
+
+    // if(!selectedAddress && addresses ){
+    // }
+
+    // setSelectedAddress(addresses.find((addr)=>addr.shipping))
+
     return(
+        !!selectedAddress ?
         <Card onClick={handleClick} bg={selectedAddress.id === address.id ? 'info' : null}>
             <Card.Header>
                 <Row>
@@ -22,6 +41,8 @@ function AddressCard({ address, setSelectedAddress, selectedAddress}){
                 </Row>
             </Card.Body>
         </Card>
+    :
+        <TailSpin />
     )
 }
 
