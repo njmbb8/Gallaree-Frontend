@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Col, Form, Row, } from "react-bootstrap";
+import { TailSpin } from "react-loader-spinner";
 import { States } from "../../States";
 
 function AddressForm({ address, setAddress}){
@@ -7,8 +8,21 @@ function AddressForm({ address, setAddress}){
         return <option key={index} value={state["alpha-2"]}>{state["alpha-2"]}</option>
     })
 
+    useEffect(()=>{
+        if(!address){
+            setAddress({
+                line1: '',
+                line2: '',
+                city: '',
+                state: 'AL',
+                postal_code: ''
+            })
+        }
+    }, [])
+
     return(
-        <>
+        !!address ? 
+            <>
             <Form>
                 <Row>
                     <Form.Group as={Col}>
@@ -51,12 +65,32 @@ function AddressForm({ address, setAddress}){
                         <Form.Control 
                             type="text"
                             value={address.postal_code}
-                            onChange={e => setAddress({...address, postal_code: address.postal_code})}
+                            onChange={e => setAddress({...address, postal_code: e.target.value})}
+                        />
+                    </Form.Group>
+                </Row>
+                <Row>
+                    <Form.Group as={Col}>
+                        <Form.Check
+                            type="switch"
+                            label='Default Shipping?'
+                            checked={address.shipping}
+                            onChange={() => setAddress({...address, shipping: !address.shipping})}
+                        />
+                    </Form.Group>
+                    <Form.Group as={Col}>
+                        <Form.Check
+                            type="switch"
+                            label='Default Billing?'
+                            checked={address.billing}
+                            onChange={() => setAddress({...address,billing: !address.billing})}
                         />
                     </Form.Group>
                 </Row>
             </Form>
         </>
+        :
+        <TailSpin />
     )
 }
 

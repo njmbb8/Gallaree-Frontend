@@ -1,5 +1,5 @@
 import React from "react";
-import { Col, Row, Button, Form } from "react-bootstrap";
+import { Row, Button } from "react-bootstrap";
 
 function AddressPanelButtons({address, setAddress, setAddresses, addresses}){
 
@@ -9,7 +9,9 @@ function AddressPanelButtons({address, setAddress, setAddresses, addresses}){
         line2: '',
         city: '',
         state: 'AL',
-        postal_code: ''
+        postal_code: '',
+        shipping: false,
+        billing: false
     }
 
     function removeAddress(){
@@ -19,20 +21,8 @@ function AddressPanelButtons({address, setAddress, setAddresses, addresses}){
         })
         .then((ret)=>ret.json())
         .then((data)=>{
-            setAddresses(
-                addresses.reduce((result, addr) => {
-                    data.forEach((updatedAddr)=>{
-                        if(updatedAddr.id === addr.id &&
-                            addr.id !== address.id
-                        ){
-                            result.push(updatedAddr)
-                        } 
-                    })
-    
-                    return result
-                }, [])
-            )
-            clearForm()
+            setAddresses(data)
+            setAddress(blankForm)
         })
     }
 
@@ -47,16 +37,8 @@ function AddressPanelButtons({address, setAddress, setAddresses, addresses}){
         })
         .then((ret)=>ret.json())
         .then((data)=>{
-            setAddresses(
-                addresses.map((addr)=>{
-                    if(data.id === addr.id){
-                        return data
-                    }
-                    else{
-                        return addr
-                    }
-                })
-            )
+            setAddress(address)
+            setAddresses(data)
         })
     }
 
@@ -71,38 +53,15 @@ function AddressPanelButtons({address, setAddress, setAddresses, addresses}){
         })
         .then((ret)=>ret.json())
         .then((data)=>{
-            setAddress(blankForm)
-            setAddresses([data, ...addresses])
+            setAddress(address)
+            setAddresses(data)
         })
-    }
-
-    function clearForm(){
-        setAddress()
     }
 
     return(
         <>
-            
-            <Row>
-                <Form.Group as={Col}>
-                    <Form.Check
-                        type="switch"
-                        label='Default Shipping?'
-                        checked={address.shipping}
-                        onChange={() => setAddress({...address, shipping: !address.shipping})}
-                    />
-                </Form.Group>
-                <Form.Group as={Col}>
-                    <Form.Check
-                        type="switch"
-                        label='Default Billing?'
-                        checked={address.billing}
-                        onChange={() => setAddress({...address,billing: !address.billing})}
-                    />
-                </Form.Group>
-            </Row>
             {
-                address.id ?
+                !!address && !!address.id ?
                 <Row>
                     <Button onClick={updateAddress}>Update</Button>
                     <Button onClick={removeAddress} variant="danger">Remove</Button>

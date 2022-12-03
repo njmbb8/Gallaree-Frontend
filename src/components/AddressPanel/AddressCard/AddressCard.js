@@ -5,7 +5,13 @@ import { TailSpin } from "react-loader-spinner";
 function AddressCard({ address, addresses, setSelectedAddress, selectedAddress}){
     function handleClick(){
         if(selectedAddress.id === address.id){
-            setSelectedAddress(null)
+            setSelectedAddress({
+                line1: '',
+                line2: '',
+                city: '',
+                state: 'AL',
+                postal_code: ''
+            })
         }
         else{
             setSelectedAddress(address)
@@ -18,11 +24,6 @@ function AddressCard({ address, addresses, setSelectedAddress, selectedAddress})
             setSelectedAddress(addresses.find((addr)=>addr.shipping))
         }
     }, [addresses])
-
-    // if(!selectedAddress && addresses ){
-    // }
-
-    // setSelectedAddress(addresses.find((addr)=>addr.shipping))
 
     return(
         !!selectedAddress ?
