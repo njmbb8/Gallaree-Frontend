@@ -7,12 +7,13 @@ function CardSelection({cards, setCards, setSelectedCard, selectedCard}){
    
     const cardCards = cards.map((card) => <CardCard key={card.stripe_id} card={card} cards={cards} selectedCard={selectedCard} setSelectedCard={setSelectedCard}/>)
     function handleDelete(){
-        fetch(`${REACT_APP_BACKEND_URL}/card/${selectedCard}`, {
+        fetch(`${REACT_APP_BACKEND_URL}/card/${selectedCard.id}`, {
             method: "DELETE",
             credentials: 'include'
         })
-        .then(()=>{
-            setCards(cards.filter((card)=>card.id!==selectedCard))
+        .then((ret)=>ret.json())
+        .then((data)=>{
+            setCards(cards.filter((card)=>card.id!==data.id))
             setSelectedCard(null)
         })
     }

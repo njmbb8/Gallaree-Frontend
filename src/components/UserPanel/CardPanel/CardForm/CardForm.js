@@ -37,7 +37,7 @@ function CardForm({ cards, setCards }){
             .then((data) => data.json())
             .then((ret) => {
                 setCards([...cards, {
-                    stripe_id: ret.id,
+                    stripe_id: ret.stripe_id,
                     last4: ret.last4,
                     brand: ret.brand,
                     exp_month: ret.exp_month,
