@@ -5,18 +5,28 @@ import OrderItem from "../OrderItem/OrderItem";
 import AddressForm from "../AddressForm/AddressForm";
 import AddressSelection from "../AddressSelection/AddressSelection";
 import { loadStripe } from "@stripe/stripe-js";
+import CardForm from "../CardForm/CardForm";
+import CardSelection from "../CardSelection/CardSelection";
+import AddressPanelButtons from "../AddressForm/AddressPanelButtons/AddressPanelButtons";
+import { Elements } from "@stripe/react-stripe-js";
+import { TailSpin } from "react-loader-spinner";
 
-function CheckoutForm(){
+function CheckoutForm({stripePromise}){
     const user = useSelector(state => state.user)
     const arts = useSelector(state => state.arts)
     const order = user.active_order
-    const [addresses, setAddresses] = useState([])
+    const [addresses, setAddresses] = useState(null)
     const [newAddress, setNewAddress] = useState(false)
-    const [selectedAddress, setSelectedAddress] = useState(user.addresses.shipping)
+    const [cards, setCards] = useState(null)
+    const [newCard, setNewCard] = useState(false)
+    const [selectedAddress, setSelectedAddress] = useState(null)
+    const [selectedCard, setSelectedCard] = useState(null)
+    const [clientSecret, setClientSecret] = useState('')
     const {REACT_APP_BACKEND_URL, REACT_APP_STRIPE_PUBLISHABLE_KEY} = process.env
 
+    
     useEffect(()=>{
-        fetch(`${REACT_APP_BACKEND_URL}/addresses`, {
+        fetch(`${REACT_APP_BACKEND_URL}/payment_intent`, {
             method: 'GET',
             headers:{
                 'Content-Type': 'application/json'
@@ -24,17 +34,38 @@ function CheckoutForm(){
             credentials: 'include'
         })
         .then((ret) => ret.json())
-        .then((data) => setAddresses(data))
+        .then((data) => {
+            setCards(data.cards)
+            setAddresses(data.addresses)
+        })
+        
+        fetch(`${REACT_APP_BACKEND_URL}/setup_intent`, {
+            method: 'POST',
+            credentials: 'include'
+        })
+        .then((response) => { 
+            response.json().then((data) => {
+                setClientSecret(data);
+            }).catch((err) => {
+                console.log(err);
+            }) 
+        });
     }, [])
-
+    
     const orderItems = order.order_items.map((item) => <OrderItem 
-                                                            art={arts.find((art) => art.id == item.art_id)} 
-                                                            orderItem={item}
-                                                            mode="order"
-                                                        />)
+    art={arts.find((art) => art.id == item.art_id)} 
+    orderItem={item}
+    mode="order"
+    key={item.id}
+    />)
+    useEffect(()=>{
+        if(!!addresses){
+            setSelectedAddress(addresses.find((addr)=>addr.shipping))
+        }
+    }, [addresses])
 
     function checkOut(){
-        fetch(`${REACT_APP_BACKEND_URL}/checkout_session`, {
+        fetch(`${REACT_APP_BACKEND_URL}/payment_intent`, {
             method: 'POST',
             credentials: 'include',
             headers:{
@@ -42,11 +73,8 @@ function CheckoutForm(){
                 referer: window.location.href
             },
             body: JSON.stringify({
-                line1: selectedAddress.line1,
-                line2: selectedAddress.line2,
-                city: selectedAddress.city,
-                state: selectedAddress.state,
-                postal_code: selectedAddress.postal_code
+                shipping_id: selectedAddress.id,
+                payment_method_id: selectedCard.stripe_id
             })
         })
         .then((ret) => ret.json())
@@ -56,6 +84,13 @@ function CheckoutForm(){
         })
     }
 
+    const options = {
+        clientSecret: clientSecret['clientSecret'],
+        appearance: {
+            theme: 'stripe',
+        }
+    }
+
     return(
         <>
             <Row>
@@ -63,21 +98,55 @@ function CheckoutForm(){
                 <Col>
                     {
                         newAddress ?
-                        <Card>
+                        <>
                             <AddressForm 
                                 setAddress={setSelectedAddress} 
                                 address={selectedAddress} 
                             />
-                            <Button onClick={()=>{setNewAddress(false)}} >Pick address from a list</Button>
-                        </Card>
-                        :
-                        <Card>
-                            <AddressSelection
-                                addresses = {addresses}
-                                setSelectedAddress = {setSelectedAddress}
+                            <AddressPanelButtons 
+                                address={selectedAddress} 
+                                setAddress={setSelectedAddress} 
+                                addresses={addresses} 
+                                setAddresses={setAddresses} 
                             />
-                            <Button onClick={()=>{setNewAddress(true)}}>Use a new Address</Button>
-                        </Card>
+                            <Button onClick={()=>{setNewAddress(false)}} >Pick address from a list</Button>
+                        </>
+                        :
+                        !!addresses ?
+                            <>
+                                <AddressSelection
+                                    addresses = {addresses}
+                                    setSelectedAddress = {setSelectedAddress}
+                                    selectedAddress = {selectedAddress}
+                                />
+                                <Button onClick={()=>{setNewAddress(true)}}>Use a new Address</Button>
+                            </>
+                        :
+                            <TailSpin />
+                    }
+                </Col>
+                <Col>
+                    {
+                        newCard ?
+                        <>
+                            {
+                                clientSecret !== ''?
+                                <Elements stripe={stripePromise} options={options}>
+                                    <CardForm cards={cards} setCards={setCards} />
+                                </Elements>
+                                :
+                                <TailSpin />
+                            }
+                            <Button onClick={()=>setNewCard(false)} >Pick card from a list</Button>
+                        </>
+                        :
+                        !!cards ?
+                        <>
+                            <CardSelection cards={cards} setCards={setCards} selectedCard={selectedCard} setSelectedCard={setSelectedCard}/>
+                            <Button onClick={()=>setNewCard(true)} > Use a new card</Button>
+                        </>
+                        :
+                        <TailSpin />
                     }
                 </Col>
             </Row>
