@@ -9,6 +9,7 @@ function CardPanel({stripePromise}){
     const [clientSecret, setClientSecret] = useState('')
     const [cards, setCards] = useState([])
     const {REACT_APP_BACKEND_URL} = process.env
+    const [selectedCard, setSelectedCard] = useState(null)
 
     useEffect(() => {
         fetch(`${REACT_APP_BACKEND_URL}/setup_intent`, {
@@ -44,7 +45,12 @@ function CardPanel({stripePromise}){
     return(
         <Row>
             <Col>
-                <CardSelection cards={cards} setCards={setCards}/>
+                <CardSelection 
+                    cards={cards} 
+                    setCards={setCards}
+                    selectedCard={selectedCard}
+                    setSelectedCard={setSelectedCard}
+                />
             </Col>
             <Col>
                 <>
