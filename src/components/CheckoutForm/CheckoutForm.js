@@ -58,11 +58,6 @@ function CheckoutForm({stripePromise}){
     mode="order"
     key={item.id}
     />)
-    useEffect(()=>{
-        if(!!addresses){
-            setSelectedAddress(addresses.find((addr)=>addr.shipping))
-        }
-    }, [addresses])
 
     function checkOut(){
         fetch(`${REACT_APP_BACKEND_URL}/payment_intent`, {
