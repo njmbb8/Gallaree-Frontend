@@ -19,7 +19,7 @@ function AddressPanel(){
         })
         .then((ret) => ret.json())
         .then((data) => setAddresses(data))
-    }, [])
+    }, [REACT_APP_BACKEND_URL])
 
     return(
         <Row>

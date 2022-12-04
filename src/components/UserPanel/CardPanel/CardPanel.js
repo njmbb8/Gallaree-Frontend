@@ -33,7 +33,7 @@ function CardPanel({stripePromise}){
         })
         .then((ret)=>ret.json())
         .then((data)=>setCards(data))
-    }, [])
+    }, [REACT_APP_BACKEND_URL])
 
     const options = {
         clientSecret: clientSecret['clientSecret'],

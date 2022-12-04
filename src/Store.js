@@ -13,15 +13,11 @@ import {
 import storage from "redux-persist/lib/storage";
 import userReducer from "./slices/User"
 import artsReducer from "./slices/Arts"
-import orderReducer from "./slices/Order"
-import clientSecretReducer from "./slices/ClientSecret"
 import errorReducer from "./slices/Error"
 
 const rootReducer = combineReducers({
     arts: artsReducer,
     user: userReducer,
-    order: orderReducer,
-    clientSecret: clientSecretReducer,
     error: errorReducer
 })
 

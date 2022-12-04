@@ -6,7 +6,7 @@ import { Routes, Route } from 'react-router-dom';
 import Gallery from './components/Gallery/Gallery';
 import { Container } from 'react-bootstrap';
 import ArtDisplay from './components/ArtDisplay/ArtDisplay';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { authenticate } from './slices/User';
 import { populate } from './slices/Arts'
 import { TailSpin } from 'react-loader-spinner';
@@ -21,13 +21,10 @@ import UserPanel from './components/UserPanel/UserPanel';
 import ErrorModal from './components/ErrorModal/ErrorModal';
 
 function App() {
-  const [ statuses, setStatuses ] = useState([])
   const dispatch = useDispatch()
   const { REACT_APP_BACKEND_URL, REACT_APP_STRIPE_PUBLISHABLE_KEY } = process.env
   const [ ready, setReady ] = useState(false)
-  const clientSecret = useSelector(state => state.clientSecret)
   const stripePromise = loadStripe(REACT_APP_STRIPE_PUBLISHABLE_KEY)
-  const user = useSelector(state => state.user)
   
   useEffect(()=>{
     if(!!document.cookie.split('; ').find(row => row.startsWith('user_id='))){
@@ -39,15 +36,6 @@ function App() {
         dispatch(authenticate(ret))
       })
     }
-  }, [REACT_APP_BACKEND_URL, dispatch])
-  
-  useEffect(() => {
-    fetch(`${REACT_APP_BACKEND_URL}/statuses`)
-    .then((data) => data.json())
-    .then((ret)=>setStatuses(ret))
-  }, [REACT_APP_BACKEND_URL])
-  
-  useEffect(() => {
     fetch(`${REACT_APP_BACKEND_URL}/arts`)
     .then((data) => data.json())
     .then((ret) => {
@@ -55,14 +43,6 @@ function App() {
       setReady(true)
     })
   }, [REACT_APP_BACKEND_URL, dispatch])
-
-  const appearance = {
-    theme: 'stripe',
-  };
-  const options = {
-    clientSecret,
-    appearance,
-  };
   
   return (
     <div>
@@ -78,13 +58,11 @@ function App() {
             />
             <Route 
               path={'/art/:id'}
-              element= {<ArtDisplay 
-                statuses={statuses}
-              />}
+              element= {<ArtDisplay />}
             />
             <Route
               path={'/adminpanel'}
-              element={<AdminPanel statuses={statuses}/>}
+              element={<AdminPanel />}
             />
             <Route
               path={'/password_reset/:token'}

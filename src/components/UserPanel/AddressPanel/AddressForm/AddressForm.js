@@ -18,7 +18,7 @@ function AddressForm({ address, setAddress}){
                 postal_code: ''
             })
         }
-    }, [])
+    }, [address, setAddress])
 
     return(
         !!address ? 

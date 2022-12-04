@@ -23,7 +23,7 @@ function AddressCard({ address, addresses, setSelectedAddress, selectedAddress})
         if(!selectedAddress){
             setSelectedAddress(addresses.find((addr)=>addr.shipping))
         }
-    }, [addresses])
+    }, [addresses, selectedAddress, setSelectedAddress])
 
     return(
         !!selectedAddress ?

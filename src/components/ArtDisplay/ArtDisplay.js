@@ -8,7 +8,7 @@ import ArtForm from "../AdminPanel/ArtForm/ArtForm";
 import './ArtDisplay.css'
 import { setError } from "../../slices/Error"
 
-function ArtDisplay({ statuses }){
+function ArtDisplay(){
     const { REACT_APP_BACKEND_URL } = process.env
     const params = useParams()
     const arts = useSelector(state => state.arts)
@@ -61,7 +61,6 @@ function ArtDisplay({ statuses }){
     return(
         <>{edit ? 
             <ArtForm 
-                statuses={statuses}
                 setEdit={setEdit}
                 mode={'edit'}/>
             :

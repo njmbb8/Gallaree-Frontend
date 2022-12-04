@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Button, Col, Row, Card } from "react-bootstrap";
+import { Button, Col, Row } from "react-bootstrap";
 import OrderItem from "../Navbar/OrderDisplay/OrderItem/OrderItem";
 import AddressForm from "../UserPanel/AddressPanel/AddressForm/AddressForm";
 import AddressSelection from "../UserPanel/AddressPanel/AddressSelection/AddressSelection";
@@ -50,10 +50,10 @@ function CheckoutForm({stripePromise}){
                 console.log(err);
             }) 
         });
-    }, [])
+    }, [REACT_APP_BACKEND_URL])
     
     const orderItems = order.order_items.map((item) => <OrderItem 
-    art={arts.find((art) => art.id == item.art_id)} 
+    art={arts.find((art) => art.id === item.art_id)} 
     orderItem={item}
     mode="order"
     key={item.id}

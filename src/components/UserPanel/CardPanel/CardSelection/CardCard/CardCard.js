@@ -30,7 +30,7 @@ function CardCard({card, cards, setSelectedCard, selectedCard}){
         if(!selectedCard){
             setSelectedCard(cards[0])
         }
-    }, [cards])
+    }, [cards, selectedCard, setSelectedCard])
 
     return(
         !!selectedCard ?
