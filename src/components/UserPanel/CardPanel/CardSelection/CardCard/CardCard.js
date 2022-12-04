@@ -9,25 +9,18 @@ function CardCard({card, cards, setSelectedCard, selectedCard}){
         switch (card.brand) {
             case 'amex':
                 return <FaCcAmex />
-                break;
             case 'mastercard':
                 return <FaCcMastercard />
-                break
             case 'visa':
                 return <FaCcVisa />
-                break
             case 'discover':
                 return <FaCcDiscover />
-                break
             case 'diners':
                 return <FaCcDiscover />
-                break
             case 'jcb':
                 return <FaCcJcb />
-                break
             default:
                 return <FaCcStripe />
-                break;
         }
     }
 

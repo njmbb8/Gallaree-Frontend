@@ -1,9 +1,9 @@
 import React, {useState} from "react";
 import { Form, Row, Col, Button, Offcanvas } from "react-bootstrap";
-import { States } from "../../States";
+import { States } from "../../../States";
 import { useDispatch } from "react-redux";
-import { authenticate } from "../../slices/User";
-import { setError } from "../../slices/Error"
+import { authenticate } from "../../../slices/User";
+import { setError } from "../../../slices/Error"
 
 function RegistrationForm({ showRegister, setShowRegister }){
 

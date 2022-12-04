@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 import { Form, Button, Offcanvas, Alert } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { authenticate } from "../../slices/User";
-import { setError } from "../../slices/Error"
+import { authenticate } from "../../../slices/User";
+import { setError } from "../../../slices/Error"
 
 function LogInForm({showSignIn, setShowSignIn}){
     const [form, setForm] = useState({})

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Button, Col, Row, Card } from "react-bootstrap";
-import OrderItem from "../OrderItem/OrderItem";
-import AddressForm from "../AddressForm/AddressForm";
-import AddressSelection from "../AddressSelection/AddressSelection";
+import OrderItem from "../Navbar/OrderDisplay/OrderItem/OrderItem";
+import AddressForm from "../UserPanel/AddressPanel/AddressForm/AddressForm";
+import AddressSelection from "../UserPanel/AddressPanel/AddressSelection/AddressSelection";
 import { loadStripe } from "@stripe/stripe-js";
-import CardForm from "../CardForm/CardForm";
-import CardSelection from "../CardSelection/CardSelection";
-import AddressPanelButtons from "../AddressForm/AddressPanelButtons/AddressPanelButtons";
+import CardForm from "../UserPanel/CardPanel/CardForm/CardForm";
+import CardSelection from "../UserPanel/CardPanel/CardSelection/CardSelection";
+import AddressPanelButtons from "../UserPanel/AddressPanel/AddressForm/AddressPanelButtons/AddressPanelButtons";
 import { Elements } from "@stripe/react-stripe-js";
 import { TailSpin } from "react-loader-spinner";
 

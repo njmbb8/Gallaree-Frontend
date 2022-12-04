@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import { TailSpin } from "react-loader-spinner";
-import AddressForm from "../AddressForm/AddressForm";
-import AddressPanelButtons from "../AddressForm/AddressPanelButtons/AddressPanelButtons";
-import AddressSelection from "../AddressSelection/AddressSelection";
+import AddressForm from "./AddressForm/AddressForm";
+import AddressPanelButtons from "./AddressForm/AddressPanelButtons/AddressPanelButtons";
+import AddressSelection from "./AddressSelection/AddressSelection";
 
 function AddressPanel(){
     const {REACT_APP_BACKEND_URL} = process.env

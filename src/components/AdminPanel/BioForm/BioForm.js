@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Form, Image, Row, Button } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { setError } from "../../slices/Error"
+import { useDispatch } from "react-redux";
+import { setError } from "../../../slices/Error"
 
 function BioForm(){
     const {REACT_APP_BACKEND_URL} = process.env

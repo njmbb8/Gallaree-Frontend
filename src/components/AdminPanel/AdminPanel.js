@@ -1,8 +1,8 @@
 import React from "react";
 import { Tabs, Tab } from "react-bootstrap";
-import AdminOrders from "../AdminOrders/AdminOrders";
-import BioForm from "../BioForm/BioForm";
-import ArtForm from "../ArtForm/ArtForm";
+import AdminOrders from "./AdminOrders/AdminOrders";
+import BioForm from "./BioForm/BioForm";
+import ArtForm from "./ArtForm/ArtForm";
 
 function AdminPanel({statuses}){
     return(

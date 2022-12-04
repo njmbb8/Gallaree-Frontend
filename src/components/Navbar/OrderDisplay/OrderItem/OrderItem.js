@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Col, Row, Image, Button, ListGroup, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { authenticate } from "../../slices/User";
+import { authenticate } from "../../../../slices/User";
 
 function OrderItem({art, orderItem, mode}){
     const { REACT_APP_BACKEND_URL } = process.env

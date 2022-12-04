@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Form, Row, Col, Button } from "react-bootstrap";
-import { setError } from "../../slices/Error"
-import { updateOrderItems } from "../../slices/Order"
+import { Row, Col} from "react-bootstrap";
+import { setError } from "../../../../slices/Error"
+import { updateOrderItems } from "../../../../slices/Order"
 import { useDispatch } from "react-redux";
 
 

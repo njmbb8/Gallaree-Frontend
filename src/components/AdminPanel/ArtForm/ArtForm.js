@@ -3,15 +3,13 @@ import { useState } from "react";
 import { Form, Button, Row, Col, Image } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { update, addNew } from "../../slices/Arts"
-import { authenticate } from "../../slices/User";
-import { setError } from "../../slices/Error"
+import { update, addNew } from "../../../slices/Arts"
+import { setError } from "../../../slices/Error"
 import './ArtForm.css'
 
 function ArtForm({mode, setEdit}){
     const params = useParams()
     const arts = useSelector(state => state.arts)
-    const user = useSelector(state => state.user)
     const dispatch = useDispatch()
     const art = arts.find((art) => parseInt(params.id) === art.id)
     const [form, setForm] = useState(mode === 'edit' ? art : {})

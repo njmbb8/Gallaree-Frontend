@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Col, Form, Row, } from "react-bootstrap";
 import { TailSpin } from "react-loader-spinner";
-import { States } from "../../States";
+import { States } from "../../../../States";
 
 function AddressForm({ address, setAddress}){
     const stateOptions = States.map((state, index) => {

@@ -1,6 +1,6 @@
 import React from "react";
 import { Row } from "react-bootstrap";
-import GalleryCard from "../GalleryCard/GalleryCard";
+import GalleryCard from "./GalleryCard/GalleryCard";
 import { useSelector } from "react-redux";
 
 function Gallery(){

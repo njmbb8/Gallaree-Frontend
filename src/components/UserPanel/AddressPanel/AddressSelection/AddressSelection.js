@@ -1,5 +1,5 @@
 import React from "react";
-import AddressCard from "../AddressPanel/AddressCard/AddressCard";
+import AddressCard from "./AddressCard/AddressCard";
 
 function AddressSelection({addresses, setSelectedAddress, selectedAddress}){
     const addressCards = addresses.map((address) => <AddressCard 

@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import { useDispatch } from "react-redux";
-import AdminOrderItem from "../AdminOrderItem/AdminOrderItem";
-import { setError } from "../../slices/Error"
+import AdminOrderItem from "./AdminOrderItem/AdminOrderItem";
+import { setError } from "../../../slices/Error"
 
 function AdminOrders(){
     const {REACT_APP_BACKEND_URL} = process.env

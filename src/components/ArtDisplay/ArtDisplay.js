@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { remove } from "../../slices/Arts"
 import { authenticate } from "../../slices/User";
-import ArtForm from "../ArtForm/ArtForm";
+import ArtForm from "../AdminPanel/ArtForm/ArtForm";
 import './ArtDisplay.css'
 import { setError } from "../../slices/Error"
 

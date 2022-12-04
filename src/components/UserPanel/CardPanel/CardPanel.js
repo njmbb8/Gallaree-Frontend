@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
-import CardForm from "../CardForm/CardForm";
-import CardSelection from "../CardSelection/CardSelection";
+import CardForm from "./CardForm/CardForm";
+import CardSelection from "./CardSelection/CardSelection";
 import { Elements } from "@stripe/react-stripe-js";
 import { TailSpin } from "react-loader-spinner";
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { Offcanvas, ListGroup, Row, Col, Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import OrderItem from "../OrderItem/OrderItem";
+import OrderItem from "./OrderItem/OrderItem";
 
 function OrderDisplay({showOrder, setShowOrder}){
     const order = useSelector(state => state.user.active_order)

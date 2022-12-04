@@ -2,9 +2,9 @@ import React, {useState} from "react";
 import { NavbarData } from "./NavbarData";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
-import RegistrationForm from "../RegistrationForm/RegistrationForm";
-import LogInForm from "../LogInForm/LogInForm";
-import OrderDisplay from "../OrderDisplay/OrderDisplay";
+import RegistrationForm from "./RegistrationForm/RegistrationForm";
+import LogInForm from "./LogInForm/LogInForm";
+import OrderDisplay from "./OrderDisplay/OrderDisplay";
 import { signOut } from "../../slices/User"
 import { useNavigate } from "react-router-dom";
 import { setError } from "../../slices/Error"
