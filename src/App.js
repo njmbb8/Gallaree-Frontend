@@ -19,6 +19,7 @@ import AdminPanel from './components/AdminPanel/AdminPanel';
 import BioDisplay from './components/BioDisplay/BioDisplay';
 import UserPanel from './components/UserPanel/UserPanel';
 import ErrorModal from './components/ErrorModal/ErrorModal';
+import Order from './components/Order/Order';
 
 function App() {
   const dispatch = useDispatch()
@@ -87,6 +88,10 @@ function App() {
             <Route
               path={'/user'}
               element={<UserPanel stripePromise={stripePromise}/>}
+            />
+            <Route
+              path={'/order/:id'}
+              element={<Order />}
             />
           </Routes>
         </Container>

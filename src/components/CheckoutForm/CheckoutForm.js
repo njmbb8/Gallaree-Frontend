@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Button, Col, Row } from "react-bootstrap";
+import { Button, Col, ListGroup, Row } from "react-bootstrap";
 import OrderItem from "../Navbar/OrderDisplay/OrderItem/OrderItem";
 import AddressForm from "../UserPanel/AddressPanel/AddressForm/AddressForm";
 import AddressSelection from "../UserPanel/AddressPanel/AddressSelection/AddressSelection";
@@ -89,7 +89,7 @@ function CheckoutForm({stripePromise}){
     return(
         <>
             <Row>
-                <Col>{orderItems}</Col>   
+                <ListGroup>{orderItems}</ListGroup> 
                 <Col>
                     {
                         newAddress ?
