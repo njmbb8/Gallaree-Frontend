@@ -1,16 +1,16 @@
 import React, {useState} from "react";
-import { Form, Button, Offcanvas, Alert } from "react-bootstrap";
+import { Form, Button, Offcanvas } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { authenticate } from "../../../slices/User";
 import { setError } from "../../../slices/Error"
+import LoginAlert from "./LoginAlert/LoginAlert";
 
 function LogInForm({showSignIn, setShowSignIn}){
     const [form, setForm] = useState({})
     const [errors, setErrors] = useState({})
     const { REACT_APP_BACKEND_URL } = process.env
     const dispatch = useDispatch()
-    const [showSuccessAlert, setShowSuccessAlert] = useState(false)
-    const [showFailureAlert, setShowFailureAlert] = useState(false)
+    const [alerts, setAlerts] = useState([])
 
     function setField(field, value){
         setForm({
@@ -54,17 +54,21 @@ function LogInForm({showSignIn, setShowSignIn}){
             })
             .then((data) => {
                 if(!data.ok){
-                    throw Error(data.json())
-                }
-                else{
-                    return data.json()
+                    if(data.status === 401){
+                        throw Error("Username/Password Incorrect")
+                    }
+                    else{
+                        throw Error(`There was an error logging in: ${data.status}: ${data.statusText}`)
+                    }
                 }
             })
             .then((ret) => {
                 dispatch(authenticate(ret))
                 setShowSignIn(false)
             })
-            .catch((error) => dispatch(setError(error)))
+            .catch((error) => {
+                setAlerts([...alerts, {message: error.message, variant:"danger"}])
+            })
         }
     }
 
@@ -85,14 +89,18 @@ function LogInForm({showSignIn, setShowSignIn}){
             })
             .then((data)=>{
                 if(data.ok){
-                    setShowSuccessAlert(true)
+                    setAlerts([...alerts, {message: "Password Reset E-Mail Sent", variant:"success"}])
                 }
                 else{
-                    setShowFailureAlert(true)
+                    setAlerts([...alerts, {message: `Password could not be reset, please try again later ${data.status}: ${data.statusText}`, variant:"danger"}])
                 }
             })
         }
     }
+
+    const loginAlerts = alerts.map((alert, index)=>{
+        return <LoginAlert message={alert.message} variant={alert.variant} key={index}/>
+    })
 
     return(
         <>
@@ -104,9 +112,8 @@ function LogInForm({showSignIn, setShowSignIn}){
                 <Offcanvas.Header closeButton>
                     <Offcanvas.Title>Log-In</Offcanvas.Title>
                 </Offcanvas.Header>
+                {loginAlerts}
                 <Offcanvas.Body>
-                    <Alert variant="success" show={showSuccessAlert}>Password reset email successfully sent!</Alert>
-                    <Alert variant="danger" show={showFailureAlert}>Password reset email could not be sent, please try again later.</Alert>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group>
                             <Form.Label>E-Mail</Form.Label>
