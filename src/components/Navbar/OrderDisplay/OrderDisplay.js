@@ -15,6 +15,13 @@ function OrderDisplay({showOrder, setShowOrder}){
         })
     })
 
+    const orderTotal = order.order_items.reduce((agg, item)=>{
+        const art = arts.find((art)=>art.id===item.art_id)
+        return art.price * item.quantity
+    }, 0)
+
+    const stripeFee = (orderTotal *.029) + .30
+
     return(
         <>
             <Offcanvas show={showOrder} onHide={() => setShowOrder(!showOrder)} placement="end">
@@ -26,7 +33,7 @@ function OrderDisplay({showOrder, setShowOrder}){
                                 <h5>Subotal: </h5>
                             </Col>
                             <Col>
-                                <h5>{order.order_total}</h5>
+                                <h5>{orderTotal.toFixed(2)}</h5>
                             </Col>
                         </Row>
                     </ListGroup.Item>
@@ -36,7 +43,7 @@ function OrderDisplay({showOrder, setShowOrder}){
                                 <h5>Processing Fees: </h5>
                             </Col>
                             <Col>
-                                <h5>{order.stripe_fee}</h5>
+                                <h5>{stripeFee.toFixed(2)}</h5>
                             </Col>
                         </Row>
                     </ListGroup.Item>
@@ -46,7 +53,7 @@ function OrderDisplay({showOrder, setShowOrder}){
                                 <h5>Total: </h5>
                             </Col>
                             <Col>
-                                <h5>{order.total_with_fee}</h5>
+                                <h5>{(orderTotal + stripeFee).toFixed(2)}</h5>
                             </Col>
                         </Row>
                     </ListGroup.Item>
