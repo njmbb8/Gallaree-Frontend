@@ -1,14 +1,14 @@
 import React from "react";
 import { Tabs, Tab } from "react-bootstrap";
-import AdminOrders from "./AdminOrders/AdminOrders";
 import BioForm from "./BioForm/BioForm";
 import ArtForm from "./ArtForm/ArtForm";
+import UserOrders from "../UserPanel/UserOrders/UserOrders";
 
 function AdminPanel({statuses}){
     return(
         <Tabs defaultActiveKey="orders">
             <Tab eventKey="orders" title="Orders">
-                <AdminOrders/>
+                <UserOrders />
             </Tab>
             <Tab eventKey="bioInfo" title="Bio">
                 <BioForm />
