@@ -29,6 +29,9 @@ function UserOrders(){
                 <ListGroup.Item>
                     <Row>
                         <Col>
+                            <h5>Order #:</h5>
+                        </Col>
+                        <Col>
                             <h5>Order Placed At:</h5>
                         </Col>
                         <Col>

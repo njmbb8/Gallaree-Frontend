@@ -1,10 +1,15 @@
 import React from "react";
 import { ListGroupItem, Col, Row } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 function UserOderListItem({order}){
+    const navigate = useNavigate()
     return (
-        <ListGroupItem>
+        <ListGroupItem onClick={()=>navigate(`/order/${order.id}`)}>
             <Row>
+                <Col>
+                    <p>{order.id}</p>
+                </Col>
                 <Col>
                     <Row>
                         <p>{`${new Date(order.place_time).toLocaleDateString('en-US')}`}</p>
