@@ -1,4 +1,3 @@
-import userEvent from "@testing-library/user-event";
 import React, { useEffect, useState } from "react";
 import { ListGroup, Row, Col, Card, ButtonGroup, Button } from "react-bootstrap";
 import { TailSpin } from "react-loader-spinner";
@@ -6,14 +5,16 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import OrderItem from "../Navbar/OrderDisplay/OrderItem/OrderItem";
 import TrackingModal from "./TrackingModal/TrackingModal";
+import { loadStripe } from "@stripe/stripe-js";
 
 function Order(){
     const params = useParams()
-    const { REACT_APP_BACKEND_URL } = process.env
+    const { REACT_APP_BACKEND_URL, REACT_APP_STRIPE_PUBLISHABLE_KEY } = process.env
     const [order, setOrder] = useState(null)
     const arts = useSelector(state => state.arts)
     const user = useSelector(state => state.user)
     const [showModal, setShowModal] = useState(false)
+    const [orderStatus, setOrderStatus] = useState('')
 
     useEffect(()=>{
         fetch(`${REACT_APP_BACKEND_URL}/order/${params['id']}`, {
@@ -24,8 +25,23 @@ function Order(){
             }
         })
         .then((ret)=>ret.json())
-        .then((data)=>setOrder(data))
-    }, [])
+        .then((data)=>{
+            setOrder(data)
+            setOrderStatus(data.status)
+        })
+    }, [orderStatus])
+
+    
+    useEffect(async () => {
+        const stripe = await loadStripe(REACT_APP_STRIPE_PUBLISHABLE_KEY)
+        const interval = setInterval(async ()=>{
+            const {paymentIntent} = await stripe.retrievePaymentIntent(params['clientSecret'])
+            if(paymentIntent && paymentIntent.status !== orderStatus){
+                setOrderStatus(paymentIntent.status)
+            }
+        }, 1000)
+        return () => clearInterval(interval)
+      }, [])
 
     function handleCancel(){
         fetch(`${REACT_APP_BACKEND_URL}/order/${order.id}`, {

@@ -93,6 +93,10 @@ function App() {
               path={'/order/:id'}
               element={<Order />}
             />
+            <Route
+              path={'/order/:id/:clientSecret'}
+              element={<Order />}
+            />
           </Routes>
         </Container>
         <ErrorModal/>

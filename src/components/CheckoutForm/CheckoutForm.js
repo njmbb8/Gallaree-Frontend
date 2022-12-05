@@ -4,12 +4,12 @@ import { Button, Col, ListGroup, Row } from "react-bootstrap";
 import OrderItem from "../Navbar/OrderDisplay/OrderItem/OrderItem";
 import AddressForm from "../UserPanel/AddressPanel/AddressForm/AddressForm";
 import AddressSelection from "../UserPanel/AddressPanel/AddressSelection/AddressSelection";
-import { loadStripe } from "@stripe/stripe-js";
 import CardForm from "../UserPanel/CardPanel/CardForm/CardForm";
 import CardSelection from "../UserPanel/CardPanel/CardSelection/CardSelection";
 import AddressPanelButtons from "../UserPanel/AddressPanel/AddressForm/AddressPanelButtons/AddressPanelButtons";
 import { Elements } from "@stripe/react-stripe-js";
 import { TailSpin } from "react-loader-spinner";
+import { useNavigate } from "react-router-dom";
 
 function CheckoutForm({stripePromise}){
     const user = useSelector(state => state.user)
@@ -22,7 +22,8 @@ function CheckoutForm({stripePromise}){
     const [selectedAddress, setSelectedAddress] = useState(null)
     const [selectedCard, setSelectedCard] = useState(null)
     const [clientSecret, setClientSecret] = useState('')
-    const {REACT_APP_BACKEND_URL, REACT_APP_STRIPE_PUBLISHABLE_KEY} = process.env
+    const {REACT_APP_BACKEND_URL} = process.env
+    const navigate = useNavigate()
 
     
     useEffect(()=>{
@@ -72,10 +73,9 @@ function CheckoutForm({stripePromise}){
                 payment_method_id: selectedCard.stripe_id
             })
         })
-        .then((ret) => ret.json())
-        .then(async (data)=>{
-            const stripe = await loadStripe(REACT_APP_STRIPE_PUBLISHABLE_KEY)
-            stripe.redirectToCheckout(data)
+        .then((ret)=>ret.json())
+        .then((data) => {
+            navigate(`/order/${order.id}/${data['client_secret']}`)
         })
     }
 
