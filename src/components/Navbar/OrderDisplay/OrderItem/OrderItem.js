@@ -15,8 +15,9 @@ function OrderItem({art, orderItem, mode}){
             method: 'DELETE',
             credentials: 'include'
         })
-        .then(()=>{
-            dispatch(authenticate({...user, active_order: {...user.active_order, order_items: user.active_order.order_items.filter((item) => item.id !== orderItem.id)}}))
+        .then((ret)=>ret.json())
+        .then((data)=>{
+            dispatch(authenticate({...user, active_order: data}))
         })
     }
 
@@ -37,10 +38,7 @@ function OrderItem({art, orderItem, mode}){
         .then((ret) => {
             dispatch(authenticate({
                 ...user, 
-                active_order: {
-                    ...user.active_order, 
-                    order_items: user.active_order.order_items.map((item)=>item.id===ret.id ? ret : item)
-                }
+                active_order: ret
             }))
             setQuantity(ret.quantity)
         })

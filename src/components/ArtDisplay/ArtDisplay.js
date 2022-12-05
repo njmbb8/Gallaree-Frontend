@@ -54,7 +54,7 @@ function ArtDisplay(){
                 return data.json()
             }
         })
-        .then((ret) => dispatch(authenticate({...user, active_order: {...user.active_order, order_items: [...user.active_order.order_items, ret]}})))
+        .then((ret) => dispatch(authenticate({...user, active_order: ret})))
         .catch((error) => dispatch(setError(error)))
     }
     

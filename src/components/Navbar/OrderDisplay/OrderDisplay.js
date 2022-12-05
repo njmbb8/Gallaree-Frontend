@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Offcanvas, ListGroup, Row, Col, Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import OrderItem from "./OrderItem/OrderItem";
 
 function OrderDisplay({showOrder, setShowOrder}){
-    const order = useSelector(state => state.user.active_order)
+    const user = useSelector((state) => state.user)
+    const [order, setOrder] = useState(user.active_order)
     const arts = useSelector(state => state.arts)
     const itemRows = order.order_items.map((item) => {
         return arts.map((art) => {
@@ -14,6 +15,10 @@ function OrderDisplay({showOrder, setShowOrder}){
                 return null
         })
     })
+
+    useEffect(()=>{
+        setOrder(user.active_order)
+    }, [user.active_order])
 
     return(
         <>
