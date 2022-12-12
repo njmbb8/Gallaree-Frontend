@@ -65,7 +65,7 @@ function Blog(){
                         onChange={(e)=>setComment(e.target.value)}
                     />
                     <Form.Control.Feedback type="invalid">
-
+                        {error}
                     </Form.Control.Feedback>
                 </Form.Group>
                 <Button type="submit">Submit</Button>
