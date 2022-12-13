@@ -27,7 +27,7 @@ function Blog(){
         .then((data)=>{
             setBlog(data)
         })
-    }, [])
+    }, [REACT_APP_BACKEND_URL, params.id])
 
     function postComment(e){
         e.preventDefault()

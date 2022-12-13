@@ -17,9 +17,9 @@ function Blogs(){
         .then((data)=>{
             setBlogPosts(data)
         })
-    }, [])
+    }, [REACT_APP_BACKEND_URL])
 
-    const blogCards = blogPosts ? blogPosts.map((blog)=>{<BlogCard blog={blog} />}) : null
+    const blogCards = blogPosts ? blogPosts.map((blog)=><BlogCard blog={blog} />) : null
 
     return(
         <>

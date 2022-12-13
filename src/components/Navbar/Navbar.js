@@ -57,7 +57,7 @@ function Navigation(){
     return (
         <>
             <Navbar bg="light" expand="lg">
-                <Container fluid>
+                <Container>
                     <Navbar.Brand href="/">
                         Shai Prince Art
                     </Navbar.Brand>

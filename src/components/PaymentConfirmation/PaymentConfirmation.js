@@ -36,7 +36,7 @@ function PaymentConfirmation(){
 
     useEffect(() => {
         setIntervalID(setInterval(checkForOrderUpdate, 1000))
-    }, [])
+    }, [checkForOrderUpdate])
 
     if(paymentComplete){
         clearInterval(intervalID)

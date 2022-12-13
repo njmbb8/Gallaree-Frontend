@@ -17,7 +17,7 @@ function Order(){
     const [orderStatus, setOrderStatus] = useState('')
 
     useEffect(()=>{
-        fetch(`${REACT_APP_BACKEND_URL}/order/${params['id']}`, {
+        fetch(`${REACT_APP_BACKEND_URL}/order/${params.id}`, {
             method: 'GET',
             credentials: 'include',
             headers: {
@@ -29,11 +29,11 @@ function Order(){
             setOrder(data)
             setOrderStatus(data.status)
         })
-    }, [orderStatus])
+    }, [REACT_APP_BACKEND_URL, params.id, orderStatus])
 
     
-    useEffect(async () => {
-        const stripe = await loadStripe(REACT_APP_STRIPE_PUBLISHABLE_KEY)
+    useEffect(() => {
+        const stripe = async () => await loadStripe(REACT_APP_STRIPE_PUBLISHABLE_KEY)
         const interval = setInterval(async ()=>{
             const {paymentIntent} = await stripe.retrievePaymentIntent(params['clientSecret'])
             if(paymentIntent && paymentIntent.status !== orderStatus){
@@ -41,7 +41,7 @@ function Order(){
             }
         }, 1000)
         return () => clearInterval(interval)
-      }, [])
+      }, [REACT_APP_STRIPE_PUBLISHABLE_KEY, orderStatus, params])
 
     function handleCancel(){
         fetch(`${REACT_APP_BACKEND_URL}/order/${order.id}`, {
