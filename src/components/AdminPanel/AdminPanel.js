@@ -3,8 +3,9 @@ import { Tabs, Tab } from "react-bootstrap";
 import BioForm from "./BioForm/BioForm";
 import ArtForm from "./ArtForm/ArtForm";
 import UserOrders from "../UserPanel/UserOrders/UserOrders";
+import BlogForm from "./BlogForm/BlogForm";
 
-function AdminPanel({statuses}){
+function AdminPanel(){
     return(
         <Tabs defaultActiveKey="orders">
             <Tab eventKey="orders" title="Orders">
@@ -14,7 +15,10 @@ function AdminPanel({statuses}){
                 <BioForm />
             </Tab>
             <Tab eventKey="Art" title="New Art">
-                <ArtForm mode="upload" statuses={statuses}/>
+                <ArtForm mode="upload"/>
+            </Tab>
+            <Tab eventKey="blog" title="New Blog Post">
+                <BlogForm mode="upload" />
             </Tab>
         </Tabs>
     )

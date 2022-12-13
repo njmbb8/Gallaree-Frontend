@@ -1,7 +1,9 @@
-import { set } from "immer/dist/internal";
 import React, { useEffect, useState } from "react";
-import { Button, Form, Image } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { Button, Form, Image, Row, Col, Stack } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import BlogForm from "../../AdminPanel/BlogForm/BlogForm";
+import Comment from "./Comment/Comment";
 
 function Blog(){
     const { REACT_APP_BACKEND_URL } = process.env
@@ -9,9 +11,12 @@ function Blog(){
     const [comment, setComment] = useState(null)
     const [error, setError] = useState(null)
     const params = useParams()
+    const user = useSelector(state => state.user)
+    const [edit, setEdit] = useState(false)
+    const navigate = useNavigate()
 
     useEffect(()=>{
-        fetch(`${REACT_APP_BACKEND_URL}/blog/${params.id}`, {
+        fetch(`${REACT_APP_BACKEND_URL}/blogs/${params.id}`, {
             method: 'GET',
             credentials: 'include',
             header: {
@@ -31,7 +36,7 @@ function Blog(){
         }
         else{
             setError(null)
-            fetch(`${REACT_APP_BACKEND_URL}/comment`, {
+            fetch(`${REACT_APP_BACKEND_URL}/comments`, {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
@@ -49,29 +54,82 @@ function Blog(){
         }
     }
 
-    const comments = blog.comments.map((comment)=><Comment comment={comment} key={comment.id}/>)
+    function handleDelete(e){
+        e.preventDefault()
+
+        fetch(`${REACT_APP_BACKEND_URL}/blogs/${blog.id}`, {
+            method: 'DELETE',
+            credentials: 'include'
+        })
+        .then((res)=>{
+            if(res.ok){
+                navigate('/blog/')
+            }
+        })
+    }
+
+    const comments = blog ? blog.comments.map((comment)=><Comment blog={blog} setBlog={setBlog} comment={comment} key={comment.id}/>) : null
 
     return(
+        blog ? 
         <>
-            <Image src={`${REACT_APP_BACKEND_URL}${blog.photo}`} />
-            <h2>{blog.title}</h2>
-            <p>{blog.body}</p>
-            <Form onSubmit={postComment}>
-                <Form.Group>
-                    <Form.Label>Leave a Comment:</Form.Label>
-                    <Form.Control
-                        as="textarea"
-                        value={comment}
-                        onChange={(e)=>setComment(e.target.value)}
+            {
+                user.admin?
+                    <Row>
+                        <Col>
+                            <Button 
+                                className="w-100" 
+                                variant="danger"
+                                onClick={handleDelete}
+                            >Delete Post</Button>
+                        </Col>
+                        <Col>
+                            <Button 
+                                className="w-100" 
+                                variant="primary"
+                                onClick={()=>setEdit(true)}
+                            >Edit Post</Button>
+                        </Col>
+                    </Row>
+                :
+                    null
+            }
+            {
+                !edit ?
+                    <>
+                        <Image src={`${REACT_APP_BACKEND_URL}${blog.photo}`} />
+                        <h2>{blog.title}</h2>
+                        <p>{blog.body}</p>
+                        <Form onSubmit={postComment}>
+                            <Form.Group>
+                                <Form.Label>Leave a Comment:</Form.Label>
+                                <Form.Control
+                                    as="textarea"
+                                    value={comment}
+                                    onChange={(e)=>setComment(e.target.value)}
+                                    isInvalid={!!error}
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    {error}
+                                </Form.Control.Feedback>
+                            </Form.Group>
+                            <Button type="submit">Submit</Button>
+                        </Form>
+                        <Stack direction="vertical" gap={3}>
+                            {comments}
+                        </Stack>
+                    </>
+                :
+                    <BlogForm 
+                        blog={blog} 
+                        mode="edit" 
+                        setEdit={setEdit}
+                        setBlog={setBlog} 
                     />
-                    <Form.Control.Feedback type="invalid">
-                        {error}
-                    </Form.Control.Feedback>
-                </Form.Group>
-                <Button type="submit">Submit</Button>
-            </Form>
-            {comments}
+            }
         </>
+        :
+        null
     )
 }
 

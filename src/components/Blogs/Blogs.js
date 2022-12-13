@@ -19,10 +19,12 @@ function Blogs(){
         })
     }, [])
 
-    const blogCards = blogPosts.map((blog)=>{<BlogCard blog={blog} />})
+    const blogCards = blogPosts ? blogPosts.map((blog)=>{<BlogCard blog={blog} />}) : null
 
     return(
-        {blogCards}
+        <>
+            {blogCards}
+        </>
     )
 }
 

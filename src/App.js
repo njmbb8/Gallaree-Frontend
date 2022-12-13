@@ -20,6 +20,8 @@ import BioDisplay from './components/BioDisplay/BioDisplay';
 import UserPanel from './components/UserPanel/UserPanel';
 import ErrorModal from './components/ErrorModal/ErrorModal';
 import Order from './components/Order/Order';
+import Blogs from './components/Blogs/Blogs';
+import Blog from './components/Blogs/Blog/Blog';
 
 function App() {
   const dispatch = useDispatch()
@@ -96,6 +98,14 @@ function App() {
             <Route
               path={'/order/:id/:clientSecret'}
               element={<Order />}
+            />
+            <Route
+              path={'/blog/'}
+              element={<Blogs />}
+            />
+            <Route
+              path={'/blog/:id'}
+              element={<Blog />}
             />
           </Routes>
         </Container>
