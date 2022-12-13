@@ -61,6 +61,9 @@ function LogInForm({showSignIn, setShowSignIn}){
                         throw Error(`There was an error logging in: ${data.status}: ${data.statusText}`)
                     }
                 }
+                else{
+                    return data.json()
+                }
             })
             .then((ret) => {
                 dispatch(authenticate(ret))
