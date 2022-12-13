@@ -1,6 +1,5 @@
 import React, {useState} from "react";
-import { NavbarData } from "./NavbarData";
-import { Container, Nav, Navbar } from "react-bootstrap";
+import { Container, Nav, Navbar} from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import RegistrationForm from "./RegistrationForm/RegistrationForm";
 import LogInForm from "./LogInForm/LogInForm";
@@ -58,31 +57,27 @@ function Navigation(){
     return (
         <>
             <Navbar bg="light" expand="lg">
-                <Container>
+                <Container fluid>
                     <Navbar.Brand href="/">
                         Shai Prince Art
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                    <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
-                        <Nav className="me-2">
-                            {NavbarData.map((item, index) => {
-                                return (
-                                    <Nav.Link key={index} href={item.path}>{item.text}</Nav.Link>
-                                )
-                            })}
-                            {Object.entries(user).length > 0 ?
+                    <Navbar.Collapse id="basic-navbar-nav">
+                        <Nav className="ms-auto">
+                            <Nav.Link className="me-auto" href="/">Gallery</Nav.Link>
+                            <Nav.Link href="/about">About</Nav.Link>
+                            <Nav.Link href="/blog">Blog</Nav.Link>
+                            {user && user.admin ? <Nav.Link href="/adminpanel">Admin</Nav.Link> : null}
+                        </Nav>
+                        <Nav className="ms-auto">
+                            {Object.entries(user).length > 0 ? 
                                 <> 
-                                    {user.admin?
-                                        <Nav.Link href="/adminpanel">Admin</Nav.Link>
-                                        :
-                                        null
-                                    }
-                                    <Navbar.Text>Hello, </Navbar.Text>
+                                    <Navbar.Text>Hello</Navbar.Text>
                                     <Navbar.Text 
                                         onClick={!user.admin ? goToUserPanel : null}
                                         onMouseOver={(e) => e.target.style.cursor = (!user.admin ? 'pointer' : 'default')}   
                                     >
-                                            {`${user.firstname} ${user.lastname}`}
+                                            {`, ${user.firstname} ${user.lastname}`}
                                     </Navbar.Text>
                                     {!user.admin ? <Navbar.Text onMouseOver={(e)=> e.target.style.cursor = 'pointer'} onClick={expandOrder}>({user.active_order.order_items.length})</Navbar.Text> : null}
                                     <Nav.Link href={'/#'} onClick={handleSignOut} >Sign Out</Nav.Link>

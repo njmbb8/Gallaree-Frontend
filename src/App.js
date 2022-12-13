@@ -84,7 +84,7 @@ function App() {
               element={<PaymentConfirmation/>}
             />
             <Route
-              path={'/bio'}
+              path={'/about'}
               element={<BioDisplay/>}
             />
             <Route
