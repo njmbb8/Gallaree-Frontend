@@ -22,9 +22,12 @@ function Blogs(){
     const blogCards = blogPosts ? blogPosts.map((blog)=><BlogCard blog={blog} />) : null
 
     return(
-        <>
-            {blogCards}
-        </>
+        blogCards.length > 0?
+            <>
+                {blogCards}
+            </>
+        :
+        <h3>No blog posts yet!</h3>
     )
 }
 

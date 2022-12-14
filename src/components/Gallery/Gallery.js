@@ -10,11 +10,14 @@ function Gallery(){
     })
 
     return(
+        arts.length > 0?
         <>
             <Row xs={1} md={2} lg={3} className="g-3">
                 {cards}
             </Row>
         </>
+        :
+        <h3>No art to show, yet.</h3>
     )
 }
 
