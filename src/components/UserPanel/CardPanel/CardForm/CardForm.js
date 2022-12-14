@@ -46,9 +46,17 @@ function CardForm({ cards, setCards }){
             })
         }
     }
+
+    const options = {
+        wallets: {
+            applePay: 'never',
+            googlePay: 'never'
+        }
+    }
+
     return(
         <form onSubmit={handleSubmit}>
-            <PaymentElement />
+            <PaymentElement options={options}/>
             <Button type="submit">Add Card to Profile</Button>
             {errorMessage && <div>{errorMessage}</div>}
         </form>
