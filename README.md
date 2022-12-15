@@ -19,4 +19,6 @@ This repo is the code for the a website that I had initially started developing 
 
 - Messaging to communicate with the artist
 - Socket.io integration to keep front and backends synchronized(Instant messaging, automatically updating quantity available, etc.)
-- 
+- Connection to backend will need to be updated to support multitenancy when the time comes
+- Contact page with user's contact information and a messaging form
+- General UX overhaul once all features are implemented
