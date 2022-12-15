@@ -5,7 +5,6 @@ import { setError } from "../../../slices/Error"
 
 function BioForm(){
     const {REACT_APP_BACKEND_URL} = process.env
-    const [bio, setBio] = useState('')
     const placeHolderURL = `${REACT_APP_BACKEND_URL }/images/Placeholder.svg` //!!bio.photo ? `${REACT_APP_BACKEND_URL }/images/Placeholder.svg` : `${REACT_APP_BACKEND_URL}${bio.photo}`
     const [form, setForm] = useState({})//useState(bio === {} ? {} : bio)
     const [errors, setErrors] = useState({})
@@ -74,7 +73,7 @@ function BioForm(){
                     return data.json()
                 }
             })
-            .then((ret) => setBio(ret))
+            .then((ret) => setForm(ret))
             .catch((error) => dispatch((setError(error))))
         }
     }

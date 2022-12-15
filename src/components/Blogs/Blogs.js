@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import BlogCard from "./BlogCard/BlogCard";
 
 function Blogs(){
-    const [blogPosts, setBlogPosts] = useState(null)
+    const [blogPosts, setBlogPosts] = useState([])
     const {REACT_APP_BACKEND_URL} = process.env
 
     useEffect(()=>{
@@ -22,7 +22,7 @@ function Blogs(){
     const blogCards = blogPosts ? blogPosts.map((blog)=><BlogCard blog={blog} />) : null
 
     return(
-        blogCards.length > 0?
+        blogPosts.length > 0?
             <>
                 {blogCards}
             </>
