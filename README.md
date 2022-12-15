@@ -1,6 +1,6 @@
 ![Landing Page](https://i.ibb.co/kh8MF4q/landing.png)
 
-# Shai Prince's Front-End for their portfolio website
+# Front-End for artist portfolio website
 
 This repo is the code for the a website that I had initially started developing for an artist friend, but will be expanding into a side hustle once finished. The whole idea is to make the process behind selling your art online to be as simple as possible: sign up, upload some art and then sell it.
 
