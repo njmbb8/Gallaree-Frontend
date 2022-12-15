@@ -6,7 +6,7 @@ import { setError } from "../../../slices/Error"
 function BioForm(){
     const {REACT_APP_BACKEND_URL} = process.env
     const placeHolderURL = `${REACT_APP_BACKEND_URL }/images/Placeholder.svg` //!!bio.photo ? `${REACT_APP_BACKEND_URL }/images/Placeholder.svg` : `${REACT_APP_BACKEND_URL}${bio.photo}`
-    const [form, setForm] = useState({})//useState(bio === {} ? {} : bio)
+    const [form, setForm] = useState({})
     const [errors, setErrors] = useState({})
     const [changePhoto, setChangePhoto] = useState(false)
     const dispatch = useDispatch()
