@@ -22,6 +22,7 @@ import ErrorModal from './components/ErrorModal/ErrorModal';
 import Order from './components/Order/Order';
 import Blogs from './components/Blogs/Blogs';
 import Blog from './components/Blogs/Blog/Blog';
+import Contact from './components/Contact/Contact';
 
 function App() {
   const dispatch = useDispatch()
@@ -106,6 +107,10 @@ function App() {
             <Route
               path={'/blog/:id'}
               element={<Blog />}
+            />
+            <Route 
+              path={'/contact/'}
+              element={<Contact />}
             />
           </Routes>
         </Container>

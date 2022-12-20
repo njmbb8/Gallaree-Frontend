@@ -67,6 +67,7 @@ function Navigation(){
                             <Nav.Link className="me-auto" href="/">Gallery</Nav.Link>
                             <Nav.Link href="/about">About</Nav.Link>
                             <Nav.Link href="/blog">Blog</Nav.Link>
+                            <Nav.Link href="/contact">Contact</Nav.Link>
                             {user && user.admin ? <Nav.Link href="/adminpanel">Admin</Nav.Link> : null}
                         </Nav>
                         <Nav className="ms-auto">

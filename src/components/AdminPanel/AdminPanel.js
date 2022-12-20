@@ -4,6 +4,7 @@ import BioForm from "./BioForm/BioForm";
 import ArtForm from "./ArtForm/ArtForm";
 import UserOrders from "../UserPanel/UserOrders/UserOrders";
 import BlogForm from "./BlogForm/BlogForm";
+import Conversations from "./Conversations/Conversations";
 
 function AdminPanel(){
     return(
@@ -19,6 +20,9 @@ function AdminPanel(){
             </Tab>
             <Tab eventKey="blog" title="New Blog Post">
                 <BlogForm mode="upload" />
+            </Tab>
+            <Tab eventKey="message" title="Messages">
+                <Conversations />
             </Tab>
         </Tabs>
     )
