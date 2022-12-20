@@ -10,7 +10,7 @@ import { useNavigate, useParams } from "react-router-dom";
 function AdminPanel(){
     const nav = useNavigate()
     const params = useParams()
-    const activeKey = params['key']
+    const activeKey = params['key'].toLowerCase()
 
     return(
         <Tabs 
@@ -23,7 +23,7 @@ function AdminPanel(){
             <Tab eventKey="bioInfo" title="Bio">
                 <BioForm />
             </Tab>
-            <Tab eventKey="Art" title="New Art">
+            <Tab eventKey="art" title="New Art">
                 <ArtForm mode="upload"/>
             </Tab>
             <Tab eventKey="blog" title="New Blog Post">
