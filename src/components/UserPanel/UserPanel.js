@@ -3,11 +3,19 @@ import { Row, Tabs, Tab } from "react-bootstrap";
 import CardPanel from "./CardPanel/CardPanel";
 import AddressPanel from "./AddressPanel/AddressPanel";
 import UserOrders from "./UserOrders/UserOrders";
+import { useNavigate, useParams } from "react-router-dom";
 
 function UserPanel({stripePromise}){
+    const nav = useNavigate()
+    const params = useParams()
+    const activeKey = params['key']
+
     return(
         <>
-            <Tabs>
+            <Tabs
+                defaultActiveKey={!activeKey?'Addresses':activeKey}
+                onSelect={(key)=>nav(`/user/${key}`)}
+            >
                 <Tab eventKey="Addresses" title="Address Information">
                     <Row>
                         <AddressPanel />

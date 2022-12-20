@@ -69,6 +69,10 @@ function App() {
               element={<AdminPanel />}
             />
             <Route
+              path={'/adminpanel/:key'}
+              element={<AdminPanel />}
+            />
+            <Route
               path={'/password_reset/:token'}
               element={<PasswordReset />}
             />
@@ -90,6 +94,10 @@ function App() {
             />
             <Route
               path={'/user'}
+              element={<UserPanel stripePromise={stripePromise}/>}
+            />
+            <Route
+              path={'/user/:key'}
               element={<UserPanel stripePromise={stripePromise}/>}
             />
             <Route

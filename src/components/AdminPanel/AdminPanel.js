@@ -5,10 +5,18 @@ import ArtForm from "./ArtForm/ArtForm";
 import UserOrders from "../UserPanel/UserOrders/UserOrders";
 import BlogForm from "./BlogForm/BlogForm";
 import Conversations from "./Conversations/Conversations";
+import { useNavigate, useParams } from "react-router-dom";
 
 function AdminPanel(){
+    const nav = useNavigate()
+    const params = useParams()
+    const activeKey = params['key']
+
     return(
-        <Tabs defaultActiveKey="orders">
+        <Tabs 
+            defaultActiveKey={!activeKey?'orders':activeKey}
+            onSelect={(key)=>nav(`/adminpanel/${key}`)}
+        >
             <Tab eventKey="orders" title="Orders">
                 <UserOrders />
             </Tab>
