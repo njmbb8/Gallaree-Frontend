@@ -10,11 +10,11 @@ import { useNavigate, useParams } from "react-router-dom";
 function AdminPanel(){
     const nav = useNavigate()
     const params = useParams()
-    const activeKey = params['key'].toLowerCase()
+    const activeKey = !!params['key'] ? params['key'].toLowerCase() : 'orders'
 
     return(
         <Tabs 
-            defaultActiveKey={!activeKey?'orders':activeKey}
+            defaultActiveKey={activeKey}
             onSelect={(key)=>nav(`/adminpanel/${key}`)}
         >
             <Tab eventKey="orders" title="Orders">

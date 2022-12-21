@@ -29,8 +29,7 @@ function Conversations(){
                         />
                     </Col>
                     <Col>
-                        <Chat 
-                            setSelectedChat={setSelectedChat} 
+                        <Chat
                             selectedChat={selectedChat}
                         />
                     </Col>

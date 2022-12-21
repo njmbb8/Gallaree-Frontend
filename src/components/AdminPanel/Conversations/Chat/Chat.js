@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Container, Form, InputGroup, Stack, Button } from "react-bootstrap";
 import Message from "./Message/Message";
 
-function Chat({selectedChat, setSelectedChat}){
+function Chat({selectedChat}){
     const [currentChat, setCurrentChat] = useState(null)
     const {REACT_APP_BACKEND_URL} = process.env
     const [newMessage, setNewMessage] = useState('')
