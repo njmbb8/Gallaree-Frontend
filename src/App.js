@@ -48,7 +48,7 @@ function App() {
   }, [REACT_APP_BACKEND_URL, dispatch])
   
   return (
-    <div>
+    <>
       {ready ? 
       <>
         <Navbar/>
@@ -127,7 +127,7 @@ function App() {
         width={80}
         wrapperStyle = { {position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }} 
       />}
-    </div>
+    </>
   );
 }
 
