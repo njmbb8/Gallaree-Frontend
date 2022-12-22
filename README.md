@@ -14,10 +14,10 @@ This repo is the code for the a website that I had initially started developing 
 - Stripe integration for processing payments
 - Blog with Comments
 - An about page for the artist to describe themselves
+- Messaging to communicate with the artist
 
 ## To Do
 
-- Messaging to communicate with the artist
 - Socket.io integration to keep front and backends synchronized(Instant messaging, automatically updating quantity available, etc.)
 - Connection to backend will need to be updated to support multitenancy when the time comes
 - Contact page with user's contact information and a messaging form
