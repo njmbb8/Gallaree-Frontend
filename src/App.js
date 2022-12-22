@@ -4,7 +4,6 @@ import Navbar from './components/Navbar/Navbar';
 import { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Gallery from './components/Gallery/Gallery';
-import { Container } from 'react-bootstrap';
 import ArtDisplay from './components/ArtDisplay/ArtDisplay';
 import { useDispatch } from 'react-redux';
 import { authenticate } from './slices/User';
