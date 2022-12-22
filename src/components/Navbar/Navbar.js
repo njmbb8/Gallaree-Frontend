@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { Container, Nav, Navbar} from "react-bootstrap";
+import { Container, Nav, Navbar, Stack} from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import RegistrationForm from "./RegistrationForm/RegistrationForm";
 import LogInForm from "./LogInForm/LogInForm";
@@ -7,6 +7,7 @@ import OrderDisplay from "./OrderDisplay/OrderDisplay";
 import { signOut } from "../../slices/User"
 import { useNavigate } from "react-router-dom";
 import { setError } from "../../slices/Error"
+import { FaEnvelope, FaEnvelopeOpenText, FaShoppingCart } from "react-icons/fa";
 
 function Navigation(){
     const { REACT_APP_BACKEND_URL } = process.env
@@ -72,17 +73,17 @@ function Navigation(){
                         </Nav>
                         <Nav className="ms-auto">
                             {Object.entries(user).length > 0 ? 
-                                <> 
-                                    <Navbar.Text>Hello</Navbar.Text>
+                                <Stack direction="horizontal" gap={1}> 
                                     <Navbar.Text 
                                         onClick={!user.admin ? goToUserPanel : null}
                                         onMouseOver={(e) => e.target.style.cursor = (!user.admin ? 'pointer' : 'default')}   
                                     >
                                             {`, ${user.firstname} ${user.lastname}`}
                                     </Navbar.Text>
-                                    {!user.admin ? <Navbar.Text onMouseOver={(e)=> e.target.style.cursor = 'pointer'} onClick={expandOrder}>({user.active_order.order_items.length})</Navbar.Text> : null}
+                                    <Navbar.Text><FaEnvelope onClick={()=>user.admin?navigate('/adminpanel/message'):navigate('/user/message')}/></Navbar.Text>
+                                    {!user.admin ? <Navbar.Text onMouseOver={(e)=> e.target.style.cursor = 'pointer'} onClick={expandOrder}><FaShoppingCart />{user.active_order.order_items.length}</Navbar.Text> : null}
                                     <Nav.Link href={'/#'} onClick={handleSignOut} >Sign Out</Nav.Link>
-                                </>
+                                </Stack>
                                 :
                                 <>
                                     <Nav.Link href={'/#'} onClick={expandRegister} >Sign Up</Nav.Link>
