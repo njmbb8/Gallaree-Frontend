@@ -1,5 +1,5 @@
 import React from "react";
-import { Row } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 import GalleryCard from "./GalleryCard/GalleryCard";
 import { useSelector } from "react-redux";
 
@@ -11,11 +11,11 @@ function Gallery(){
 
     return(
         arts.length > 0?
-        <>
+        <Container>
             <Row xs={1} md={2} lg={3} className="g-3">
                 {cards}
             </Row>
-        </>
+        </Container>
         :
         <h3>No art to show, yet.</h3>
     )

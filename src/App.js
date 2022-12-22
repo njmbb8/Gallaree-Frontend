@@ -53,75 +53,73 @@ function App() {
       {ready ? 
       <>
         <Navbar/>
-        <Container className="content">
-          <Routes>
-            <Route 
-              exact 
-              path={'/'} 
-              element={<Gallery />} 
-            />
-            <Route 
-              path={'/art/:id'}
-              element= {<ArtDisplay />}
-            />
-            <Route
-              path={'/adminpanel'}
-              element={<AdminPanel />}
-            />
-            <Route
-              path={'/adminpanel/:key'}
-              element={<AdminPanel />}
-            />
-            <Route
-              path={'/password_reset/:token'}
-              element={<PasswordReset />}
-            />
-            <Route
-              path={'/confirm/:token'}
-              element={<Confirmation />}
-            />
-            <Route
-              path={'/checkout'}
-              element = {<CheckoutForm stripePromise={stripePromise}/>}
-            />
-            <Route
-              path={'/success/:id'}
-              element={<PaymentConfirmation/>}
-            />
-            <Route
-              path={'/about'}
-              element={<BioDisplay/>}
-            />
-            <Route
-              path={'/user'}
-              element={<UserPanel stripePromise={stripePromise}/>}
-            />
-            <Route
-              path={'/user/:key'}
-              element={<UserPanel stripePromise={stripePromise}/>}
-            />
-            <Route
-              path={'/order/:id'}
-              element={<Order />}
-            />
-            <Route
-              path={'/order/:id/:clientSecret'}
-              element={<Order />}
-            />
-            <Route
-              path={'/blog/'}
-              element={<Blogs />}
-            />
-            <Route
-              path={'/blog/:id'}
-              element={<Blog />}
-            />
-            <Route 
-              path={'/contact/'}
-              element={<Contact />}
-            />
-          </Routes>
-        </Container>
+        <Routes>
+          <Route 
+            exact 
+            path={'/'} 
+            element={<Gallery />} 
+          />
+          <Route 
+            path={'/art/:id'}
+            element= {<ArtDisplay />}
+          />
+          <Route
+            path={'/adminpanel'}
+            element={<AdminPanel />}
+          />
+          <Route
+            path={'/adminpanel/:key'}
+            element={<AdminPanel />}
+          />
+          <Route
+            path={'/password_reset/:token'}
+            element={<PasswordReset />}
+          />
+          <Route
+            path={'/confirm/:token'}
+            element={<Confirmation />}
+          />
+          <Route
+            path={'/checkout'}
+            element = {<CheckoutForm stripePromise={stripePromise}/>}
+          />
+          <Route
+            path={'/success/:id'}
+            element={<PaymentConfirmation/>}
+          />
+          <Route
+            path={'/about'}
+            element={<BioDisplay/>}
+          />
+          <Route
+            path={'/user'}
+            element={<UserPanel stripePromise={stripePromise}/>}
+          />
+          <Route
+            path={'/user/:key'}
+            element={<UserPanel stripePromise={stripePromise}/>}
+          />
+          <Route
+            path={'/order/:id'}
+            element={<Order />}
+          />
+          <Route
+            path={'/order/:id/:clientSecret'}
+            element={<Order />}
+          />
+          <Route
+            path={'/blog/'}
+            element={<Blogs />}
+          />
+          <Route
+            path={'/blog/:id'}
+            element={<Blog />}
+          />
+          <Route 
+            path={'/contact/'}
+            element={<Contact />}
+          />
+        </Routes>
         <ErrorModal/>
       </>
       :<TailSpin 
