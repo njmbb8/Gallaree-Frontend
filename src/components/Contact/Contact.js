@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { Button, Form} from "react-bootstrap";
+import { Button, Col, Container, Form, Row} from "react-bootstrap";
 import { useSelector } from "react-redux";
 import LoginAlert from "../Navbar/LogInForm/LoginAlert/LoginAlert";
 
@@ -79,67 +79,73 @@ function Contact(){
     })
 
     return(
-        <Form onSubmit={handleSubmit}>
-            <>
-                {alertElements}
-                {
-                    !user.id ?
+        <Container style={{height: "100%", width: "100%"}} className="d-flex align-items-center">
+            <Row style={{height: "50%", width: "100%"}}>
+                <Col md={{ span: 6, offset: 3 }}>
+                    <Form onSubmit={handleSubmit}>
                         <>
-                            <Form.Group>
-                                <Form.Label>Name:</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    value={contactForm['recipient_name']}
-                                    onChange={e=>setField('recipient_name', e.target.value)}
-                                    isInvalid={!!errors.name}
-                                />
-                                <Form.Control.Feedback type="invalid">
-                                    {errors.name}
-                                </Form.Control.Feedback>
-                            </Form.Group>
-                            <Form.Group>
-                                <Form.Label>Phone #:</Form.Label>
-                                <Form.Control 
-                                    type="tel"
-                                    value={contactForm['recipient_phone']}
-                                    onChange={e=>setField('recipient_phone', e.target.value)}
-                                    isInvalid={!!errors.phone}
-                                />
-                                <Form.Control.Feedback type="invalid">
-                                    {errors.phone}
-                                </Form.Control.Feedback>
-                            </Form.Group>
-                            <Form.Group>
-                                <Form.Label>E-mail:</Form.Label>
-                                <Form.Control 
-                                    type="email"
-                                    value={contactForm['recipient_email']}
-                                    onChange={e=>setField('recipient_email', e.target.value)}
-                                    isInvalid={!!errors.email}
-                                />
-                                <Form.Control.Feedback type="invalid">
-                                    {errors.email}
-                                </Form.Control.Feedback>
-                            </Form.Group>
+                            {alertElements}
+                            {
+                                !user.id ?
+                                    <>
+                                        <Form.Group>
+                                            <Form.Label>Name:</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                value={contactForm['recipient_name']}
+                                                onChange={e=>setField('recipient_name', e.target.value)}
+                                                isInvalid={!!errors.name}
+                                            />
+                                            <Form.Control.Feedback type="invalid">
+                                                {errors.name}
+                                            </Form.Control.Feedback>
+                                        </Form.Group>
+                                        <Form.Group>
+                                            <Form.Label>Phone #:</Form.Label>
+                                            <Form.Control 
+                                                type="tel"
+                                                value={contactForm['recipient_phone']}
+                                                onChange={e=>setField('recipient_phone', e.target.value)}
+                                                isInvalid={!!errors.phone}
+                                            />
+                                            <Form.Control.Feedback type="invalid">
+                                                {errors.phone}
+                                            </Form.Control.Feedback>
+                                        </Form.Group>
+                                        <Form.Group>
+                                            <Form.Label>E-mail:</Form.Label>
+                                            <Form.Control 
+                                                type="email"
+                                                value={contactForm['recipient_email']}
+                                                onChange={e=>setField('recipient_email', e.target.value)}
+                                                isInvalid={!!errors.email}
+                                            />
+                                            <Form.Control.Feedback type="invalid">
+                                                {errors.email}
+                                            </Form.Control.Feedback>
+                                        </Form.Group>
+                                    </>
+                                :
+                                    null
+                            }
                         </>
-                    :
-                        null
-                }
-            </>
-            <Form.Group>
-                <Form.Label>Message:</Form.Label>
-                <Form.Control 
-                    as="textarea"
-                    value={contactForm['body']}
-                    onChange={e=>setField('body', e.target.value)}
-                    isInvalid={!!errors.email}
-                />
-                <Form.Control.Feedback type="invalid">
-                    {errors.body}
-                </Form.Control.Feedback>
-            </Form.Group>
-            <Button type="submit">Send a Message</Button>
-        </Form>
+                        <Form.Group>
+                            <Form.Label>Message:</Form.Label>
+                            <Form.Control 
+                                as="textarea"
+                                value={contactForm['body']}
+                                onChange={e=>setField('body', e.target.value)}
+                                isInvalid={!!errors.email}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                {errors.body}
+                            </Form.Control.Feedback>
+                        </Form.Group>
+                        <Button type="submit">Send a Message</Button>
+                    </Form>
+                </Col>
+            </Row>
+        </Container>
     )
 }
 
