@@ -16,6 +16,8 @@ function AdminPanel(){
         <Tabs 
             defaultActiveKey={activeKey}
             onSelect={(key)=>nav(`/adminpanel/${key}`)}
+            justify
+            className="fixed-top"
         >
             <Tab eventKey="orders" title="Orders">
                 <UserOrders />
@@ -23,10 +25,10 @@ function AdminPanel(){
             <Tab eventKey="bioInfo" title="Bio">
                 <BioForm />
             </Tab>
-            <Tab eventKey="art" title="New Art">
+            <Tab eventKey="art" title="Art">
                 <ArtForm mode="upload"/>
             </Tab>
-            <Tab eventKey="blog" title="New Blog Post">
+            <Tab eventKey="blog" title="Blog">
                 <BlogForm mode="upload" />
             </Tab>
             <Tab eventKey="message" title="Messages">

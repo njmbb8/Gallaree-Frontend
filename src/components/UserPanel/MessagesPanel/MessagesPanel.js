@@ -23,7 +23,7 @@ function MessagesPanel(){
 
     useEffect(() => {
         bottomRef.current.scrollIntoView({behavior: 'smooth'})
-    })
+    }, [])
 
     const messageCards = !!conversation ? conversation.messages.map((message)=><MessageCard key={message.id} message={message} />) : null
 

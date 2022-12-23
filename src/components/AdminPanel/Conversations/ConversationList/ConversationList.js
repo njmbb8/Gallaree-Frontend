@@ -1,6 +1,7 @@
 import React from "react";
 import { Stack } from "react-bootstrap";
 import ConversationCard from "./ConversationCard/ConversationCard";
+import "./ConversationList.css"
 
 function ConversationList({conversations, setSelectedChat, selectedChat}){
     const conversationCards = conversations.map((conversation)=><ConversationCard 
@@ -12,7 +13,7 @@ function ConversationList({conversations, setSelectedChat, selectedChat}){
 
     return(
         <>
-            <Stack direction="vertical" gap={3}>
+            <Stack direction="vertical" gap={3} id="conversations">
                 {conversationCards}
             </Stack>
         </>

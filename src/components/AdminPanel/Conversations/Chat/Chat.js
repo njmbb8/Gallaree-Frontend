@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Container, Form, InputGroup, Stack, Button } from "react-bootstrap";
+import React, { useEffect, useState, useRef } from "react";
+import { Form, InputGroup, Stack, Button } from "react-bootstrap";
 import Message from "./Message/Message";
+import "./Chat.css"
 
 function Chat({selectedChat}){
     const [currentChat, setCurrentChat] = useState(null)
@@ -39,16 +40,14 @@ function Chat({selectedChat}){
         })
     }
 
-    const messages = currentChat ? currentChat.messages.map((message)=><Message key={message.id} message={message} sender={currentChat.sender}/>) : null
+    const messages = currentChat ? currentChat.messages.map((message)=><Message key={message.id} message={message}/>) : <h3 key="wat">No Messages in Conversation</h3>
 
     return(
         <>
-            <Container>
-                <Stack direction="vertical" gap={3}>
-                    {messages}
-                </Stack>
-            </Container>
-            <Form onSubmit={handleSubmit}>
+            <Stack direction="vertical" gap={3} id="messages">
+                {messages}
+            </Stack>
+            <Form onSubmit={handleSubmit} >
                 <InputGroup>
                     <Form.Control
                         as="textarea"

@@ -1,0 +1,8 @@
+#messages {
+    overflow-y:auto;
+    height: 75vh;
+}
+
+body {
+    overflow-y: hidden;
+}

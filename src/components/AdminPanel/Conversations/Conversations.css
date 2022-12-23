@@ -1,0 +1,14 @@
+#expand {
+    margin-top: 100px;
+    margin-left: 10px;
+    background-color: grey;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+
+#hamburger{
+    width: 100%;
+    margin: auto;
+}

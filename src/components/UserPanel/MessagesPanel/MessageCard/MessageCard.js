@@ -8,8 +8,6 @@ function MessageCard({message}){
     return(
         <Row>
             <Col
-                sm={ fromUser ? 
-                    {span: 3, offset: 6} : {span: 3, offset: 3}}
                 md={ fromUser ?
                     {span: 4, offset: 3} : {offset: 5, span: 4}}    
             >
