@@ -1,9 +1,10 @@
 import React from "react";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Form, Image, Button } from "react-bootstrap";
+import { Form, Image, Button, Container, Row, Col } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { setError } from "../../../slices/Error";
+import "./BlogForm.css"
 
 function BlogForm({blog = {}, setBlog, mode, setEdit}){
     const dispatch = useDispatch()
@@ -106,42 +107,48 @@ function BlogForm({blog = {}, setBlog, mode, setEdit}){
     }
 
     return(
-        <>
+        <Container className="tabContainer">
             <h1>{mode.charAt(0).toUpperCase() + mode.slice(1)} a Post!</h1>
-            <Image src={!changePhoto ? placeHolderURL : URL.createObjectURL(form['photo'])} thumbnail={true}/>
-            <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-3">
-                    <Form.Control 
-                        accept={"image/*"} 
-                        type="file" 
-                        onChange={ photoChange }
-                    />
-                </Form.Group>
-                <Form.Group>
-                    <Form.Label>Title</Form.Label>
-                    <Form.Control 
-                        type="text" 
-                        onChange={ e => setField('title', e.target.value)}
-                        isInvalid={!!errors.title}
-                        value={form["title"]}
-                    />
-                    <Form.Control.Feedback type='invalid'>
-                        {errors.title}
-                    </Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group>
-                    <Form.Label>Body</Form.Label>
-                    <Form.Control 
-                        as="textarea" 
-                        value={form['body']} 
-                        onChange={ e => setField('body', e.target.value)} 
-                        rows={3} 
-                    />
-                </Form.Group>
-                <Button type="submit">Submit</Button>
-                {mode === 'edit' ? <Button variant="danger" onClick={cancelEdit}>Cancel</Button> : null}
-            </Form>
-        </>
+            <Row>
+                <Col md={4}>
+                    <Image src={!changePhoto ? placeHolderURL : URL.createObjectURL(form['photo'])} thumbnail={true}/>
+                </Col>
+                <Col>
+                    <Form onSubmit={handleSubmit}>
+                        <Form.Group className="mb-3">
+                            <Form.Control 
+                                accept={"image/*"} 
+                                type="file" 
+                                onChange={ photoChange }
+                            />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Title</Form.Label>
+                            <Form.Control 
+                                type="text" 
+                                onChange={ e => setField('title', e.target.value)}
+                                isInvalid={!!errors.title}
+                                value={form["title"]}
+                            />
+                            <Form.Control.Feedback type='invalid'>
+                                {errors.title}
+                            </Form.Control.Feedback>
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Body</Form.Label>
+                            <Form.Control 
+                                as="textarea" 
+                                value={form['body']} 
+                                onChange={ e => setField('body', e.target.value)} 
+                                rows={3} 
+                            />
+                        </Form.Group>
+                        <Button type="submit">Submit</Button>
+                        {mode === 'edit' ? <Button variant="danger" onClick={cancelEdit}>Cancel</Button> : null}
+                    </Form>
+                </Col>    
+            </Row>
+        </Container>
     )
 }
 
