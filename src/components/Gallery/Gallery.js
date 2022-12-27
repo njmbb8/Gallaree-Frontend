@@ -11,7 +11,7 @@ function Gallery(){
 
     return(
         arts.length > 0?
-        <Container>
+        <Container style={{"margin-top": "75px"}}>
             <Row xs={1} md={2} lg={3} className="g-3">
                 {cards}
             </Row>

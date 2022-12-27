@@ -132,137 +132,144 @@ function ArtForm({mode, setEdit}){
     return (
         <>
             <h1>{mode.charAt(0).toUpperCase() + mode.slice(1)} an art!</h1>
-            <Image src={!changePhoto ? placeHolderURL : URL.createObjectURL(form['photo'])} thumbnail={true}/>
-            <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-3">
-                    <Form.Control 
-                        accept={"image/*"} 
-                        type="file" 
-                        onChange={ photoChange }
-                        isInvalid={!!errors.photo}
-                    />
-                    <Form.Control.Feedback type='invalid'>
-                        { errors.photo }
-                    </Form.Control.Feedback>
-                </Form.Group>
-                <Row>
-                    <Form.Group as={Col}>
-                        <Form.Label>Title</Form.Label>
-                        <Form.Control 
-                            type="text" 
-                            onChange={ e => setField('title', e.target.value)}
-                            isInvalid={!!errors.title}
-                            value={form["title"]}
-                        />
-                        <Form.Control.Feedback type='invalid'>
-                            {errors.title}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                </Row>
-                <Row>
-                    <Form.Group as={Col}>
-                        <Form.Label>Price</Form.Label>
-                        <Form.Control 
-                            type="number" 
-                            onChange={ e => setField('price', e.target.value)}
-                            isInvalid={!!errors.price}
-                            value={form["price"]}    
-                        />
-                        <Form.Control.Feedback type='invalid'>
-                            {errors.price}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group as={Col}>
-                        <Form.Label>Status</Form.Label>
-                        <Form.Select 
-                            onChange={ e => setField('status', e.target.value)}
-                            isInvalid={!!errors.status}
-                            value={form["status"]}
-                        >
-                            <option value={0}>Select a Status</option>
-                            <option value="Not For Sale">Not For Sale</option>
-                            <option value="For Sale">For Sale</option>
-                            <option value="Sold">Sold</option>
-                        </Form.Select>
-                        <Form.Control.Feedback type='invalid'>
-                            {errors.status_id}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group as={Col}>
-                        <Form.Label>Stock</Form.Label>
-                        <Form.Control
-                            type="number"
-                            onChange={e => setField('quantity', e.target.value)}
-                            isInvalid={!!errors.quantity}
-                            value={form["quantity"]}
-                        />
-                        <Form.Control.Feedback type='invalid'>
-                            {errors.quantity}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                </Row>
-                <Row>
-                    <Form.Group as={Col}>
-                        <Form.Label>Length</Form.Label>
-                        <Form.Control
-                            type="number"
-                            onChange={e => setField('length', e.target.value)}
-                            isInvalid={!!errors.length}
-                            value={form["length"]}
-                        />
-                        <Form.Control.Feedback type='invalid'>
-                            {errors.length}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group as={Col}>
-                        <Form.Label>Height</Form.Label>
-                        <Form.Control
-                            type="number"
-                            onChange={e => setField('height', e.target.value)}
-                            isInvalid={!!errors.length}
-                            value={form["height"]}
-                        />
-                        <Form.Control.Feedback type='invalid'>
-                            {errors.height}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group as={Col}>
-                        <Form.Label>Width</Form.Label>
-                        <Form.Control
-                            type="number"
-                            onChange={e => setField('width', e.target.value)}
-                            isInvalid={!!errors.width}
-                            value={form["width"]}
-                        />
-                        <Form.Control.Feedback type='invalid'>
-                            {errors.width}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group as={Col}>
-                        <Form.Label>Weight</Form.Label>
-                        <Form.Control
-                            type="number"
-                            onChange={e => setField('weight', e.target.value)}
-                            isInvalid={!!errors.length}
-                            value={form["weight"]}
-                        />
-                        <Form.Control.Feedback type='invalid'>
-                            {errors.weight}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                </Row>
-                <Form.Group>
-                    <Form.Label>Description</Form.Label>
-                    <Form.Control 
-                        as="textarea" 
-                        value={form['description']} 
-                        onChange={ e => setField('description', e.target.value)} 
-                        rows={3} 
-                    />
-                </Form.Group>
-                <Button type="submit">Submit</Button>
-                {mode === 'edit' ? <Button variant="danger" onClick={cancelEdit}>Cancel</Button> : null}
-            </Form>
+            <Row>
+                <Col>
+                    <Image src={!changePhoto ? placeHolderURL : URL.createObjectURL(form['photo'])} thumbnail={true}/>
+                </Col>
+                <Col>
+                
+                    <Form onSubmit={handleSubmit}>
+                        <Form.Group className="mb-3">
+                            <Form.Control 
+                                accept={"image/*"} 
+                                type="file" 
+                                onChange={ photoChange }
+                                isInvalid={!!errors.photo}
+                            />
+                            <Form.Control.Feedback type='invalid'>
+                                { errors.photo }
+                            </Form.Control.Feedback>
+                        </Form.Group>
+                        <Row>
+                            <Form.Group as={Col}>
+                                <Form.Label>Title</Form.Label>
+                                <Form.Control 
+                                    type="text" 
+                                    onChange={ e => setField('title', e.target.value)}
+                                    isInvalid={!!errors.title}
+                                    value={form["title"]}
+                                />
+                                <Form.Control.Feedback type='invalid'>
+                                    {errors.title}
+                                </Form.Control.Feedback>
+                            </Form.Group>
+                        </Row>
+                        <Row>
+                            <Form.Group as={Col}>
+                                <Form.Label>Price</Form.Label>
+                                <Form.Control 
+                                    type="number" 
+                                    onChange={ e => setField('price', e.target.value)}
+                                    isInvalid={!!errors.price}
+                                    value={form["price"]}    
+                                />
+                                <Form.Control.Feedback type='invalid'>
+                                    {errors.price}
+                                </Form.Control.Feedback>
+                            </Form.Group>
+                            <Form.Group as={Col}>
+                                <Form.Label>Status</Form.Label>
+                                <Form.Select 
+                                    onChange={ e => setField('status', e.target.value)}
+                                    isInvalid={!!errors.status}
+                                    value={form["status"]}
+                                >
+                                    <option value={0}>Select a Status</option>
+                                    <option value="Not For Sale">Not For Sale</option>
+                                    <option value="For Sale">For Sale</option>
+                                    <option value="Sold">Sold</option>
+                                </Form.Select>
+                                <Form.Control.Feedback type='invalid'>
+                                    {errors.status_id}
+                                </Form.Control.Feedback>
+                            </Form.Group>
+                            <Form.Group as={Col}>
+                                <Form.Label>Stock</Form.Label>
+                                <Form.Control
+                                    type="number"
+                                    onChange={e => setField('quantity', e.target.value)}
+                                    isInvalid={!!errors.quantity}
+                                    value={form["quantity"]}
+                                />
+                                <Form.Control.Feedback type='invalid'>
+                                    {errors.quantity}
+                                </Form.Control.Feedback>
+                            </Form.Group>
+                        </Row>
+                        <Row>
+                            <Form.Group as={Col}>
+                                <Form.Label>Length</Form.Label>
+                                <Form.Control
+                                    type="number"
+                                    onChange={e => setField('length', e.target.value)}
+                                    isInvalid={!!errors.length}
+                                    value={form["length"]}
+                                />
+                                <Form.Control.Feedback type='invalid'>
+                                    {errors.length}
+                                </Form.Control.Feedback>
+                            </Form.Group>
+                            <Form.Group as={Col}>
+                                <Form.Label>Height</Form.Label>
+                                <Form.Control
+                                    type="number"
+                                    onChange={e => setField('height', e.target.value)}
+                                    isInvalid={!!errors.length}
+                                    value={form["height"]}
+                                />
+                                <Form.Control.Feedback type='invalid'>
+                                    {errors.height}
+                                </Form.Control.Feedback>
+                            </Form.Group>
+                            <Form.Group as={Col}>
+                                <Form.Label>Width</Form.Label>
+                                <Form.Control
+                                    type="number"
+                                    onChange={e => setField('width', e.target.value)}
+                                    isInvalid={!!errors.width}
+                                    value={form["width"]}
+                                />
+                                <Form.Control.Feedback type='invalid'>
+                                    {errors.width}
+                                </Form.Control.Feedback>
+                            </Form.Group>
+                            <Form.Group as={Col}>
+                                <Form.Label>Weight</Form.Label>
+                                <Form.Control
+                                    type="number"
+                                    onChange={e => setField('weight', e.target.value)}
+                                    isInvalid={!!errors.length}
+                                    value={form["weight"]}
+                                />
+                                <Form.Control.Feedback type='invalid'>
+                                    {errors.weight}
+                                </Form.Control.Feedback>
+                            </Form.Group>
+                        </Row>
+                        <Form.Group>
+                            <Form.Label>Description</Form.Label>
+                            <Form.Control 
+                                as="textarea" 
+                                value={form['description']} 
+                                onChange={ e => setField('description', e.target.value)} 
+                                rows={3} 
+                            />
+                        </Form.Group>
+                        <Button type="submit">Submit</Button>
+                        {mode === 'edit' ? <Button variant="danger" onClick={cancelEdit}>Cancel</Button> : null}
+                    </Form>
+                </Col>
+            </Row>
         </>
     )
 }

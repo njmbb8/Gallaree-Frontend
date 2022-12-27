@@ -4,7 +4,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Form, Image, Button, Container, Row, Col } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { setError } from "../../../slices/Error";
-import "./BlogForm.css"
 
 function BlogForm({blog = {}, setBlog, mode, setEdit}){
     const dispatch = useDispatch()
@@ -107,7 +106,7 @@ function BlogForm({blog = {}, setBlog, mode, setEdit}){
     }
 
     return(
-        <Container className="tabContainer">
+        <Container>
             <h1>{mode.charAt(0).toUpperCase() + mode.slice(1)} a Post!</h1>
             <Row>
                 <Col md={4}>

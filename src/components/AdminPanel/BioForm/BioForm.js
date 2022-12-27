@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Image, Row, Button } from "react-bootstrap";
+import { Form, Image, Row, Button, Col } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { setError } from "../../../slices/Error"
 
@@ -81,49 +81,55 @@ function BioForm(){
     return(
         <>
             <h1>Edit Your Bio</h1>
-            <Image src={!changePhoto ? placeHolderURL : URL.createObjectURL(form['photo'])} thumbnail />
-            <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-3">
-                    <Form.Control 
-                        accept={"image/*"} 
-                        type="file" 
-                        onChange={ photoChange }
-                        isInvalid={!!errors.photo}
-                    />
-                    <Form.Control.Feedback type='invalid'>
-                        { errors.photo }
-                    </Form.Control.Feedback>
-                </Form.Group>
-                <Row>
-                    <Form.Group>
-                        <Form.Label>Biography</Form.Label>
-                        <Form.Control 
-                            as="textarea" 
-                            value={form['biography']} 
-                            onChange={ e => setField('biography', e.target.value)} 
-                            rows={3} 
-                            isInvalid={!!errors.biography}
-                        />
-                        <Form.Control.Feedback type='invalid'>
-                            { errors.biography }
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Artist Statement</Form.Label>
-                        <Form.Control 
-                            as="textarea" 
-                            value={form['artist_statement']} 
-                            onChange={ e => setField('artist_statement', e.target.value)} 
-                            rows={3} 
-                            isInvalid={!!errors.artist_statement}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            {errors.artist_statement}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                </Row>
-                <Button type="submit">Submit</Button>
-            </Form>
+            <Row>
+                <Col>
+                    <Image src={!changePhoto ? placeHolderURL : URL.createObjectURL(form['photo'])} thumbnail />
+                </Col>
+                <Col>
+                    <Form onSubmit={handleSubmit}>
+                        <Form.Group className="mb-3">
+                            <Form.Control 
+                                accept={"image/*"} 
+                                type="file" 
+                                onChange={ photoChange }
+                                isInvalid={!!errors.photo}
+                            />
+                            <Form.Control.Feedback type='invalid'>
+                                { errors.photo }
+                            </Form.Control.Feedback>
+                        </Form.Group>
+                        <Row>
+                            <Form.Group>
+                                <Form.Label>Biography</Form.Label>
+                                <Form.Control 
+                                    as="textarea" 
+                                    value={form['biography']} 
+                                    onChange={ e => setField('biography', e.target.value)} 
+                                    rows={3} 
+                                    isInvalid={!!errors.biography}
+                                />
+                                <Form.Control.Feedback type='invalid'>
+                                    { errors.biography }
+                                </Form.Control.Feedback>
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label>Artist Statement</Form.Label>
+                                <Form.Control 
+                                    as="textarea" 
+                                    value={form['artist_statement']} 
+                                    onChange={ e => setField('artist_statement', e.target.value)} 
+                                    rows={3} 
+                                    isInvalid={!!errors.artist_statement}
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    {errors.artist_statement}
+                                </Form.Control.Feedback>
+                            </Form.Group>
+                        </Row>
+                        <Button type="submit">Submit</Button>
+                    </Form>
+                </Col>
+            </Row>
         </>
     )
 }
