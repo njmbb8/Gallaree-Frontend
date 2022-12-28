@@ -1,7 +1,7 @@
-.art-info{
-    text-align: end;
-}
-
 img{
     max-height: 90vh;
+}
+
+#display{
+    margin-top: 75px;
 }

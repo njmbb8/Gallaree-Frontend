@@ -33,7 +33,7 @@ function GalleryCard({art}){
                             onPointerLeave={changeOverlayPresence}
                             className="bg-dark opacity-75">
                     <Card.Title>{art.title}</Card.Title>
-                    <Card.Text>{art.status.name}</Card.Text>
+                    <Card.Text>{art.status}</Card.Text>
                     {art.status.id === 2 ? <Card.Text>{art.price}</Card.Text> : null}
                     <Card.Text >{art.description}</Card.Text>
                 </Card.ImgOverlay> : null}
@@ -49,8 +49,8 @@ function GalleryCard({art}){
                             onPointerLeave={changeOverlayPresence}
                             className="bg-dark opacity-75">
                     <Card.Title>{art.title}</Card.Title>
-                    <Card.Text>{art.status.name}</Card.Text>
-                    {art.status.id === 2 ? <Card.Text>{art.price}</Card.Text> : null}
+                    <Card.Text>{art.status}</Card.Text>
+                    {art.status === 2 ? <Card.Text>{art.price}</Card.Text> : null}
                     <Card.Text >{art.description}</Card.Text>
                     <Link className="text-white" to={`/art/${art.id}`}>View this Art</Link>
                 </Card.ImgOverlay> : null}

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Col, Row, Image, Button, Form } from "react-bootstrap";
+import { Col, Row, Image, Button, Form, Container } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { remove } from "../../slices/Arts"
@@ -59,59 +59,62 @@ function ArtDisplay(){
     }
     
     return(
-        <>{edit ? 
-            <ArtForm 
-                setEdit={setEdit}
-                mode={'edit'}/>
-            :
-            <Row>
-                <Col xs={3} className="art-info">
-                    <Row>
-                        <h1>{art.title}</h1>
+        <Container id="display">
+            {
+                edit ? 
+                    <ArtForm 
+                        setEdit={setEdit}
+                        mode={'edit'}
+                    />
+                :
+                    <Row xs={1} sm={2}>
+                        <Image src={`${REACT_APP_BACKEND_URL }${art.photo}`} />
+                        <Col className="art-info">
+                            <Row>
+                                <h1>{art.title}</h1>
+                            </Row>
+                            <Row>
+                                <h6>{art.status}</h6>
+                            </Row>
+                            <Row>
+                                <h6>${art.price}</h6>
+                            </Row>
+                            <Row>
+                                <p >{art.description}</p>
+                            </Row>
+                            <Row>
+                                {
+                                    Object.entries(user).length > 0 ?
+                                        user.admin ? 
+                                        <>
+                                            <Button variant="primary" onClick={() => setEdit(!edit)}>Edit</Button>
+                                            <Button variant="danger" onClick={deleteArt}>Delete</Button>
+                                        </>
+                                        :
+                                        art.status === "For Sale" ?
+                                            <>
+                                                <Form onSubmit={addToCart}>
+                                                    <Form.Group>
+                                                        <Form.Label>{`Quantity(Max:${art.quantity})`}</Form.Label>
+                                                        <Form.Control 
+                                                            type="number"
+                                                            max={art.quantity}
+                                                            onChange = {((e) => setQuantity(e.target.value))}
+                                                            />
+                                                    </Form.Group>
+                                                    <Button type="submit" variant="primary">Add to cart</Button>
+                                                </Form>
+                                            </>
+                                        :
+                                        null
+                                    :
+                                    null
+                                }
+                            </Row>
+                        </Col>
                     </Row>
-                    <Row>
-                        <h6>{art.status}</h6>
-                    </Row>
-                    <Row>
-                        <h6>{art.price}</h6>
-                    </Row>
-                    <Row>
-                        <p>{art.description}</p>
-                    </Row>
-                    <Row>
-                        {
-                            Object.entries(user).length > 0 ?
-                                user.admin ? 
-                                <>
-                                    <Button variant="primary" onClick={() => setEdit(!edit)}>Edit</Button>
-                                    <Button variant="danger" onClick={deleteArt}>Delete</Button>
-                                </>
-                                :
-                                <>
-                                    <Form onSubmit={addToCart}>
-                                        <Form.Group>
-                                            <Form.Label>{`Quantity(Max:${art.quantity})`}</Form.Label>
-                                            <Form.Control 
-                                                type="number"
-                                                max={art.quantity}
-                                                onChange = {((e) => setQuantity(e.target.value))}
-                                                />
-                                        </Form.Group>
-                                        <Button type="submit" variant="primary">Add to cart</Button>
-                                    </Form>
-                                </>
-                            :
-                            null
-                        }
-                    </Row>
-                </Col>
-                <Col xs={9} className="art">
-                    <Image src={`${REACT_APP_BACKEND_URL }${art.photo}`} />
-                </Col>
-            </Row>
             }
-            
-        </>
+        </Container>
     )
 }
 
