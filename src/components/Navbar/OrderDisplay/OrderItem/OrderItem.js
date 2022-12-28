@@ -77,8 +77,8 @@ function OrderItem({art, orderItem, mode}){
                             <Col>
                                 <p>{art.price * orderItem.quantity}</p>
                             </Col>
-                        </>}
-
+                        </>
+                    }
                 </Row>
             </ListGroup.Item>
         </>

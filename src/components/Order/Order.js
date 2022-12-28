@@ -5,9 +5,6 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import OrderItem from "../Navbar/OrderDisplay/OrderItem/OrderItem";
 import TrackingModal from "./TrackingModal/TrackingModal";
-import { loadStripe } from "@stripe/stripe-js";
-
-// const stripe = loadStripe(REACT_APP_STRIPE_PUBLISHABLE_KEY)
 
 function Order({stripePromise}){
     const params = useParams()
