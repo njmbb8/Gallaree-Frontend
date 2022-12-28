@@ -7,7 +7,7 @@ import OrderDisplay from "./OrderDisplay/OrderDisplay";
 import { signOut } from "../../slices/User"
 import { useNavigate } from "react-router-dom";
 import { setError } from "../../slices/Error"
-import { FaEnvelope, FaEnvelopeOpenText, FaShoppingCart } from "react-icons/fa";
+import { FaEnvelope, FaShoppingCart } from "react-icons/fa";
 
 function Navigation(){
     const { REACT_APP_BACKEND_URL } = process.env

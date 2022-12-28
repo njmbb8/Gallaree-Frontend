@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Col, Container, Stack } from "react-bootstrap";
+import { Container, Stack } from "react-bootstrap";
 import BlogCard from "./BlogCard/BlogCard";
 import "./Blogs.css"
 

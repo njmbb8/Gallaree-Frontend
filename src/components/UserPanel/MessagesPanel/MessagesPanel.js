@@ -19,7 +19,7 @@ function MessagesPanel(){
             }
         })
         .then((ret)=>setConversation(ret))
-    }, [])
+    }, [REACT_APP_BACKEND_URL])
 
     useEffect(() => {
         bottomRef.current.scrollIntoView({behavior: 'smooth'})

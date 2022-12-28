@@ -7,7 +7,9 @@ import OrderItem from "../Navbar/OrderDisplay/OrderItem/OrderItem";
 import TrackingModal from "./TrackingModal/TrackingModal";
 import { loadStripe } from "@stripe/stripe-js";
 
-function Order(){
+// const stripe = loadStripe(REACT_APP_STRIPE_PUBLISHABLE_KEY)
+
+function Order({stripePromise}){
     const params = useParams()
     const { REACT_APP_BACKEND_URL, REACT_APP_STRIPE_PUBLISHABLE_KEY } = process.env
     const [order, setOrder] = useState(null)
@@ -16,7 +18,7 @@ function Order(){
     const [showModal, setShowModal] = useState(false)
     const [orderStatus, setOrderStatus] = useState('')
 
-    useEffect(()=>{
+    function getOrder(){
         fetch(`${REACT_APP_BACKEND_URL}/order/${params.id}`, {
             method: 'GET',
             credentials: 'include',
@@ -29,15 +31,18 @@ function Order(){
             setOrder(data)
             setOrderStatus(data.status)
         })
-    }, [REACT_APP_BACKEND_URL, params.id, orderStatus])
+    }
 
     
     useEffect(() => {
-        const stripe = async () => await loadStripe(REACT_APP_STRIPE_PUBLISHABLE_KEY)
         const interval = setInterval(async ()=>{
-            const {paymentIntent} = await stripe.retrievePaymentIntent(params['clientSecret'])
-            if(paymentIntent && paymentIntent.status !== orderStatus){
-                setOrderStatus(paymentIntent.status)
+            const stripe = await stripePromise
+            const {paymentIntent} = params['clientSecret'] ? await stripe.retrievePaymentIntent(params['clientSecret']) : {paymentIntent: null}
+            if(!paymentIntent){
+                getOrder()
+            }
+            else if(paymentIntent.status !== orderStatus){
+                getOrder()
             }
         }, 1000)
         return () => clearInterval(interval)

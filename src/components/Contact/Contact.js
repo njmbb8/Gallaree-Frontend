@@ -24,7 +24,7 @@ function Contact(){
     }
 
     function validateEmail(email){
-        return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
+        return /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email)
     }
 
     function validatePhone(num){
@@ -49,29 +49,40 @@ function Contact(){
                 errors['phone'] = 'Please enter a vlaid phone number'
             }
         }
+        if(!body || body.length === 0){
+            errors['body'] = 'Type a message to send'
+        }
+        return errors
     }
 
     function handleSubmit(e){
         e.preventDefault()
-        fetch(`${REACT_APP_BACKEND_URL}/conversations`, {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-type': 'application/json'
-            },
-            body: JSON.stringify(contactForm)
-        })
-        .then((data)=>{
-            if(data.ok){
-                setAlerts([...alerts, {message: "Message Sent!", variant:"success"}])
-            }
-            else if(data.status > 399 && data.status < 500){
-                data.json().then(ret => setAlerts([...alerts, {message: ret.error, variant:"danger"}]))
-            }
-            else{
-                setAlerts([...alerts, {variant: 'danger', message: `There was an error sending the message: ${data.status}: ${data.statusText}`}])
-            }
-        })
+        const foundErrors = findError()
+
+        if(Object.keys(foundErrors) > 0){
+            setErrors(foundErrors)
+        }
+        else{
+            fetch(`${REACT_APP_BACKEND_URL}/conversations`, {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify(contactForm)
+            })
+            .then((data)=>{
+                if(data.ok){
+                    setAlerts([...alerts, {message: "Message Sent!", variant:"success"}])
+                }
+                else if(data.status > 399 && data.status < 500){
+                    data.json().then(ret => setAlerts([...alerts, {message: ret.error, variant:"danger"}]))
+                }
+                else{
+                    setAlerts([...alerts, {variant: 'danger', message: `There was an error sending the message: ${data.status}: ${data.statusText}`}])
+                }
+            })
+        }
     }
 
     const alertElements = alerts.map((alert)=>{

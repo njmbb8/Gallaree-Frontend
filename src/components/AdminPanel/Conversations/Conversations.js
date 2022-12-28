@@ -19,7 +19,7 @@ function Conversations(){
         })
         .then((res)=>res.json())
         .then((data)=>setConversations(data))
-    }, []) 
+    }, [REACT_APP_BACKEND_URL]) 
 
     useEffect(()=>{
         setShowConvos(false)

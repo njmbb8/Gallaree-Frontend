@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, InputGroup, Stack, Button } from "react-bootstrap";
 import Message from "./Message/Message";
 import "./Chat.css"
@@ -17,7 +17,7 @@ function Chat({selectedChat}){
             .then((res)=>res.json())
             .then((data)=>setCurrentChat(data))
         }
-    }, [selectedChat])
+    }, [selectedChat, REACT_APP_BACKEND_URL])
 
     function handleSubmit(e){
         e.preventDefault()

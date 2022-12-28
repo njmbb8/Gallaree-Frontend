@@ -11,7 +11,6 @@ import { authenticate } from './slices/User';
 import { populate } from './slices/Arts'
 import { TailSpin } from 'react-loader-spinner';
 import PasswordReset from './components/PasswordReset/PasswordReset';
-import Confirmation from './components/Confirmation/Confirmation';
 import { loadStripe } from '@stripe/stripe-js';
 import CheckoutForm from './components/CheckoutForm/CheckoutForm';
 import PaymentConfirmation from './components/PaymentConfirmation/PaymentConfirmation';
@@ -76,10 +75,6 @@ function App() {
             element={<PasswordReset />}
           />
           <Route
-            path={'/confirm/:token'}
-            element={<Confirmation />}
-          />
-          <Route
             path={'/checkout'}
             element = {<CheckoutForm stripePromise={stripePromise}/>}
           />
@@ -101,11 +96,11 @@ function App() {
           />
           <Route
             path={'/order/:id'}
-            element={<Order />}
+            element={<Order stripePromise={stripePromise}/>}
           />
           <Route
             path={'/order/:id/:clientSecret'}
-            element={<Order />}
+            element={<Order stripePromise={stripePromise}/>}
           />
           <Route
             path={'/blog/'}
