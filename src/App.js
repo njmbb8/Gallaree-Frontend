@@ -114,6 +114,10 @@ function App() {
             path={'/contact/'}
             element={<Contact />}
           />
+          <Route
+            path={'/confirm/:token'}
+            element={<Confirmation />}
+          />
         </Routes>
         <ErrorModal/>
       </>
