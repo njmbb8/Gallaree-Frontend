@@ -22,7 +22,7 @@ function AdminPanel(){
             <Tab eventKey="orders" title="Orders">
                 <UserOrders />
             </Tab>
-            <Tab eventKey="bioInfo" title="Bio">
+            <Tab eventKey="bio" title="Bio">
                 <BioForm />
             </Tab>
             <Tab eventKey="art" title="Art">

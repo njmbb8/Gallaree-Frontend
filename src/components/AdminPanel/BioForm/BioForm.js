@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Form, Image, Row, Button, Col } from "react-bootstrap";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { setError } from "../../../slices/Error"
 
 function BioForm(){
@@ -10,6 +11,7 @@ function BioForm(){
     const [errors, setErrors] = useState({})
     const [changePhoto, setChangePhoto] = useState(false)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     function setField(field, value){
         setForm({
@@ -73,7 +75,9 @@ function BioForm(){
                     return data.json()
                 }
             })
-            .then((ret) => setForm(ret))
+            .then((ret) => {
+                navigate('/about')
+            })
             .catch((error) => dispatch((setError(error))))
         }
     }

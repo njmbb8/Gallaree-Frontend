@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Form, Image, Row, Col, Stack } from "react-bootstrap";
+import { Button, Form, Image, Row, Col, Stack, Container } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import BlogForm from "../../AdminPanel/BlogForm/BlogForm";
@@ -72,7 +72,7 @@ function Blog(){
 
     return(
         blog ? 
-        <>
+        <Container>
             {
                 user.admin?
                     <Row>
@@ -127,7 +127,7 @@ function Blog(){
                         setBlog={setBlog} 
                     />
             }
-        </>
+        </Container>
         :
         null
     )

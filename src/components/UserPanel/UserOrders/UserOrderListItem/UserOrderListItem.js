@@ -7,7 +7,7 @@ function UserOderListItem({order, index}){
     return (
         <Row 
             onClick={()=>navigate(`/order/${order.id}`)} 
-            style={{"background-color": index%2?"":"whitesmoke"}}
+            style={{"backgroundColor": index%2?"":"whitesmoke"}}
             className="orderRow"
         >
             <Col className="d-none d-md-block">

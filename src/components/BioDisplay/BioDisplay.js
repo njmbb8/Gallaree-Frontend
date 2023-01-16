@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
-import { Col, Row, Image } from "react-bootstrap";
-import "./BioDisplay.css"
+import { Col, Row, Image, Container } from "react-bootstrap";
 
 function BioDisplay(){
     const [bio, setBio] = useState({})
@@ -16,27 +15,27 @@ function BioDisplay(){
 
     return(
         Object.keys(bio).length > 0?
-            <>
-                <Col>
-                    <Row>
-                        <Image id="artistImage" src={`${REACT_APP_BACKEND_URL}/${bio.photo}`} />
-                    </Row>
-                    <Row>
-                        <Col className="textDisplay">
-                            <h2>Biography</h2>
-                            <p>
-                                {bio.biography}
-                            </p>
-                        </Col>
-                        <Col className="textDisplay">
-                            <h2>Artist Statement</h2>
-                            <p>
-                                {bio.artist_statement}
-                            </p>
-                        </Col>
-                    </Row>
-                </Col>
-            </>
+            <Container style={{"marginTop": "75px"}}>
+                <Row>
+                    <Col xs={{span: 12}} md={{span: 6, offset: 3}} lg={{span: 4, offset: 4}}>
+                        <Image fluid src={`${bio.photo}`} />
+                    </Col>
+                </Row>
+                <Row xs={1} md={2}>
+                    <Col>
+                        <h2>Biography</h2>
+                        <p>
+                            {bio.biography}
+                        </p>
+                    </Col>
+                    <Col>
+                        <h2>Artist Statement</h2>
+                        <p>
+                            {bio.artist_statement}
+                        </p>
+                    </Col>
+                </Row>
+            </Container>
         :
             <h3>Nothing to show!</h3>
     )
