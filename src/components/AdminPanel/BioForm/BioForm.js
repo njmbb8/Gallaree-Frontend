@@ -75,9 +75,7 @@ function BioForm(){
                     return data.json()
                 }
             })
-            .then((ret) => {
-                navigate('/about')
-            })
+            .then(() => navigate('/about'))
             .catch((error) => dispatch((setError(error))))
         }
     }

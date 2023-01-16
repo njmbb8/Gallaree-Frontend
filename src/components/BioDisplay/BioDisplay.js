@@ -21,7 +21,7 @@ function BioDisplay(){
                         <Image fluid src={`${bio.photo}`} />
                     </Col>
                 </Row>
-                <Row xs={1} md={2}>
+                <Row xs={1} md={2} className="text-center">
                     <Col>
                         <h2>Biography</h2>
                         <p>
