@@ -22,6 +22,8 @@ import Order from './components/Order/Order';
 import Blogs from './components/Blogs/Blogs';
 import Blog from './components/Blogs/Blog/Blog';
 import Contact from './components/Contact/Contact';
+import Unsubscribe from './components/Unsubscribe/Unsubscribe';
+import Confirmation from './components/Confirmation/Confirmation';
 
 function App() {
   const dispatch = useDispatch()
@@ -117,6 +119,10 @@ function App() {
           <Route
             path={'/confirm/:token'}
             element={<Confirmation />}
+          />
+          <Route
+            path={'/unsubscribe/:token'}
+            element={<Unsubscribe />}
           />
         </Routes>
         <ErrorModal/>
