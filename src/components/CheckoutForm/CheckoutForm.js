@@ -54,10 +54,10 @@ function CheckoutForm({stripePromise}){
     }, [REACT_APP_BACKEND_URL])
     
     const orderItems = order.order_items.map((item) => <OrderItem 
-    art={arts.find((art) => art.id === item.art_id)} 
-    orderItem={item}
-    mode="order"
-    key={item.id}
+        art={arts.find((art) => art.id === item.art_id)} 
+        orderItem={item}
+        mode="order"
+        key={item.id}
     />)
 
     function checkOut(){
