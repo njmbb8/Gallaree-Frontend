@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Image, Row, Button, Col } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -6,12 +6,28 @@ import { setError } from "../../../slices/Error"
 
 function BioForm(){
     const {REACT_APP_BACKEND_URL} = process.env
-    const placeHolderURL = `${REACT_APP_BACKEND_URL }/images/Placeholder.svg` //!!bio.photo ? `${REACT_APP_BACKEND_URL }/images/Placeholder.svg` : `${REACT_APP_BACKEND_URL}${bio.photo}`
+    const [image, setImage ]= useState(`${REACT_APP_BACKEND_URL }/images/Placeholder.svg`)
     const [form, setForm] = useState({})
     const [errors, setErrors] = useState({})
     const [changePhoto, setChangePhoto] = useState(false)
     const dispatch = useDispatch()
     const navigate = useNavigate()
+
+    useEffect(()=>{
+        fetch(`${REACT_APP_BACKEND_URL}/bio`, {
+            method: 'GET',
+            credentials: 'include'
+        })
+        .then((data)=>{
+            if(data.ok){
+                return data.json()
+            }
+        })
+        .then((ret)=>{
+            setForm(ret)
+            setImage(ret.photo)
+        })
+    }, [])
 
     function setField(field, value){
         setForm({
@@ -85,7 +101,7 @@ function BioForm(){
             <h1>Edit Your Bio</h1>
             <Row>
                 <Col>
-                    <Image src={!changePhoto ? placeHolderURL : URL.createObjectURL(form['photo'])} thumbnail />
+                    <Image src={!changePhoto ? image : URL.createObjectURL(form['photo'])} thumbnail />
                 </Col>
                 <Col>
                     <Form onSubmit={handleSubmit}>

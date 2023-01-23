@@ -78,7 +78,7 @@ function Navigation(){
                                         onClick={!user.admin ? goToUserPanel : null}
                                         onMouseOver={(e) => e.target.style.cursor = (!user.admin ? 'pointer' : 'default')}   
                                     >
-                                            {`, ${user.firstname} ${user.lastname}`}
+                                            {`${user.firstname} ${user.lastname}`}
                                     </Navbar.Text>
                                     <Navbar.Text><FaEnvelope onClick={()=>user.admin?navigate('/adminpanel/message'):navigate('/user/message')}/></Navbar.Text>
                                     {!user.admin ? <Navbar.Text onMouseOver={(e)=> e.target.style.cursor = 'pointer'} onClick={expandOrder}><FaShoppingCart />{user.active_order.order_items.length}</Navbar.Text> : null}
