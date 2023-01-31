@@ -21,7 +21,7 @@ function AddressCard({ address, addresses, setSelectedAddress, selectedAddress})
 
     useEffect(()=>{
         if(!selectedAddress){
-            setSelectedAddress(addresses.find((addr)=>addr.shipping))
+            setSelectedAddress(addresses.find((addr)=>{return addr.shipping}))
         }
     }, [addresses, selectedAddress, setSelectedAddress])
 

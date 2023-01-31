@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Button, Col, ListGroup, Row } from "react-bootstrap";
+import { Button, Col, Container, ListGroup, Row } from "react-bootstrap";
 import OrderItem from "../Navbar/OrderDisplay/OrderItem/OrderItem";
 import AddressForm from "../UserPanel/AddressPanel/AddressForm/AddressForm";
 import AddressSelection from "../UserPanel/AddressPanel/AddressSelection/AddressSelection";
@@ -10,6 +10,7 @@ import AddressPanelButtons from "../UserPanel/AddressPanel/AddressForm/AddressPa
 import { Elements } from "@stripe/react-stripe-js";
 import { TailSpin } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
+import ShippingRates from "./ShippingRates/ShippingRates";
 
 function CheckoutForm({stripePromise}){
     const user = useSelector(state => state.user)
@@ -87,11 +88,51 @@ function CheckoutForm({stripePromise}){
     }
 
     return(
-        <>
+        <Container style={{marginTop: "75px"}}>
             <Row>
-                <ListGroup>{orderItems}</ListGroup> 
+                <Col>
+                    {orderItems}
+                </Col>
+            </Row>
+            <Row>
                 <Col>
                     {
+                        !!addresses?
+                        <>
+                            {
+                                newAddress || addresses.length === 0?
+                                    <>
+                                        <AddressForm 
+                                            setAddress={setSelectedAddress} 
+                                            address={selectedAddress} 
+                                        />
+                                        <AddressPanelButtons 
+                                            address={selectedAddress} 
+                                            setAddress={setSelectedAddress} 
+                                            addresses={addresses} 
+                                            setAddresses={setAddresses} 
+                                        />
+                                        <Button onClick={()=>{setNewAddress(false)}} >Pick address from a list</Button>
+                                    </>
+                                :
+                                <>
+                                    <AddressSelection
+                                        addresses = {addresses}
+                                        setSelectedAddress = {setSelectedAddress}
+                                        selectedAddress = {selectedAddress}
+                                    />
+
+                                    <Button onClick={()=>{setNewAddress(true)}}>Use a new Address</Button>
+                                </>
+                            }
+                        </>
+                        :
+                        <>
+                            <TailSpin />
+                        </>
+
+                    }
+                    {/* {
                         newAddress ?
                         <>
                             <AddressForm 
@@ -107,18 +148,19 @@ function CheckoutForm({stripePromise}){
                             <Button onClick={()=>{setNewAddress(false)}} >Pick address from a list</Button>
                         </>
                         :
-                        !!addresses ?
+                            !!addresses?
                             <>
                                 <AddressSelection
                                     addresses = {addresses}
                                     setSelectedAddress = {setSelectedAddress}
                                     selectedAddress = {selectedAddress}
                                 />
+
                                 <Button onClick={()=>{setNewAddress(true)}}>Use a new Address</Button>
                             </>
-                        :
-                            <TailSpin />
-                    }
+                            :
+                                <TailSpin />
+                    } */}
                 </Col>
                 <Col>
                     {
@@ -148,7 +190,7 @@ function CheckoutForm({stripePromise}){
             <Row>
                 <Button onClick={checkOut}>Checkout</Button>
             </Row>
-        </>
+        </Container>
     )
 }
 

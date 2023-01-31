@@ -90,7 +90,7 @@ function Contact(){
     })
 
     return(
-        <Container style={{height: "100%", width: "100%", "margin-top": "75px"}} className="d-flex align-items-center">
+        <Container style={{height: "100%", width: "100%", "marginTop": "75px"}} className="d-flex align-items-center">
             <Row style={{height: "50%", width: "100%"}}>
                 <Col md={{ span: 6, offset: 3 }}>
                     <Form onSubmit={handleSubmit}>
