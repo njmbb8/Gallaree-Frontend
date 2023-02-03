@@ -5,40 +5,36 @@ import { useSelector } from "react-redux";
 
 function Gallery(){
     const arts = useSelector( state => state.arts ) 
-    const [artArray, setArtArray] = useState(()=>{
+    function handleResize(){
+        const arr = []
+        
         if(window.innerWidth < 576){
-            return [[]]
+            arr.push([])
         }
-        else if(window.innerWidth >= 576 && window.innerWidth <= 768 ){
-            return [[],[]]
+        else if(window.innerWidth >= 576 && window.innerWidth <= 992 ){
+            arr.push(...[[],[]])
         }
         else{
-            return [[],[],[]]
+            arr.push(...[[],[],[]])
         }
-    })
-
-    useEffect(()=>{
-        const arr = artArray
+        
         for(let i = 0; i < arts.length; i++){
-            switch(i%artArray.length){
-                case 0:
-                    arr[0].push(<GalleryCard art={arts[i]} key={arts[i].id}/>)
-                    break
-                case 1:
-                    arr[1].push(<GalleryCard art={arts[i]} key={arts[i].id}/>)
-                    break
-                case 2:
-                    arr[2].push(<GalleryCard art={arts[i]} key={arts[i].id}/>)
-                    break
+            if(!isNaN(i%arr.length)){
+                arr[i%arr.length].push(<GalleryCard art={arts[i]} key={arts[i].id}/>)
             }
         }
-        setArtArray(arr.splice(0))
-    }, [arts])
+        
+        return(arr)
+    }
+    const [artArray, setArtArray] = useState(handleResize())
+
+    window.addEventListener('resize', ()=>setArtArray(handleResize()))
 
     const cards = artArray.map((col, index)=>{
-        return( <Col key={index}>
-                    {col}
-                </Col>
+        return( 
+            <Col key={`col-${index}`}>
+                {col}
+            </Col>
         )
     })
 
