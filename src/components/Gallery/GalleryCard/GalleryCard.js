@@ -87,7 +87,7 @@ function GalleryCard({art}){
                                 width:'30%'
                             }}
                         >
-                            {art.status !== "Not For Sale"?`$${art.status}`:null}
+                            {art.status !== "Not For Sale"?`${art.status}`:null}
                         </div>
                     </Stack>
                     <div
