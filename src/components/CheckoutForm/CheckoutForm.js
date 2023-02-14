@@ -112,7 +112,12 @@ function CheckoutForm({stripePromise}){
                                             addresses={addresses} 
                                             setAddresses={setAddresses} 
                                         />
-                                        <Button onClick={()=>{setNewAddress(false)}} >Pick address from a list</Button>
+                                        {
+                                            addresses.length !== 0?
+                                                <Button onClick={()=>{setNewAddress(false)}} >Pick address from a list</Button>
+                                            :
+                                                null
+                                        }
                                     </>
                                 :
                                 <>

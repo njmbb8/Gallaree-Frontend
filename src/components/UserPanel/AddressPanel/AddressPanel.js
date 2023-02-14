@@ -7,7 +7,7 @@ import AddressSelection from "./AddressSelection/AddressSelection";
 
 function AddressPanel(){
     const {REACT_APP_BACKEND_URL} = process.env
-    const [addresses, setAddresses] = useState([])
+    const [addresses, setAddresses] = useState(null)
     const [selectedAddress, setSelectedAddress] = useState(null)
 
     useEffect(() => {
@@ -22,34 +22,32 @@ function AddressPanel(){
     }, [REACT_APP_BACKEND_URL])
 
     return(
-        <Row>
-            <Col>
-                <AddressSelection 
-                    addresses={addresses} 
-                    setSelectedAddress={setSelectedAddress}
-                    selectedAddress={selectedAddress}
-                />
-            </Col>
-            <Col>
-                {
-                    !!addresses ?
-                        <>
-                            <AddressForm 
-                                address={selectedAddress} 
-                                setAddress={setSelectedAddress}
-                            />
-                            <AddressPanelButtons 
-                                address={selectedAddress} 
-                                setAddress={setSelectedAddress}
-                                setAddresses={setAddresses} 
-                                addresses={addresses}
-                            />
-                        </>
-                    :
-                    <TailSpin />
-                }
-            </Col>
-        </Row>
+        !!addresses?
+            <Row>
+                <Col>
+                    <AddressSelection 
+                        addresses={addresses} 
+                        setSelectedAddress={setSelectedAddress}
+                        selectedAddress={selectedAddress}
+                    />
+                </Col>
+                <Col>
+                    <>
+                        <AddressForm 
+                            address={selectedAddress} 
+                            setAddress={setSelectedAddress}
+                        />
+                        <AddressPanelButtons 
+                            address={selectedAddress} 
+                            setAddress={setSelectedAddress}
+                            setAddresses={setAddresses} 
+                            addresses={addresses}
+                        />
+                    </>
+                </Col>
+            </Row>
+        :
+            <TailSpin />
     )
 }
 
